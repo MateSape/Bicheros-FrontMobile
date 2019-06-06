@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import "dart:async";
 import "package:http/http.dart" as http;
 import 'dart:convert';
+import 'dart:math';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 void main() => runApp(MyApp());
 
@@ -28,7 +30,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final String url = "http://172.20.10.3:8000/api/animals/";
+  final String url = "http://192.168.0.8:8000/api/animals/";
   List data;
 
   @override
@@ -73,22 +75,117 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      body: Container(
-        child: ListView.builder(
-          itemCount: data == null ? 0 : data.length,
-          itemBuilder: (BuildContext context, int index) {
-            return ListTile(
-              leading: CircleAvatar(),
-              title: Text(data[index]["id_animal"].toString()+" - "+ data[index]["name"]),
-            );
-          },
+      body: RefreshIndicator(
+        onRefresh: getJsonData,
+        
+        child: Container(
+          child: ListView.builder(
+            itemCount: data == null ? 0 : data.length,
+            itemBuilder: (BuildContext context, int index) {
+              return ListTile(
+                leading: CircleAvatar(backgroundImage: NetworkImage(data[index]["photo"]),),
+                title: Text(data[index]["id_animal"].toString()+" - "+ data[index]["name"]),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              DetailPage(data[index]["id_animal"])));
+                },
+              );
+            },
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: getJsonData,
-        tooltip: 'Refresh',
-        child: Icon(Icons.refresh),
+        onPressed: (){},
+        tooltip: 'Add',
+        child: Icon(Icons.add),
 
+      ),
+    );
+  }
+}
+
+
+class DetailPage extends StatefulWidget {
+  DetailPage(this.animal);
+  final animal;
+  @override
+  DetailPageState createState() => new DetailPageState(this.animal);
+}
+
+class DetailPageState extends State<DetailPage> {
+  DetailPageState(this.animal);
+  final animal;
+  var ica;
+
+
+  @override
+  void initState() {
+    getJsonData();
+    super.initState();
+  }
+
+  Future getJsonData() async {
+    var response = await http.get(Uri.encodeFull("http://192.168.0.8:8000/api/animals/"+animal.toString()+"/"));
+
+    setState(() {
+      var convertDataToJson = jsonDecode(response.body);
+      ica = convertDataToJson;
+    });
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "Informacion detallada animal",
+          textAlign: TextAlign.center,
+        ),
+        backgroundColor: Colors.black,
+      ),
+      body: ica== null ? Center(
+        child: SpinKitWave(
+          color: Colors.black,
+          size: 75.0,
+        ),
+      ) : ListView(
+        children: <Widget>[
+          ListTile(
+            leading:
+            CircleAvatar(backgroundImage: NetworkImage(ica["photo"]),),
+            title: Text(
+              ica["name"],
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          Divider(),
+          ListTile(
+            title: Text("Lugar encontrado: "+ ica["place_founded"].toString()),
+          ),
+          Divider(),
+          ListTile(
+            title: Text("fecha encontrado: "+ ica["date_founded"].toString()),
+          ),
+          Divider(),
+          ListTile(
+            title: Text("Raza: " +ica["race"].toString()),
+          ),
+          Divider(),
+          ListTile(
+            title: Text("Sexo: "+ ica["gender"].toString()),
+          ),
+          Divider(),
+          ListTile(
+            title: Text("especie: " +ica["species"].toString()),
+          ),
+          Divider(),
+        ],
       ),
     );
   }
