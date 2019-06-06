@@ -77,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: RefreshIndicator(
         onRefresh: getJsonData,
-        
+
         child: Container(
           child: ListView.builder(
             itemCount: data == null ? 0 : data.length,
