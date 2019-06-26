@@ -30,7 +30,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final String url = "http://192.168.0.8:8000/api/animals/";
+  final String url = "http://10.0.2.2:8000/api/animals/";
   List data;
 
   @override
@@ -128,7 +128,7 @@ class DetailPageState extends State<DetailPage> {
   }
 
   Future getJsonData() async {
-    var response = await http.get(Uri.encodeFull("http://192.168.0.8:8000/api/animals/"+animal.toString()+"/"));
+    var response = await http.get(Uri.encodeFull("http://10.0.2.2:8000/api/animals/${animal.toString()}/"));
 
     setState(() {
       var convertDataToJson = jsonDecode(response.body);
