@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
-  HomePage({Key key, this.title}) : super(key: key);
   final String title;
+
+  HomePage({Key key, this.title}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -67,15 +68,16 @@ class _HomePageState extends State<HomePage> {
                 leading: CircleAvatar(
                   backgroundImage: NetworkImage(data[index]["photo"]),
                 ),
-                title: Text(data[index]["id_animal"].toString() +
-                    " - " +
-                    data[index]["name"]),
+                title: Text(
+                    '${data[index]["id_animal"].toString()} - ${data[index]["name"]}'),
                 onTap: () {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              DetailPage(data[index]["id_animal"])));
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          DetailPage(animal: data[index]["id_animal"]),
+                    ),
+                  );
                 },
               );
             },

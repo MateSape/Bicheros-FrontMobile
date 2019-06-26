@@ -4,15 +4,15 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class DetailPage extends StatefulWidget {
-  DetailPage(this.animal);
   final animal;
+
+  DetailPage({Key key, this.animal}) : super(key: key);
+
   @override
-  _DetatailPageState createState() => _DetatailPageState(this.animal);
+  _DetatailPageState createState() => _DetatailPageState();
 }
 
 class _DetatailPageState extends State<DetailPage> {
-  _DetatailPageState(this.animal);
-  final animal;
   var ica;
 
   @override
@@ -23,7 +23,7 @@ class _DetatailPageState extends State<DetailPage> {
 
   Future getJsonData() async {
     var response = await http.get(Uri.encodeFull(
-        "http://10.0.2.2:8000/api/animals/${animal.toString()}/"));
+        "http://10.0.2.2:8000/api/animals/${widget.animal.toString()}/"));
 
     setState(() {
       var convertDataToJson = jsonDecode(response.body);
