@@ -31,6 +31,47 @@ class _DetatailPageState extends State<DetailPage> {
     });
   }
 
+  Widget _renderAnimalDetail() {
+    return ListView(
+      children: <Widget>[
+        ListTile(
+          leading: CircleAvatar(
+            backgroundImage: NetworkImage(ica["photo"]),
+          ),
+          title: Text(
+            ica["name"],
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        Divider(),
+        ListTile(
+          title: Text("Lugar encontrado: " + ica["place_founded"].toString()),
+        ),
+        Divider(),
+        ListTile(
+          title: Text("fecha encontrado: " + ica["date_founded"].toString()),
+        ),
+        Divider(),
+        ListTile(
+          title: Text("Raza: " + ica["race"].toString()),
+        ),
+        Divider(),
+        ListTile(
+          title: Text("Sexo: " + ica["gender"].toString()),
+        ),
+        Divider(),
+        ListTile(
+          title: Text("especie: " + ica["species"].toString()),
+        ),
+        Divider(),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,46 +89,7 @@ class _DetatailPageState extends State<DetailPage> {
                 size: 75.0,
               ),
             )
-          : ListView(
-              children: <Widget>[
-                ListTile(
-                  leading: CircleAvatar(
-                    backgroundImage: NetworkImage(ica["photo"]),
-                  ),
-                  title: Text(
-                    ica["name"],
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Divider(),
-                ListTile(
-                  title: Text(
-                      "Lugar encontrado: " + ica["place_founded"].toString()),
-                ),
-                Divider(),
-                ListTile(
-                  title: Text(
-                      "fecha encontrado: " + ica["date_founded"].toString()),
-                ),
-                Divider(),
-                ListTile(
-                  title: Text("Raza: " + ica["race"].toString()),
-                ),
-                Divider(),
-                ListTile(
-                  title: Text("Sexo: " + ica["gender"].toString()),
-                ),
-                Divider(),
-                ListTile(
-                  title: Text("especie: " + ica["species"].toString()),
-                ),
-                Divider(),
-              ],
-            ),
+          : _renderAnimalDetail(),
     );
   }
 }
