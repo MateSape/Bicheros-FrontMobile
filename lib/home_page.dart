@@ -31,6 +31,30 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  Widget _renderAnimalList() {
+    return ListView.builder(
+      itemCount: data == null ? 0 : data.length,
+      itemBuilder: (BuildContext context, int index) {
+        return ListTile(
+          leading: CircleAvatar(
+            backgroundImage: NetworkImage(data[index]["photo"]),
+          ),
+          title: Text(
+              '${data[index]["id_animal"].toString()} - ${data[index]["name"]}'),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    DetailPage(animal: data[index]["id_animal"]),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,29 +84,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: RefreshIndicator(
         onRefresh: getJsonData,
-        child: Container(
-          child: ListView.builder(
-            itemCount: data == null ? 0 : data.length,
-            itemBuilder: (BuildContext context, int index) {
-              return ListTile(
-                leading: CircleAvatar(
-                  backgroundImage: NetworkImage(data[index]["photo"]),
-                ),
-                title: Text(
-                    '${data[index]["id_animal"].toString()} - ${data[index]["name"]}'),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          DetailPage(animal: data[index]["id_animal"]),
-                    ),
-                  );
-                },
-              );
-            },
-          ),
-        ),
+        child: Container(child: _renderAnimalList()),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
