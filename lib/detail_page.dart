@@ -32,43 +32,33 @@ class _DetatailPageState extends State<DetailPage> {
   }
 
   Widget _renderAnimalDetail() {
-    return ListView(
-      children: <Widget>[
-        ListTile(
-          leading: CircleAvatar(
-            backgroundImage: NetworkImage(ica["photo"]),
-          ),
-          title: Text(
-            ica["name"],
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+    List<Widget> items = [
+      Text(
+        ica["name"],
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontSize: 25,
+          fontWeight: FontWeight.bold,
         ),
-        Divider(),
-        ListTile(
-          title: Text("Lugar encontrado: " + ica["place_founded"].toString()),
-        ),
-        Divider(),
-        ListTile(
-          title: Text("fecha encontrado: " + ica["date_founded"].toString()),
-        ),
-        Divider(),
-        ListTile(
-          title: Text("Raza: " + ica["race"].toString()),
-        ),
-        Divider(),
-        ListTile(
-          title: Text("Sexo: " + ica["gender"].toString()),
-        ),
-        Divider(),
-        ListTile(
-          title: Text("especie: " + ica["species"].toString()),
-        ),
-        Divider(),
-      ],
+      ),
+      Text("Lugar encontrado: ${ica["place_founded"]}"),
+      Text("Fecha encontrado: ${ica["date_founded"]}"),
+      Text("Raza: ${ica["race"]}"),
+      Text("Sexo: ${ica["gender"]}"),
+      Text("Especie: ${ica["species"]}"),
+    ];
+
+    return ListView.separated(
+      itemCount: items.length,
+      itemBuilder: (context, index) => index == 0
+          ? ListTile(
+              leading: CircleAvatar(
+                backgroundImage: NetworkImage(ica["photo"]),
+              ),
+              title: items[index],
+            )
+          : ListTile(title: items[index]),
+      separatorBuilder: (context, index) => Divider(),
     );
   }
 
