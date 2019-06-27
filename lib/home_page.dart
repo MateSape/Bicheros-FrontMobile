@@ -55,33 +55,32 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Widget _renderDrawerItems() {
+    List items = [
+      "Animales",
+      "Veterinarias",
+      "Saldo",
+      "Adoptantes",
+      "Donaciones"
+    ];
+
+    return ListView.builder(
+      itemCount: items.length,
+      itemBuilder: (context, index) {
+        return ListTile(
+          title: Text(items[index]),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Bichero's App"),
       ),
-      drawer: Drawer(
-        child: ListView(
-          children: <Widget>[
-            ListTile(
-              title: Text("Animales"),
-            ),
-            ListTile(
-              title: Text("Veterinarias"),
-            ),
-            ListTile(
-              title: Text("Saldo"),
-            ),
-            ListTile(
-              title: Text("Adoptantes"),
-            ),
-            ListTile(
-              title: Text("Donaciones"),
-            ),
-          ],
-        ),
-      ),
+      drawer: Drawer(child: _renderDrawerItems()),
       body: RefreshIndicator(
         onRefresh: getJsonData,
         child: Container(child: _renderAnimalList()),
