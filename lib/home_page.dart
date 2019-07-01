@@ -13,7 +13,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final String url = "http://10.0.2.2:8000/api/animals/";
+  final String url = "http://192.168.0.11:8000/api/animals/";
   List data;
 
   @override

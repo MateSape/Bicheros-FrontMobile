@@ -5,7 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart';
 
 BaseOptions options = new BaseOptions(
-  baseUrl: "http://192.168.0.7:8000/api/",
+  baseUrl: "http://192.168.0.10:8000/api/",
 
 );
 

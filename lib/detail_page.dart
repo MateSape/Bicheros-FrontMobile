@@ -9,10 +9,10 @@ class DetailPage extends StatefulWidget {
   DetailPage({Key key, this.animal}) : super(key: key);
 
   @override
-  _DetatailPageState createState() => _DetatailPageState();
+  _DetailPageState createState() => _DetailPageState();
 }
 
-class _DetatailPageState extends State<DetailPage> {
+class _DetailPageState extends State<DetailPage> {
   var ica;
 
   @override
@@ -23,7 +23,7 @@ class _DetatailPageState extends State<DetailPage> {
 
   Future getJsonData() async {
     var response = await http.get(Uri.encodeFull(
-        "http://10.0.2.2:8000/api/animals/${widget.animal.toString()}/"));
+        "http://192.168.0.11:8000/api/animals/${widget.animal.toString()}/"));
 
     setState(() {
       var convertDataToJson = jsonDecode(response.body);
