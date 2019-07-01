@@ -1,21 +1,27 @@
 import 'package:flutter/material.dart';
 import "dart:async";
-import "package:http/http.dart" as http;
-import 'dart:convert';
-import 'dart:math';
+import 'package:dio/dio.dart';
+// import 'dart:math';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'DetailPage.dart';
+import 'AddAnimalPage.dart';
 
+//172.20.10.X:8000
+//192.168.0.X:8000
 void main() => runApp(MyApp());
+
+BaseOptions options = new BaseOptions(
+  baseUrl: "http://192.168.0.7:8000/api/",
+
+);
+
+var dio = Dio(options);
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        buttonColor: Colors.black
-      ),
       home: MyHomePage(title: 'Bicheros App'),
     );
   }
@@ -30,21 +36,23 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final String url = "http://192.168.0.8:8000/api/animals/";
   List data;
 
   @override
   void initState() {
     super.initState();
+    data = null;
     getJsonData();
+
   }
 
   Future getJsonData() async {
-    var response = await http.get(Uri.encodeFull(url));
-
+    var response = await dio.get("animals/");
     setState(() {
-      var convertDataToJson = jsonDecode(response.body);
+      data = null;
+      var convertDataToJson = response.data;
       data = convertDataToJson;
+      print ("pepe2");
     });
   }
 
@@ -52,6 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.black,
         title: Text("Bichero's App"),
       ),
       drawer: Drawer(
@@ -77,14 +86,18 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: RefreshIndicator(
         onRefresh: getJsonData,
-
         child: Container(
           child: ListView.builder(
             itemCount: data == null ? 0 : data.length,
             itemBuilder: (BuildContext context, int index) {
-              return ListTile(
-                leading: CircleAvatar(backgroundImage: NetworkImage(data[index]["photo"]),),
-                title: Text(data[index]["id_animal"].toString()+" - "+ data[index]["name"]),
+              return data == null ? SpinKitWave(
+                color: Colors.black,
+                size: 75.0,
+              ) : ListTile(
+                leading: CircleAvatar(
+                  backgroundImage: NetworkImage(data[index]["photo"]),
+                ),
+                title: Text(data[index]["name"]),
                 onTap: () {
                   Navigator.push(
                       context,
@@ -93,99 +106,26 @@ class _MyHomePageState extends State<MyHomePage> {
                               DetailPage(data[index]["id_animal"])));
                 },
               );
-            },
+              },
           ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){},
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      AddAnimalPage())).then((value) {
+                        setState(() {
+                          getJsonData();
+                          initState();
+                        });
+          });
+        },
         tooltip: 'Add',
-        child: Icon(Icons.add),
-
-      ),
-    );
-  }
-}
-
-
-class DetailPage extends StatefulWidget {
-  DetailPage(this.animal);
-  final animal;
-  @override
-  DetailPageState createState() => new DetailPageState(this.animal);
-}
-
-class DetailPageState extends State<DetailPage> {
-  DetailPageState(this.animal);
-  final animal;
-  var ica;
-
-
-  @override
-  void initState() {
-    getJsonData();
-    super.initState();
-  }
-
-  Future getJsonData() async {
-    var response = await http.get(Uri.encodeFull("http://192.168.0.8:8000/api/animals/"+animal.toString()+"/"));
-
-    setState(() {
-      var convertDataToJson = jsonDecode(response.body);
-      ica = convertDataToJson;
-    });
-  }
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Informacion detallada animal",
-          textAlign: TextAlign.center,
-        ),
         backgroundColor: Colors.black,
-      ),
-      body: ica== null ? Center(
-        child: SpinKitWave(
-          color: Colors.black,
-          size: 75.0,
-        ),
-      ) : ListView(
-        children: <Widget>[
-          ListTile(
-            leading:
-            CircleAvatar(backgroundImage: NetworkImage(ica["photo"]),),
-            title: Text(
-              ica["name"],
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          Divider(),
-          ListTile(
-            title: Text("Lugar encontrado: "+ ica["place_founded"].toString()),
-          ),
-          Divider(),
-          ListTile(
-            title: Text("fecha encontrado: "+ ica["date_founded"].toString()),
-          ),
-          Divider(),
-          ListTile(
-            title: Text("Raza: " +ica["race"].toString()),
-          ),
-          Divider(),
-          ListTile(
-            title: Text("Sexo: "+ ica["gender"].toString()),
-          ),
-          Divider(),
-          ListTile(
-            title: Text("especie: " +ica["species"].toString()),
-          ),
-          Divider(),
-        ],
+        child: Icon(Icons.add),
       ),
     );
   }
