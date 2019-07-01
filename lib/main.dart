@@ -1,4 +1,10 @@
+import 'package:bicheros_frontmobile/home_page.dart';
 import 'package:flutter/material.dart';
+feature/refactor
+
+void main() => runApp(App());
+
+class App extends StatelessWidget {
 import "dart:async";
 import 'package:dio/dio.dart';
 // import 'dart:math';
@@ -18,10 +24,20 @@ BaseOptions options = new BaseOptions(
 var dio = Dio(options);
 
 class MyApp extends StatelessWidget {
+develop
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+feature/refactor
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        buttonColor: Colors.black,
+      ),
+      home: HomePage(title: 'Bicheros App'),
+    );
+  }
+}
       home: MyHomePage(title: 'Bicheros App'),
     );
   }
@@ -130,3 +146,4 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+develop
