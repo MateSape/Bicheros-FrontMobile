@@ -1,12 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:dio/dio.dart';
 
 BaseOptions options = new BaseOptions(
-  baseUrl: "http://192.168.0.11:8000/api/",
-
+  baseUrl: "http://172.20.10.3:8000/api/",
 );
 
 var dio = Dio(options);
@@ -38,12 +36,11 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   Future getJsonData() async {
-    var response = await http.get(Uri.encodeFull(
-        "http://192.168.0.11:8000/api/animals/${widget.animal.toString()}/"));
+    var response = await dio.get(
+        "animals/${widget.animal.toString()}/");
 
     setState(() {
-      var convertDataToJson = jsonDecode(response.body);
-      ica = convertDataToJson;
+      ica = response.data;
     });
   }
 
@@ -159,7 +156,6 @@ class _DetailPageState extends State<DetailPage> {
           : editMode == false ? _renderAnimalDetail() : _renderAnimalEdit(),
     floatingActionButton: editMode == false ? null : FloatingActionButton(
         onPressed: () {
-          print('animals/${widget.animal.toString()}');
           dio.put('animals/${widget.animal.toString()}/',
               data:{
               "name": name.text,

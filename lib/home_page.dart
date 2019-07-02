@@ -2,7 +2,16 @@ import 'dart:convert';
 import 'package:bicheros_frontmobile/detail_page.dart';
 import 'package:bicheros_frontmobile/AddAnimalPage.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
+
+// 192.168.0.X
+// 172.20.10.X
+BaseOptions options = new BaseOptions(
+  baseUrl: "http://172.20.10.3:8000/api/",
+
+);
+
+var dio = Dio(options);
 
 class HomePage extends StatefulWidget {
   final String title;
@@ -14,7 +23,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final String url = "http://192.168.0.11:8000/api/animals/";
   List data;
 
   @override
@@ -24,11 +32,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future getJsonData() async {
-    var response = await http.get(Uri.encodeFull(url));
-
+    var response = await dio.get('animals/');
     setState(() {
-      var convertDataToJson = jsonDecode(response.body);
-      data = convertDataToJson;
+      data = response.data;
     });
   }
 
