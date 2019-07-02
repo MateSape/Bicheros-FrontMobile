@@ -37,7 +37,6 @@ class AddAnimalPageState extends State<AddAnimalPage>{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black,
         title: Text("Agregar Animal"),
       ),
       body: ListView(

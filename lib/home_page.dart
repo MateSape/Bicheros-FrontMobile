@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:bicheros_frontmobile/detail_page.dart';
+import 'package:bicheros_frontmobile/AddAnimalPage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -33,6 +34,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _renderAnimalList() {
     return ListView.builder(
+
       itemCount: data == null ? 0 : data.length,
       itemBuilder: (BuildContext context, int index) {
         return ListTile(
@@ -86,7 +88,15 @@ class _HomePageState extends State<HomePage> {
         child: Container(child: _renderAnimalList()),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  AddAnimalPage(),
+            ),
+          );
+        },
         tooltip: 'Add',
         child: Icon(Icons.add),
       ),
