@@ -3,11 +3,12 @@ import 'package:bicheros_frontmobile/detail_page.dart';
 import 'package:bicheros_frontmobile/AddAnimalPage.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
-
-// 192.168.0.X
-// 172.20.10.X
+// capitalinas
 BaseOptions options = new BaseOptions(
-  baseUrl: "http://172.20.10.3:8000/api/",
+  // 192.168.0.X
+  // 172.20.10.X
+  // 192.168.100.XX
+  baseUrl: "http://192.168.100.235:8000/api/",
 
 );
 
@@ -45,7 +46,7 @@ class _HomePageState extends State<HomePage> {
       itemBuilder: (BuildContext context, int index) {
         return ListTile(
           leading: CircleAvatar(
-            backgroundImage: NetworkImage(data[index]["photo"]),
+            backgroundImage:data[index]["photo"] == null ? null : NetworkImage(data[index]["photo"]),
           ),
           title: Text(
               '${data[index]["id_animal"].toString()} - ${data[index]["name"]}'),

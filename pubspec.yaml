@@ -26,6 +26,7 @@ dependencies:
   flutter_spinkit: "^3.1.0"
   image_picker: ^0.6.0
   dio: ^2.1.0
+  flutter_picker: ^1.0.13
 
 
 dev_dependencies:
