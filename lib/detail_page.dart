@@ -20,7 +20,7 @@ class DetailPage extends StatefulWidget {
 class _DetailPageState extends State<DetailPage> {
   var name = new TextEditingController();
   var race = new TextEditingController();
-  DateTime dateFounded;
+  var dateFounded =  new TextEditingController();
   var gender = false;
   var placeFounded = new TextEditingController();
   var species = new TextEditingController();
@@ -76,7 +76,7 @@ class _DetailPageState extends State<DetailPage> {
   Widget _renderAnimalEdit() {
     name.text = ica["name"];
     placeFounded.text = ica["place_founded"];
-    //dateFounded = ica["date_founded"];
+    dateFounded.text = ica["date_founded"];
     race.text = ica["race"];
     species.text = ica["species"];
     List<Widget> items = [
@@ -94,7 +94,9 @@ class _DetailPageState extends State<DetailPage> {
       ),
       ListTile(
         leading: Text("fecha encontrado"),
-        title: TextField(),
+        title: TextField(
+          controller: dateFounded,
+        ),
       ),
       ListTile(
         leading: Text("Raza"),
@@ -170,6 +172,7 @@ class _DetailPageState extends State<DetailPage> {
                   "name": name.text,
                   "race": race.text,
                   "place_founded": placeFounded.text,
+                  "date_founded": dateFounded.text,
                   "species": species.text,
                   "gender": gender == false ? 0 : 1,
                 });
