@@ -58,8 +58,9 @@ class AddAnimalPageState extends State<AddAnimalPage>{
           },),
           ListTile(
             leading: MaterialButton(
+              color: Colors.lightBlue,
               onPressed: () => getImage(),
-              child: Icon(Icons.image),
+              child: Icon(Icons.image, color: Colors.white,),
             ),
             title: image == null
                 ? Text('No image selected.')
@@ -92,7 +93,8 @@ class AddAnimalPageState extends State<AddAnimalPage>{
             )
         ).catchError((error) => print(error));
         Navigator.pop(context);
-      }),
+      },
+      child: Icon(Icons.add, color: Colors.white,),),
     );
   }
 }

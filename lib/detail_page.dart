@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart';
 
 BaseOptions options = new BaseOptions(
@@ -18,9 +20,10 @@ class DetailPage extends StatefulWidget {
 }
 
 class _DetailPageState extends State<DetailPage> {
+  File image;
   var name = new TextEditingController();
   var race = new TextEditingController();
-  var dateFounded =  new TextEditingController();
+  var dateFounded = new TextEditingController();
   var gender = false;
   var placeFounded = new TextEditingController();
   var species = new TextEditingController();
@@ -39,6 +42,14 @@ class _DetailPageState extends State<DetailPage> {
 
     setState(() {
       ica = response.data;
+    });
+  }
+
+  Future getImage() async {
+    var image2 = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      image = image2;
     });
   }
 
@@ -64,7 +75,8 @@ class _DetailPageState extends State<DetailPage> {
       itemBuilder: (context, index) => index == 0
           ? ListTile(
               leading: CircleAvatar(
-                backgroundImage: ica["photo"] == null ? null :  NetworkImage(ica["photo"]),
+                backgroundImage:
+                    ica["photo"] == null ? null : NetworkImage(ica["photo"]),
               ),
               title: items[index],
             )
@@ -114,7 +126,12 @@ class _DetailPageState extends State<DetailPage> {
                   gender = !gender;
                 });
               },
-              child: gender == false ? Text("Masculino") : Text("Femenino"),
+              child: gender == false
+                  ? Text(
+                      "Masculino",
+                      style: TextStyle(color: Colors.white),
+                    )
+                  : Text("Femenino", style: TextStyle(color: Colors.white)),
               color: gender == false ? Colors.lightBlue : Colors.redAccent,
             ),
           ],
@@ -125,6 +142,22 @@ class _DetailPageState extends State<DetailPage> {
         title: TextField(
           controller: species,
         ),
+      ),
+      ListTile(
+        leading: MaterialButton(
+          color: Colors.lightBlue,
+          onPressed: () => getImage(),
+          child: Icon(
+            Icons.image,
+            color: Colors.white,
+          ),
+        ),
+        title: image == null
+            ? Text('No image selected.')
+            : Text(
+                image.path,
+                textAlign: TextAlign.end,
+              ),
       ),
     ];
     return ListView.separated(
@@ -168,14 +201,19 @@ class _DetailPageState extends State<DetailPage> {
           ? null
           : FloatingActionButton(
               onPressed: () {
-                dio.put('animals/${widget.animal.toString()}/', data: {
+                FormData formData = new FormData.from({
                   "name": name.text,
                   "race": race.text,
                   "place_founded": placeFounded.text,
                   "date_founded": dateFounded.text,
                   "species": species.text,
                   "gender": gender == false ? 0 : 1,
+                  "photo": UploadFileInfo(image, image.path),
                 });
+                dio.put('animals/${widget.animal.toString()}/',
+                    data: formData,
+                    options: Options(
+                        method: 'PUT', responseType: ResponseType.plain)).catchError((error) => print(error));
               },
               child: Icon(Icons.save_alt),
             ),
