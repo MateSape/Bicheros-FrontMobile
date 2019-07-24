@@ -5,7 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart';
 
 BaseOptions options = new BaseOptions(
-  baseUrl: "http:///192.168.100.235:8000/api/",
+  baseUrl: "http:///192.168.0.21:8000/api/",
 
 );
 
@@ -23,7 +23,7 @@ class AddAnimalPageState extends State<AddAnimalPage>{
   DateTime dateFounded;
   var placeFounded = new TextEditingController();
   var species = new TextEditingController();
-  var gender = new TextEditingController();
+  var gender = false;
 
   Future getImage() async {
     var image2 = await ImagePicker.pickImage(source: ImageSource.gallery);
@@ -70,7 +70,24 @@ class AddAnimalPageState extends State<AddAnimalPage>{
           ListTile(leading: Text("Raza: "),
             title: TextField(controller: race,),),
           ListTile(leading: Text("Sexo: "),
-            title: TextField(controller: gender,),),
+            title: Row(
+              children: <Widget>[
+                MaterialButton(
+                  onPressed: () {
+                    setState(() {
+                      gender = !gender;
+                    });
+                  },
+                  child: gender == false
+                      ? Text(
+                    "Masculino",
+                    style: TextStyle(color: Colors.white),
+                  )
+                      : Text("Femenino", style: TextStyle(color: Colors.white)),
+                  color: gender == false ? Colors.lightBlue : Colors.redAccent,
+                ),
+              ],
+            ),),
           ListTile(leading: Text("Especie: "),
             title: TextField(controller: species,),),
         ],
@@ -81,9 +98,9 @@ class AddAnimalPageState extends State<AddAnimalPage>{
           "race": race.text,
           "date_founded": "2019-06-03",
           "place_founded": placeFounded.text,
-          "photo": UploadFileInfo(image, image.path),
+          "photo": image == null ? null : UploadFileInfo(image, image.path),
           "species": species.text,
-          "gender": 1,
+          "gender": gender == false ? 0 : 1,
         });
         print(formData);
         dio.post("animals/", data: formData,

@@ -5,7 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart';
 
 BaseOptions options = new BaseOptions(
-  baseUrl: "http:///192.168.100.235:8000/api/",
+  baseUrl: "http:///192.168.0.21:8000/api/",
 );
 
 var dio = Dio(options);
@@ -20,11 +20,12 @@ class DetailPage extends StatefulWidget {
 }
 
 class _DetailPageState extends State<DetailPage> {
+  var puchito = false; //trolling
   File image;
   var name = new TextEditingController();
   var race = new TextEditingController();
   var dateFounded = new TextEditingController();
-  var gender = false;
+  var gender;
   var placeFounded = new TextEditingController();
   var species = new TextEditingController();
 
@@ -85,12 +86,20 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 
+  Widget _changeScreen() {
+    if (puchito == false) {
+      puchito = true;
+      name.text = ica["name"];
+      placeFounded.text = ica["place_founded"];
+      dateFounded.text = ica["date_founded"];
+      race.text = ica["race"];
+      gender = ica["gender"] == "Masculino" ? false : true;
+      species.text = ica["species"];
+    }
+    return editMode == false ? _renderAnimalDetail() : _renderAnimalEdit();
+  }
+
   Widget _renderAnimalEdit() {
-    name.text = ica["name"];
-    placeFounded.text = ica["place_founded"];
-    dateFounded.text = ica["date_founded"];
-    race.text = ica["race"];
-    species.text = ica["species"];
     List<Widget> items = [
       ListTile(
         leading: Text("nombre"),
@@ -159,6 +168,18 @@ class _DetailPageState extends State<DetailPage> {
                 textAlign: TextAlign.end,
               ),
       ),
+      ListTile(
+          title: MaterialButton(
+        onPressed: () {
+          dio.delete("animals/${widget.animal.toString()}/");
+          Navigator.pop(context);
+        },
+        color: Colors.red,
+        child: Icon(
+          Icons.delete,
+          color: Colors.white,
+        ),
+      )),
     ];
     return ListView.separated(
       itemCount: items.length,
@@ -196,7 +217,7 @@ class _DetailPageState extends State<DetailPage> {
                 size: 75.0,
               ),
             )
-          : editMode == false ? _renderAnimalDetail() : _renderAnimalEdit(),
+          : _changeScreen(),
       floatingActionButton: editMode == false
           ? null
           : FloatingActionButton(
@@ -208,12 +229,16 @@ class _DetailPageState extends State<DetailPage> {
                   "date_founded": dateFounded.text,
                   "species": species.text,
                   "gender": gender == false ? 0 : 1,
-                  "photo": UploadFileInfo(image, image.path),
+                  "photo":
+                      image == null ? null : UploadFileInfo(image, image.path),
                 });
-                dio.put('animals/${widget.animal.toString()}/',
-                    data: formData,
-                    options: Options(
-                        method: 'PUT', responseType: ResponseType.plain)).catchError((error) => print(error));
+                dio
+                    .put('animals/${widget.animal.toString()}/',
+                        data: formData,
+                        options: Options(
+                            method: 'PUT', responseType: ResponseType.plain))
+                    .catchError((error) => print(error));
+                Navigator.pop(context);
               },
               child: Icon(Icons.save_alt),
             ),

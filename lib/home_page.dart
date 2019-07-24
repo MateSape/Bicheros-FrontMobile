@@ -8,7 +8,7 @@ BaseOptions options = new BaseOptions(
   // 192.168.0.X
   // 172.20.10.X
   // 192.168.100.XX
-  baseUrl: "http://192.168.100.235:8000/api/",
+  baseUrl: "http://192.168.0.21:8000/api/",
 
 );
 
@@ -24,6 +24,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  var _filter = new TextEditingController(text: "");
+  Icon _searchIcon = new Icon(Icons.search, color: Colors.white,);
+  Widget _appBarTitle = new Text( "Bichero's App");
   List data;
 
   @override
@@ -32,14 +35,39 @@ class _HomePageState extends State<HomePage> {
     getJsonData();
   }
 
+
+  void _searchPressed() {
+    setState(() {
+      if (this._searchIcon.icon == Icons.search) {
+        this._searchIcon = new Icon(Icons.close);
+        this._appBarTitle = new TextField(
+          controller: _filter,
+          decoration: new InputDecoration(
+              hintText: 'Buscar...',
+          ),
+        );
+      } else {
+        this._searchIcon = new Icon(Icons.search);
+        this._appBarTitle = new Text('Search Example');
+        _filter.clear();
+      }
+    });
+  }
+
   Future getJsonData() async {
-    var response = await dio.get('animals/');
+
+    var response = await dio.get('animals/?search=${_filter.text}');
     setState(() {
       data = response.data;
     });
   }
 
   Widget _renderAnimalList() {
+    getJsonData();
+    _filter.addListener(() {
+      getJsonData();
+
+    });
     return ListView.builder(
 
       itemCount: data == null ? 0 : data.length,
@@ -87,13 +115,14 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Bichero's App"),
+        title: _appBarTitle,
+        actions: <Widget>[
+          IconButton(icon: _searchIcon,color: Colors.white,
+          onPressed: _searchPressed,),
+        ],
       ),
       drawer: Drawer(child: _renderDrawerItems()),
-      body: RefreshIndicator(
-        onRefresh: getJsonData,
-        child: Container(child: _renderAnimalList()),
-      ),
+      body: Container(child: _renderAnimalList()),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
