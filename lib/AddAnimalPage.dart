@@ -5,8 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart';
 
 BaseOptions options = new BaseOptions(
-  baseUrl: "http:///192.168.0.21:8000/api/",
-
+  baseUrl: "http:///192.168.100.235:8000/api/",
 );
 
 var dio = Dio(options);
@@ -70,8 +69,7 @@ class AddAnimalPageState extends State<AddAnimalPage>{
           ListTile(leading: Text("Raza: "),
             title: TextField(controller: race,),),
           ListTile(leading: Text("Sexo: "),
-            title: Row(
-              children: <Widget>[
+            title:
                 MaterialButton(
                   onPressed: () {
                     setState(() {
@@ -85,9 +83,8 @@ class AddAnimalPageState extends State<AddAnimalPage>{
                   )
                       : Text("Femenino", style: TextStyle(color: Colors.white)),
                   color: gender == false ? Colors.lightBlue : Colors.redAccent,
-                ),
-              ],
-            ),),
+                )
+            ),
           ListTile(leading: Text("Especie: "),
             title: TextField(controller: species,),),
         ],
@@ -96,7 +93,7 @@ class AddAnimalPageState extends State<AddAnimalPage>{
         FormData formData = new FormData.from({
           "name": name.text,
           "race": race.text,
-          "date_founded": "2019-06-03",
+          "date_founded": dateFounded.year.toString()+"-"+dateFounded.month.toString()+"-"+dateFounded.day.toString(),
           "place_founded": placeFounded.text,
           "photo": image == null ? null : UploadFileInfo(image, image.path),
           "species": species.text,
@@ -108,10 +105,9 @@ class AddAnimalPageState extends State<AddAnimalPage>{
                 method: 'POST',
                 responseType: ResponseType.plain
             )
-        ).catchError((error) => print(error));
-        Navigator.pop(context);
+        ).whenComplete(() => Navigator.pop(context));
       },
-      child: Icon(Icons.add, color: Colors.white,),),
+      child: Icon(Icons.save_alt, color: Colors.white,),),
     );
   }
 }
