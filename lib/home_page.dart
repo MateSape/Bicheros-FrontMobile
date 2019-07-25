@@ -40,6 +40,9 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       if (this._searchIcon.icon == Icons.search) {
         this._searchIcon = new Icon(Icons.close);
+        _filter.addListener(() {
+          getJsonData();
+        });
         this._appBarTitle = new TextField(
           controller: _filter,
           decoration: new InputDecoration(
@@ -63,11 +66,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _renderAnimalList() {
-    getJsonData();
-    _filter.addListener(() {
-      getJsonData();
-
-    });
+    //getJsonData();
     return ListView.builder(
 
       itemCount: data == null ? 0 : data.length,
