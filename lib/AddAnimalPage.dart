@@ -61,10 +61,13 @@ class AddAnimalPageState extends State<AddAnimalPage>{
               onPressed: () => getImage(),
               child: Icon(Icons.image, color: Colors.white,),
             ),
-            title: image == null
-                ? Text('No image selected.')
-                : Text(image.path,
-              textAlign: TextAlign.end,),
+            title: Center(
+              child: image == null
+                  ? Text('No image selected.')
+                  : CircleAvatar(
+                backgroundImage: FileImage(image),
+              ),
+            ),
           ),
           ListTile(leading: Text("Raza: "),
             title: TextField(controller: race,),),

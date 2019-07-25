@@ -127,23 +127,19 @@ class _DetailPageState extends State<DetailPage> {
       ),
       ListTile(
         leading: Text("sexo"),
-        title: Row(
-          children: <Widget>[
-            MaterialButton(
-              onPressed: () {
-                setState(() {
-                  gender = !gender;
-                });
-              },
-              child: gender == false
-                  ? Text(
-                      "Masculino",
-                      style: TextStyle(color: Colors.white),
-                    )
-                  : Text("Femenino", style: TextStyle(color: Colors.white)),
-              color: gender == false ? Colors.lightBlue : Colors.redAccent,
-            ),
-          ],
+        title: MaterialButton(
+          onPressed: () {
+            setState(() {
+              gender = !gender;
+            });
+          },
+          child: gender == false
+              ? Text(
+                  "Masculino",
+                  style: TextStyle(color: Colors.white),
+                )
+              : Text("Femenino", style: TextStyle(color: Colors.white)),
+          color: gender == false ? Colors.lightBlue : Colors.redAccent,
         ),
       ),
       ListTile(
@@ -163,9 +159,12 @@ class _DetailPageState extends State<DetailPage> {
         ),
         title: image == null
             ? Text('No image selected.')
-            : Text(
-                image.path,
-                textAlign: TextAlign.end,
+            : Center(
+                child: image == null
+                    ? Text('No image selected.')
+                    : CircleAvatar(
+                        backgroundImage: FileImage(image),
+                      ),
               ),
       ),
       ListTile(
