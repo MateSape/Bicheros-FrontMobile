@@ -59,7 +59,6 @@ class saldo_page_state extends State<saldo_page> {
             title: Text(balance[index-1]["amount"].toString()),
             subtitle: Text(balance[index-1]["date"]),
             trailing: IconButton(icon: Icon(Icons.delete, color: Colors.redAccent,), onPressed: (){
-              print (balance[index-1]["id"]);
               dio.delete("monto/${balance[index-1]["id"]}/",);
               getJsonData();
             }),
