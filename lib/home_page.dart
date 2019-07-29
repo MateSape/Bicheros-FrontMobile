@@ -67,28 +67,31 @@ class _HomePageState extends State<HomePage> {
 
   Widget _renderAnimalList() {
     //getJsonData();
-    return ListView.builder(
-      itemCount: data == null ? 0 : data.length,
-      itemBuilder: (BuildContext context, int index) {
-        return ListTile(
-          leading: CircleAvatar(
-            backgroundImage: data[index]["photo"] == null
-                ? null
-                : NetworkImage(data[index]["photo"]),
-          ),
-          title: Text(
-              '${data[index]["id_animal"].toString()} - ${data[index]["name"]}'),
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>
-                    DetailPage(animal: data[index]["id_animal"]),
-              ),
-            );
-          },
-        );
-      },
+    return RefreshIndicator(
+      onRefresh: () => getJsonData(),
+      child: ListView.builder(
+        itemCount: data == null ? 0 : data.length,
+        itemBuilder: (BuildContext context, int index) {
+          return ListTile(
+            leading: CircleAvatar(
+              backgroundImage: data[index]["photo"] == null
+                  ? null
+                  : NetworkImage(data[index]["photo"]),
+            ),
+            title: Text(
+                '${data[index]["id_animal"].toString()} - ${data[index]["name"]}'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      DetailPage(animal: data[index]["id_animal"]),
+                ),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 

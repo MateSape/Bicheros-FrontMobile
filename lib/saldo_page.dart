@@ -16,6 +16,7 @@ class saldo_page extends StatefulWidget {
 }
 
 class saldo_page_state extends State<saldo_page> {
+  int saldo = 0;
   var puchito = false;
   var balance;
   var input = new TextEditingController();
@@ -29,22 +30,43 @@ class saldo_page_state extends State<saldo_page> {
 
   Future getJsonData() async {
     var response = await dio.get("monto/");
-
     setState(() {
       balance = response.data;
+      saldo = 0;
+      for(var x = 0; x < balance.length; x++){
+        if (balance[x]["tipo"] == "Ingreso"){
+          saldo += balance[x]["amount"];
+        }
+        else{
+          saldo -= balance[x]["amount"];
+        }
+      }
     });
   }
 
   Widget buildPage() {
-    return ListView.builder(
-      itemBuilder: (context, index) {
-        return ListTile(
-          leading: Text(balance[index]["tipo"]),
-          title: Text(balance[index]["amount"].toString()),
-          trailing: Text(balance[index]["date"]),
-        );
-      },
-      itemCount: balance.length == null ? null : balance.length,
+    return RefreshIndicator(
+      onRefresh: () => getJsonData(),
+      child: ListView.builder(
+        itemBuilder: (context, index) {
+          if (index == 0) {
+            return ListTile(
+              title: saldo < 0 ? Text("Saldo: ${saldo.toString()}", textAlign: TextAlign.center, style: TextStyle(color: Colors.red),) : Text("Saldo: ${saldo.toString()}", textAlign: TextAlign.center,),
+            );
+          }else{
+          return ListTile(
+            leading: Text(balance[index-1]["tipo"]),
+            title: Text(balance[index-1]["amount"].toString()),
+            subtitle: Text(balance[index-1]["date"]),
+            trailing: IconButton(icon: Icon(Icons.delete, color: Colors.redAccent,), onPressed: (){
+              print (balance[index-1]["id"]);
+              dio.delete("monto/${balance[index-1]["id"]}/",);
+              getJsonData();
+            }),
+          );}
+        },
+        itemCount: balance.length == null ? null : balance.length+1,
+      ),
     );
   }
 
