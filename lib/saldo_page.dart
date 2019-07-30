@@ -16,7 +16,7 @@ class saldo_page extends StatefulWidget {
 }
 
 class saldo_page_state extends State<saldo_page> {
-  int saldo = 0;
+  double saldo = 0;
   var puchito = false;
   var balance;
   var input = new TextEditingController();
@@ -56,7 +56,7 @@ class saldo_page_state extends State<saldo_page> {
           }else{
           return ListTile(
             leading: Text(balance[index-1]["tipo"]),
-            title: Text(balance[index-1]["amount"].toString()),
+            title: balance[index-1]["tipo"] == "Gasto" ? Text(balance[index-1]["amount"].toString(), style: TextStyle(color: Colors.red),) : Text(balance[index-1]["amount"].toString()),
             subtitle: Text(balance[index-1]["date"]),
             trailing: IconButton(icon: Icon(Icons.delete, color: Colors.redAccent,), onPressed: (){
               dio.delete("monto/${balance[index-1]["id"]}/",);

@@ -75,6 +75,12 @@ class _DetailPageState extends State<DetailPage> {
       itemCount: items.length,
       itemBuilder: (context, index) => index == 0
           ? ListTile(
+        onTap: () => {
+          showDialog(context: context,
+          builder: (BuildContext context){
+            return AlertDialog(title: Image.network(ica["photo"]));
+          })
+        },
               leading: CircleAvatar(
                 backgroundImage:
                     ica["photo"] == null ? null : NetworkImage(ica["photo"]),
@@ -149,7 +155,20 @@ class _DetailPageState extends State<DetailPage> {
         ),
       ),
       ListTile(
-        leading: MaterialButton(
+        leading: image == null
+            ? CircleAvatar(child: Text("N"),)
+            : IconButton(
+          onPressed: () {
+            showDialog(context: context,
+                builder: (BuildContext context){
+                  return AlertDialog(title: Image(image: FileImage(image)));
+                });
+          },
+          icon: CircleAvatar(
+            backgroundImage: FileImage(image),
+          ),
+        ),
+        title: MaterialButton(
           color: Colors.lightBlue,
           onPressed: () => getImage(),
           child: Icon(
@@ -157,15 +176,6 @@ class _DetailPageState extends State<DetailPage> {
             color: Colors.white,
           ),
         ),
-        title: image == null
-            ? Text('No image selected.')
-            : Center(
-                child: image == null
-                    ? Text('No image selected.')
-                    : CircleAvatar(
-                        backgroundImage: FileImage(image),
-                      ),
-              ),
       ),
       ListTile(
           title: MaterialButton(

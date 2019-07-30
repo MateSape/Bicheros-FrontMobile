@@ -96,19 +96,32 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _renderDrawerItems() {
-    List items = [
-      "Animales",
-      "Veterinarias",
-      "Saldo",
-      "Adoptantes",
-      "Donaciones"
-    ];
-
-    return ListView.builder(
-      itemCount: items.length,
-      itemBuilder: (context, index) {
-        return ListTile(
-          title: Text(items[index]),
+    return ListView(
+      children: <Widget>[
+        ListTile(
+          title: Text("Animales"),
+          /*onTap: () => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => saldo_page(),
+                  ),
+                )
+              },*/
+        ),
+        ListTile(
+          title: Text("Veterinarias"),
+          /*onTap: () => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => saldo_page(),
+                  ),
+                )
+              },*/
+        ),
+        ListTile(
+          title: Text("Saldo"),
           onTap: () => {
                 Navigator.push(
                   context,
@@ -117,8 +130,30 @@ class _HomePageState extends State<HomePage> {
                   ),
                 )
               },
-        );
-      },
+        ),
+        ListTile(
+          title: Text("Adoptantes"),
+          /*onTap: () => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => saldo_page(),
+                  ),
+                )
+              },*/
+        ),
+        ListTile(
+          title: Text("Donaciones"),
+          /*onTap: () => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => saldo_page(),
+                  ),
+                )
+              },*/
+        ),
+      ],
     );
   }
 
