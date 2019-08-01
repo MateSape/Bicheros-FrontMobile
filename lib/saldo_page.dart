@@ -4,6 +4,8 @@ import 'add_monto_page.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:dio/dio.dart';
 
+import 'detail_saldo.dart';
+
 BaseOptions options = new BaseOptions(
   baseUrl: "http:///192.168.100.235:8000/api/",
 );
@@ -55,6 +57,15 @@ class saldo_page_state extends State<saldo_page> {
             );
           }else{
           return ListTile(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      detail_saldo(saldo: balance[index-1]["id"]),
+                ),
+              );
+            },
             leading: Text(balance[index-1]["tipo"]),
             title: balance[index-1]["tipo"] == "Gasto" ? Text(balance[index-1]["amount"].toString(), style: TextStyle(color: Colors.red),) : Text(balance[index-1]["amount"].toString()),
             subtitle: Text(balance[index-1]["date"]),

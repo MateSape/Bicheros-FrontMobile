@@ -3,6 +3,7 @@ import 'package:bicheros_frontmobile/AddAnimalPage.dart';
 import 'saldo_page.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class HomePage extends StatefulWidget {
   final String title;
@@ -171,7 +172,12 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       drawer: Drawer(child: _renderDrawerItems()),
-      body: Container(child: _renderAnimalList()),
+      body: data == null ? Center(
+        child: SpinKitWave(
+          color: Colors.black,
+          size: 75.0,
+        ),
+      ) : Container(child: _renderAnimalList()),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(

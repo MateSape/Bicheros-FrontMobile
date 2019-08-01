@@ -21,7 +21,8 @@ class DetailPage extends StatefulWidget {
 
 class _DetailPageState extends State<DetailPage> {
   var puchito = false; //trolling
-  File image;
+  FormData formData;
+  File newImage;
   var name = new TextEditingController();
   var race = new TextEditingController();
   var dateFounded = new TextEditingController();
@@ -50,7 +51,7 @@ class _DetailPageState extends State<DetailPage> {
     var image2 = await ImagePicker.pickImage(source: ImageSource.gallery);
 
     setState(() {
-      image = image2;
+      newImage = image2;
     });
   }
 
@@ -75,15 +76,19 @@ class _DetailPageState extends State<DetailPage> {
       itemCount: items.length,
       itemBuilder: (context, index) => index == 0
           ? ListTile(
-        onTap: () => {
-          showDialog(context: context,
-          builder: (BuildContext context){
-            return AlertDialog(title: Image.network(ica["photo"]));
-          })
-        },
-              leading: CircleAvatar(
-                backgroundImage:
-                    ica["photo"] == null ? null : NetworkImage(ica["photo"]),
+              leading: IconButton(
+                onPressed: (){
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                            title: Image.network(ica["photo"]));
+                      });
+                },
+                icon: CircleAvatar(
+                  backgroundImage:
+                      ica["photo"] == null ? null : NetworkImage(ica["photo"]),
+                ),
               ),
               title: items[index],
             )
@@ -141,10 +146,10 @@ class _DetailPageState extends State<DetailPage> {
           },
           child: gender == false
               ? Text(
-                  "Masculino",
+                  "Macho",
                   style: TextStyle(color: Colors.white),
                 )
-              : Text("Femenino", style: TextStyle(color: Colors.white)),
+              : Text("Hembra", style: TextStyle(color: Colors.white)),
           color: gender == false ? Colors.lightBlue : Colors.redAccent,
         ),
       ),
@@ -155,19 +160,33 @@ class _DetailPageState extends State<DetailPage> {
         ),
       ),
       ListTile(
-        leading: image == null
-            ? CircleAvatar(child: Text("N"),)
+        leading: newImage == null
+            ? IconButton(
+                icon: CircleAvatar(
+                  backgroundImage: NetworkImage(ica["photo"]),
+                ),
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                            title: Image(image:  NetworkImage(ica["photo"])));
+                      });
+                },
+              )
             : IconButton(
-          onPressed: () {
-            showDialog(context: context,
-                builder: (BuildContext context){
-                  return AlertDialog(title: Image(image: FileImage(image)));
-                });
-          },
-          icon: CircleAvatar(
-            backgroundImage: FileImage(image),
-          ),
-        ),
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                            title: Image(image: FileImage(newImage)));
+                      });
+                },
+                icon: CircleAvatar(
+                  backgroundImage: FileImage(newImage),
+                ),
+              ),
         title: MaterialButton(
           color: Colors.lightBlue,
           onPressed: () => getImage(),
@@ -231,16 +250,26 @@ class _DetailPageState extends State<DetailPage> {
           ? null
           : FloatingActionButton(
               onPressed: () {
-                FormData formData = new FormData.from({
-                  "name": name.text,
-                  "race": race.text,
-                  "place_founded": placeFounded.text,
-                  "date_founded": dateFounded.text,
-                  "species": species.text,
-                  "gender": gender == false ? 0 : 1,
-                  "photo":
-                      image == null ? null : UploadFileInfo(image, image.path),
-                });
+                if(newImage==null){
+                  formData = new FormData.from({
+                    "name": name.text,
+                    "race": race.text,
+                    "place_founded": placeFounded.text,
+                    "date_founded": dateFounded.text,
+                    "species": species.text,
+                    "gender": gender == false ? 0 : 1,
+                  });
+                }else{
+                  formData = new FormData.from({
+                    "name": name.text,
+                    "race": race.text,
+                    "place_founded": placeFounded.text,
+                    "date_founded": dateFounded.text,
+                    "species": species.text,
+                    "gender": gender == false ? 0 : 1,
+                    "photo": UploadFileInfo(newImage, newImage.path),
+                  });
+                }
                 dio
                     .put('animals/${widget.animal.toString()}/',
                         data: formData,
