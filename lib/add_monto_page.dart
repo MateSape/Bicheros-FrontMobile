@@ -14,9 +14,25 @@ class add_monto_page extends StatefulWidget {
 }
 
 class add_monto_page_state extends State<add_monto_page> {
+  var dio;
+
   bool type = false;
   var Mdate;
   var amount = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    BaseOptions options = new BaseOptions(
+      // 192.168.0.X
+      // 172.20.10.X
+      // 192.168.100.235
+      baseUrl: "http://192.168.100.231:8080/api/",
+    );
+    dio = Dio(options);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

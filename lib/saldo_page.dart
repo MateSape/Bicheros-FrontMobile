@@ -6,18 +6,14 @@ import 'package:dio/dio.dart';
 
 import 'detail_saldo.dart';
 
-BaseOptions options = new BaseOptions(
-  baseUrl: "http:///192.168.100.235:8000/api/",
-);
-
-var dio = Dio(options);
-
 class saldo_page extends StatefulWidget {
   @override
   saldo_page_state createState() => new saldo_page_state();
 }
 
 class saldo_page_state extends State<saldo_page> {
+  var dio;
+
   double saldo = 0;
   var puchito = false;
   var balance;
@@ -26,8 +22,16 @@ class saldo_page_state extends State<saldo_page> {
   @override
   void initState() {
     super.initState();
-    getJsonData();
     puchito = true;
+
+    BaseOptions options = new BaseOptions(
+      // 192.168.0.X
+      // 172.20.10.X
+      // 192.168.100.235
+      baseUrl: "http://192.168.100.231:8080/api/",
+    );
+    dio = Dio(options);
+    getJsonData();
   }
 
   Future getJsonData() async {

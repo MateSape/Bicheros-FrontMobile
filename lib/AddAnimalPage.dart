@@ -4,18 +4,14 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart';
 
-BaseOptions options = new BaseOptions(
-  baseUrl: "http:///192.168.100.235:8000/api/",
-);
-
-var dio = Dio(options);
-
 class AddAnimalPage extends StatefulWidget {
   @override
   AddAnimalPageState createState() => new AddAnimalPageState();
 }
 
 class AddAnimalPageState extends State<AddAnimalPage> {
+  var dio;
+
   File image;
   var name = new TextEditingController();
   var race = new TextEditingController();
@@ -23,6 +19,20 @@ class AddAnimalPageState extends State<AddAnimalPage> {
   var placeFounded = new TextEditingController();
   var species = new TextEditingController();
   var gender = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    BaseOptions options = new BaseOptions(
+      // 192.168.0.X
+      // 172.20.10.X
+      // 192.168.100.235
+      baseUrl: "http://192.168.100.231:8080/api/",
+    );
+    dio = Dio(options);
+  }
+
 
   Future getImage() async {
     var image2 = await ImagePicker.pickImage(source: ImageSource.gallery);

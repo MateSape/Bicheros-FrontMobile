@@ -19,6 +19,8 @@ class detail_saldo extends StatefulWidget {
 }
 
 class _DetailSaldoState extends State<detail_saldo> {
+  var dio;
+
   var puchito = false;
   var monto = new TextEditingController();
   var tipo = false;
@@ -26,6 +28,20 @@ class _DetailSaldoState extends State<detail_saldo> {
 
   var ica;
   var type = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    BaseOptions options = new BaseOptions(
+      // 192.168.0.X
+      // 172.20.10.X
+      // 192.168.100.235
+      baseUrl: "http://192.168.100.231:8080/api/",
+    );
+    dio = Dio(options);
+  }
+
   Future getJsonData() async {
     if (puchito==false){
     var response = await dio.get("monto/${widget.saldo.toString()}/");

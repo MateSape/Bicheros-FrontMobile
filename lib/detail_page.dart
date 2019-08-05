@@ -4,12 +4,6 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart';
 
-BaseOptions options = new BaseOptions(
-  baseUrl: "http:///192.168.100.235:8000/api/",
-);
-
-var dio = Dio(options);
-
 class DetailPage extends StatefulWidget {
   final animal;
 
@@ -20,6 +14,8 @@ class DetailPage extends StatefulWidget {
 }
 
 class _DetailPageState extends State<DetailPage> {
+  var dio;
+
   var puchito = false; //trolling
   FormData formData;
   File newImage;
@@ -35,8 +31,16 @@ class _DetailPageState extends State<DetailPage> {
 
   @override
   void initState() {
-    getJsonData();
     super.initState();
+
+    BaseOptions options = new BaseOptions(
+      // 192.168.0.X
+      // 172.20.10.X
+      // 192.168.100.235
+      baseUrl: "http://192.168.100.231:8080/api/",
+    );
+    dio = Dio(options);
+    getJsonData();
   }
 
   Future getJsonData() async {
@@ -163,7 +167,7 @@ class _DetailPageState extends State<DetailPage> {
         leading: newImage == null
             ? IconButton(
                 icon: CircleAvatar(
-                  backgroundImage: NetworkImage(ica["photo"]),
+                  backgroundImage:ica["photo"]== null ? null : NetworkImage(ica["photo"]),
                 ),
                 onPressed: () {
                   showDialog(
