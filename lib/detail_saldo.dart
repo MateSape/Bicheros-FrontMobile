@@ -43,44 +43,54 @@ class _DetailSaldoState extends State<detail_saldo> {
   }
 
   Future getJsonData() async {
-    if (puchito==false){
-    var response = await dio.get("monto/${widget.saldo.toString()}/");
+    if (puchito == false) {
+      var response = await dio.get("monto/${widget.saldo.toString()}/",
+          options: Options(headers: {
+            "Authorization": "Token 8a1e43cd305ea12638c792a056769a075165a3ca"
+          }));
 
-    setState(() {
-      ica = response.data;
-    });
-    monto.text = ica["amount"].toString();
-    date.text = ica["date"];
-    if (ica["tipo"] == "Gasto"){
-      type = true;
+      setState(() {
+        ica = response.data;
+      });
+      monto.text = ica["amount"].toString();
+      date.text = ica["date"];
+      if (ica["tipo"] == "Gasto") {
+        type = true;
+      }
     }
-  }}
+  }
 
-  Widget buildDetail(){
+  Widget buildDetail() {
     return ListView(
       children: <Widget>[
         ListTile(
           leading: Text("Monto"),
-          title: TextField(controller: monto,),
+          title: TextField(
+            controller: monto,
+          ),
         ),
         ListTile(
-          title: TextField(controller: date,),
-        leading: Text("Fecha"),
+          title: TextField(
+            controller: date,
+          ),
+          leading: Text("Fecha"),
         ),
-        ListTile(title: MaterialButton(
-          onPressed: () {
-            setState(() {
-              type = !type;
-            });
-          },
-          child: type == false
-              ? Text(
-            "Ingreso",
-            style: TextStyle(color: Colors.white),
-          )
-              : Text("Gasto", style: TextStyle(color: Colors.white)),
-          color: type == false ? Colors.greenAccent : Colors.redAccent,
-        ),),
+        ListTile(
+          title: MaterialButton(
+            onPressed: () {
+              setState(() {
+                type = !type;
+              });
+            },
+            child: type == false
+                ? Text(
+                    "Ingreso",
+                    style: TextStyle(color: Colors.white),
+                  )
+                : Text("Gasto", style: TextStyle(color: Colors.white)),
+            color: type == false ? Colors.greenAccent : Colors.redAccent,
+          ),
+        ),
       ],
     );
   }
@@ -93,24 +103,34 @@ class _DetailSaldoState extends State<detail_saldo> {
       appBar: AppBar(
         title: Text("Modificar monto"),
       ),
-      body: ica == null ? Center(
-        child: SpinKitWave(
-          color: Colors.black,
-          size: 75.0,
-        ),
-      ) : buildDetail(),
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        dio.put("monto/${ica['id']}/",
-            data: {
-              "date": date.text,
-              "amount": monto.text,
-              "tipo": type == false ? 0 : 1,
-            }).whenComplete(() => Navigator.pop(context));
-      },
+      body: ica == null
+          ? Center(
+              child: SpinKitWave(
+                color: Colors.black,
+                size: 75.0,
+              ),
+            )
+          : buildDetail(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          dio
+              .put("monto/${ica['id']}/",
+                  data: {
+                    "date": date.text,
+                    "amount": monto.text,
+                    "tipo": type == false ? 0 : 1,
+                  },
+                  options: Options(headers: {
+                    "Authorization":
+                        "Token 8a1e43cd305ea12638c792a056769a075165a3ca"
+                  }))
+              .whenComplete(() => Navigator.pop(context));
+        },
         child: Icon(
-        Icons.save_alt,
-        color: Colors.white,
-      ),),
+          Icons.save_alt,
+          color: Colors.white,
+        ),
+      ),
     );
   }
 }

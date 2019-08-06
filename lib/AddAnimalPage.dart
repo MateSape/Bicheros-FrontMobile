@@ -25,14 +25,12 @@ class AddAnimalPageState extends State<AddAnimalPage> {
     super.initState();
 
     BaseOptions options = new BaseOptions(
-      // 192.168.0.X
-      // 172.20.10.X
-      // 192.168.100.235
-      baseUrl: "http://192.168.100.231:8080/api/",
-    );
+        // 192.168.0.X
+        // 172.20.10.X
+        // 192.168.100.235
+        baseUrl: "http://192.168.100.231:8080/api/",);
     dio = Dio(options);
   }
-
 
   Future getImage() async {
     var image2 = await ImagePicker.pickImage(source: ImageSource.gallery);
@@ -97,8 +95,7 @@ class AddAnimalPageState extends State<AddAnimalPage> {
                         style: TextStyle(color: Colors.white),
                       ),
                       color: Colors.lightBlue,
-                    )
-              ),
+                    )),
           ListTile(
             leading: image == null
                 ? CircleAvatar(
@@ -176,7 +173,11 @@ class AddAnimalPageState extends State<AddAnimalPage> {
               .post("animals/",
                   data: formData,
                   options:
-                      Options(method: 'POST', responseType: ResponseType.plain))
+                      Options(method: 'POST', responseType: ResponseType.plain,
+                          headers: {
+                            "Authorization": "Token 8a1e43cd305ea12638c792a056769a075165a3ca"
+                          }
+                      ))
               .whenComplete(() => Navigator.pop(context));
         },
         child: Icon(

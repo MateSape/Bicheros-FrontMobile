@@ -60,7 +60,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future getJsonData() async {
-    var response = await dio.get('animals/?search=${_filter.text}');
+
+    var response = await dio.get('animals/?search=${_filter.text}', options: Options(
+      headers: {
+        "Authorization": "Token 8a1e43cd305ea12638c792a056769a075165a3ca"
+      }
+    ));
     setState(() {
       data = response.data;
     });

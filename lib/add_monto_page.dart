@@ -42,12 +42,14 @@ class add_monto_page_state extends State<add_monto_page> {
       body: ListView(
         children: <Widget>[
           ListTile(
-            title: TextField(controller: amount,),
+            title: TextField(
+              controller: amount,
+            ),
             leading: Text("Monto"),
           ),
           ListTile(
             title: MaterialButton(
-              color: Colors.lightBlue,
+                color: Colors.lightBlue,
                 onPressed: () async {
                   final newDate = await showDatePicker(
                       context: context,
@@ -61,9 +63,14 @@ class add_monto_page_state extends State<add_monto_page> {
                   }
                 },
                 child: Mdate == null
-                    ? Text("Seleccione una fecha", style: TextStyle(color: Colors.white),)
-                    : Text('${Mdate.day.toString()} / ' +
-                        '${Mdate.month.toString()} / ${Mdate.year.toString()}', style: TextStyle(color: Colors.white))),
+                    ? Text(
+                        "Seleccione una fecha",
+                        style: TextStyle(color: Colors.white),
+                      )
+                    : Text(
+                        '${Mdate.day.toString()} / ' +
+                            '${Mdate.month.toString()} / ${Mdate.year.toString()}',
+                        style: TextStyle(color: Colors.white))),
             leading: Text("Fecha"),
           ),
           ListTile(
@@ -87,12 +94,22 @@ class add_monto_page_state extends State<add_monto_page> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          dio.post("monto/",
-          data: {
-            "date": Mdate.year.toString()+"-"+Mdate.month.toString()+"-"+Mdate.day.toString(),
-            "amount": amount.text,
-            "tipo": type == false ? 0 : 1,
-          }).whenComplete(() => Navigator.pop(context));
+          dio
+              .post("monto/",
+                  data: {
+                    "date": Mdate.year.toString() +
+                        "-" +
+                        Mdate.month.toString() +
+                        "-" +
+                        Mdate.day.toString(),
+                    "amount": amount.text,
+                    "tipo": type == false ? 0 : 1,
+                  },
+                  options: Options(headers: {
+                    "Authorization":
+                        "Token 8a1e43cd305ea12638c792a056769a075165a3ca"
+                  }))
+              .whenComplete(() => Navigator.pop(context));
         },
         child: Icon(
           Icons.save_alt,

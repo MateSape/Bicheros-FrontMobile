@@ -25,25 +25,27 @@ class saldo_page_state extends State<saldo_page> {
     puchito = true;
 
     BaseOptions options = new BaseOptions(
-      // 192.168.0.X
-      // 172.20.10.X
-      // 192.168.100.235
-      baseUrl: "http://192.168.100.231:8080/api/",
-    );
+        // 192.168.0.X
+        // 172.20.10.X
+        // 192.168.100.235
+        baseUrl: "http://192.168.100.231:8080/api/",);
     dio = Dio(options);
     getJsonData();
   }
 
   Future getJsonData() async {
-    var response = await dio.get("monto/");
+    var response = await dio.get("monto/", options: Options(
+        headers: {
+          "Authorization": "Token 8a1e43cd305ea12638c792a056769a075165a3ca"
+        }
+    ));
     setState(() {
       balance = response.data;
       saldo = 0;
-      for(var x = 0; x < balance.length; x++){
-        if (balance[x]["tipo"] == "Ingreso"){
+      for (var x = 0; x < balance.length; x++) {
+        if (balance[x]["tipo"] == "Ingreso") {
           saldo += balance[x]["amount"];
-        }
-        else{
+        } else {
           saldo -= balance[x]["amount"];
         }
       }
@@ -57,29 +59,56 @@ class saldo_page_state extends State<saldo_page> {
         itemBuilder: (context, index) {
           if (index == 0) {
             return ListTile(
-              title: saldo < 0 ? Text("Saldo: ${saldo.toString()}", textAlign: TextAlign.center, style: TextStyle(color: Colors.red),) : Text("Saldo: ${saldo.toString()}", textAlign: TextAlign.center,),
+              title: saldo < 0
+                  ? Text(
+                      "Saldo: ${saldo.toString()}",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.red),
+                    )
+                  : Text(
+                      "Saldo: ${saldo.toString()}",
+                      textAlign: TextAlign.center,
+                    ),
             );
-          }else{
-          return ListTile(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      detail_saldo(saldo: balance[index-1]["id"]),
-                ),
-              );
-            },
-            leading: Text(balance[index-1]["tipo"]),
-            title: balance[index-1]["tipo"] == "Gasto" ? Text(balance[index-1]["amount"].toString(), style: TextStyle(color: Colors.red),) : Text(balance[index-1]["amount"].toString()),
-            subtitle: Text(balance[index-1]["date"]),
-            trailing: IconButton(icon: Icon(Icons.delete, color: Colors.redAccent,), onPressed: (){
-              dio.delete("monto/${balance[index-1]["id"]}/",);
-              getJsonData();
-            }),
-          );}
+          } else {
+            return ListTile(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        detail_saldo(saldo: balance[index - 1]["id"]),
+                  ),
+                );
+              },
+              leading: Text(balance[index - 1]["tipo"]),
+              title: balance[index - 1]["tipo"] == "Gasto"
+                  ? Text(
+                      balance[index - 1]["amount"].toString(),
+                      style: TextStyle(color: Colors.red),
+                    )
+                  : Text(balance[index - 1]["amount"].toString()),
+              subtitle: Text(balance[index - 1]["date"]),
+              trailing: IconButton(
+                  icon: Icon(
+                    Icons.delete,
+                    color: Colors.redAccent,
+                  ),
+                  onPressed: () {
+                    dio.delete(
+                      "monto/${balance[index - 1]["id"]}/",
+                        options: Options(
+                            headers: {
+                              "Authorization": "Token 8a1e43cd305ea12638c792a056769a075165a3ca"
+                            }
+                        )
+                    );
+                    getJsonData();
+                  }),
+            );
+          }
         },
-        itemCount: balance.length == null ? null : balance.length+1,
+        itemCount: balance.length == null ? null : balance.length + 1,
       ),
     );
   }
@@ -98,15 +127,20 @@ class saldo_page_state extends State<saldo_page> {
               ),
             )
           : buildPage(),
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => add_monto_page(),
-          ),
-        );
-      },
-      child: Icon(Icons.add, color: Colors.white,),),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => add_monto_page(),
+            ),
+          );
+        },
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+      ),
     );
   }
 }

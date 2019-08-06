@@ -44,7 +44,10 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   Future getJsonData() async {
-    var response = await dio.get("animals/${widget.animal.toString()}/");
+    var response = await dio.get("animals/${widget.animal.toString()}/",
+        options: Options(headers: {
+          "Authorization": "Token 8a1e43cd305ea12638c792a056769a075165a3ca"
+        }));
 
     setState(() {
       ica = response.data;
@@ -81,12 +84,11 @@ class _DetailPageState extends State<DetailPage> {
       itemBuilder: (context, index) => index == 0
           ? ListTile(
               leading: IconButton(
-                onPressed: (){
+                onPressed: () {
                   showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return AlertDialog(
-                            title: Image.network(ica["photo"]));
+                        return AlertDialog(title: Image.network(ica["photo"]));
                       });
                 },
                 icon: CircleAvatar(
@@ -167,14 +169,15 @@ class _DetailPageState extends State<DetailPage> {
         leading: newImage == null
             ? IconButton(
                 icon: CircleAvatar(
-                  backgroundImage:ica["photo"]== null ? null : NetworkImage(ica["photo"]),
+                  backgroundImage:
+                      ica["photo"] == null ? null : NetworkImage(ica["photo"]),
                 ),
                 onPressed: () {
                   showDialog(
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
-                            title: Image(image:  NetworkImage(ica["photo"])));
+                            title: Image(image: NetworkImage(ica["photo"])));
                       });
                 },
               )
@@ -203,7 +206,11 @@ class _DetailPageState extends State<DetailPage> {
       ListTile(
           title: MaterialButton(
         onPressed: () {
-          dio.delete("animals/${widget.animal.toString()}/");
+          dio.delete("animals/${widget.animal.toString()}/",
+              options: Options(headers: {
+                "Authorization":
+                    "Token 8a1e43cd305ea12638c792a056769a075165a3ca"
+              }));
           Navigator.pop(context);
         },
         color: Colors.red,
@@ -254,7 +261,7 @@ class _DetailPageState extends State<DetailPage> {
           ? null
           : FloatingActionButton(
               onPressed: () {
-                if(newImage==null){
+                if (newImage == null) {
                   formData = new FormData.from({
                     "name": name.text,
                     "race": race.text,
@@ -263,7 +270,7 @@ class _DetailPageState extends State<DetailPage> {
                     "species": species.text,
                     "gender": gender == false ? 0 : 1,
                   });
-                }else{
+                } else {
                   formData = new FormData.from({
                     "name": name.text,
                     "race": race.text,
@@ -278,7 +285,12 @@ class _DetailPageState extends State<DetailPage> {
                     .put('animals/${widget.animal.toString()}/',
                         data: formData,
                         options: Options(
-                            method: 'PUT', responseType: ResponseType.plain))
+                            method: 'PUT',
+                            responseType: ResponseType.plain,
+                            headers: {
+                              "Authorization":
+                                  "Token 8a1e43cd305ea12638c792a056769a075165a3ca"
+                            }))
                     .catchError((error) => print(error));
                 Navigator.pop(context);
               },
