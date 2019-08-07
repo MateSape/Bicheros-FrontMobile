@@ -5,6 +5,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart';
 
 class AddAnimalPage extends StatefulWidget {
+  final String token;
+  AddAnimalPage ({Key key, this.token}) : super(key: key);
   @override
   AddAnimalPageState createState() => new AddAnimalPageState();
 }
@@ -57,6 +59,7 @@ class AddAnimalPageState extends State<AddAnimalPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+
         title: Text("Agregar Animal"),
       ),
       body: ListView(
@@ -175,7 +178,7 @@ class AddAnimalPageState extends State<AddAnimalPage> {
                   options:
                       Options(method: 'POST', responseType: ResponseType.plain,
                           headers: {
-                            "Authorization": "Token 8a1e43cd305ea12638c792a056769a075165a3ca"
+                            "Authorization": "Token ${widget.token}"
                           }
                       ))
               .whenComplete(() => Navigator.pop(context));

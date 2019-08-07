@@ -9,6 +9,8 @@ BaseOptions options = new BaseOptions(
 var dio = Dio(options);
 
 class add_monto_page extends StatefulWidget {
+  final token;
+  add_monto_page({Key key, this.token}) : super(key: key);
   @override
   add_monto_page_state createState() => new add_monto_page_state();
 }
@@ -107,7 +109,7 @@ class add_monto_page_state extends State<add_monto_page> {
                   },
                   options: Options(headers: {
                     "Authorization":
-                        "Token 8a1e43cd305ea12638c792a056769a075165a3ca"
+                        "Token ${widget.token}"
                   }))
               .whenComplete(() => Navigator.pop(context));
         },

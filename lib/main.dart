@@ -1,4 +1,4 @@
-import 'package:bicheros_frontmobile/home_page.dart';
+import 'package:bicheros_frontmobile/login_page.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(App());
@@ -12,7 +12,7 @@ class App extends StatelessWidget {
         primarySwatch: Colors.blue,
         buttonColor: Colors.black,
       ),
-      home: HomePage(title: 'Bicheros App'),
+      home: loginPage(),
     );
   }
 }

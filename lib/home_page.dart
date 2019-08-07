@@ -4,11 +4,12 @@ import 'saldo_page.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:bicheros_frontmobile/login_page.dart';
 
 class HomePage extends StatefulWidget {
-  final String title;
+  final String token;
 
-  HomePage({Key key, this.title}) : super(key: key);
+  HomePage({Key key, this.token}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -60,10 +61,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future getJsonData() async {
-
     var response = await dio.get('animals/?search=${_filter.text}', options: Options(
       headers: {
-        "Authorization": "Token 8a1e43cd305ea12638c792a056769a075165a3ca"
+        "Authorization": "Token ${widget.token}"
       }
     ));
     setState(() {
@@ -85,13 +85,14 @@ class _HomePageState extends State<HomePage> {
                   : NetworkImage(data[index]["photo"]),
             ),
             title: Text(
-                '${data[index]["id_animal"].toString()} - ${data[index]["name"]}'),
+                ' - ${data[index]["name"]}'),
+            trailing: Text(" ${data[index]["race"]}"),
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) =>
-                      DetailPage(animal: data[index]["id_animal"]),
+                      DetailPage(animal: data[index]["id_animal"], token: widget.token,),
                 ),
               );
             },
@@ -104,17 +105,6 @@ class _HomePageState extends State<HomePage> {
   Widget _renderDrawerItems() {
     return ListView(
       children: <Widget>[
-        ListTile(
-          title: Text("Animales"),
-          /*onTap: () => {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => saldo_page(),
-                  ),
-                )
-              },*/
-        ),
         ListTile(
           title: Text("Veterinarias"),
           /*onTap: () => {
@@ -132,7 +122,7 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => saldo_page(),
+                    builder: (context) => saldo_page(token: widget.token,),
                   ),
                 )
               },
@@ -159,6 +149,12 @@ class _HomePageState extends State<HomePage> {
                 )
               },*/
         ),
+        ListTile(
+          title: Center(child: MaterialButton(onPressed: null, child: Text("Log Out", style: TextStyle(color: Colors.white),), color: Colors.blueAccent,),),
+          onTap: () => {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => loginPage()))
+              },
+        ),
       ],
     );
   }
@@ -167,6 +163,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        //automaticallyImplyLeading: false,
         title: _appBarTitle,
         actions: <Widget>[
           IconButton(
@@ -188,7 +185,7 @@ class _HomePageState extends State<HomePage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => AddAnimalPage(),
+              builder: (context) => AddAnimalPage(token: widget.token,),
             ),
           );
         },

@@ -6,8 +6,9 @@ import 'package:dio/dio.dart';
 
 class DetailPage extends StatefulWidget {
   final animal;
+  final String token;
 
-  DetailPage({Key key, this.animal}) : super(key: key);
+  DetailPage({Key key, this.animal, this.token}) : super(key: key);
 
   @override
   _DetailPageState createState() => _DetailPageState();
@@ -46,7 +47,7 @@ class _DetailPageState extends State<DetailPage> {
   Future getJsonData() async {
     var response = await dio.get("animals/${widget.animal.toString()}/",
         options: Options(headers: {
-          "Authorization": "Token 8a1e43cd305ea12638c792a056769a075165a3ca"
+          "Authorization": "Token ${widget.token}"
         }));
 
     setState(() {
@@ -209,7 +210,7 @@ class _DetailPageState extends State<DetailPage> {
           dio.delete("animals/${widget.animal.toString()}/",
               options: Options(headers: {
                 "Authorization":
-                    "Token 8a1e43cd305ea12638c792a056769a075165a3ca"
+                    "Token ${widget.token}"
               }));
           Navigator.pop(context);
         },
@@ -289,7 +290,7 @@ class _DetailPageState extends State<DetailPage> {
                             responseType: ResponseType.plain,
                             headers: {
                               "Authorization":
-                                  "Token 8a1e43cd305ea12638c792a056769a075165a3ca"
+                                  "Token ${widget.token}"
                             }))
                     .catchError((error) => print(error));
                 Navigator.pop(context);

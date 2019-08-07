@@ -10,9 +10,10 @@ BaseOptions options = new BaseOptions(
 var dio = Dio(options);
 
 class detail_saldo extends StatefulWidget {
+  final token;
   final saldo;
 
-  detail_saldo({Key key, this.saldo}) : super(key: key);
+  detail_saldo({Key key, this.saldo, this.token}) : super(key: key);
 
   @override
   _DetailSaldoState createState() => _DetailSaldoState();
@@ -46,7 +47,7 @@ class _DetailSaldoState extends State<detail_saldo> {
     if (puchito == false) {
       var response = await dio.get("monto/${widget.saldo.toString()}/",
           options: Options(headers: {
-            "Authorization": "Token 8a1e43cd305ea12638c792a056769a075165a3ca"
+            "Authorization": "Token ${widget.token}"
           }));
 
       setState(() {
@@ -122,7 +123,7 @@ class _DetailSaldoState extends State<detail_saldo> {
                   },
                   options: Options(headers: {
                     "Authorization":
-                        "Token 8a1e43cd305ea12638c792a056769a075165a3ca"
+                        "Token ${widget.token}"
                   }))
               .whenComplete(() => Navigator.pop(context));
         },

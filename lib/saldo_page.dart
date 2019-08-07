@@ -7,6 +7,8 @@ import 'package:dio/dio.dart';
 import 'detail_saldo.dart';
 
 class saldo_page extends StatefulWidget {
+  final String token;
+  saldo_page({Key key, this.token}) : super(key: key);
   @override
   saldo_page_state createState() => new saldo_page_state();
 }
@@ -36,7 +38,7 @@ class saldo_page_state extends State<saldo_page> {
   Future getJsonData() async {
     var response = await dio.get("monto/", options: Options(
         headers: {
-          "Authorization": "Token 8a1e43cd305ea12638c792a056769a075165a3ca"
+          "Authorization": "Token ${widget.token}"
         }
     ));
     setState(() {
@@ -77,7 +79,7 @@ class saldo_page_state extends State<saldo_page> {
                   context,
                   MaterialPageRoute(
                     builder: (context) =>
-                        detail_saldo(saldo: balance[index - 1]["id"]),
+                        detail_saldo(saldo: balance[index - 1]["id"], token: widget.token,),
                   ),
                 );
               },
@@ -99,7 +101,7 @@ class saldo_page_state extends State<saldo_page> {
                       "monto/${balance[index - 1]["id"]}/",
                         options: Options(
                             headers: {
-                              "Authorization": "Token 8a1e43cd305ea12638c792a056769a075165a3ca"
+                              "Authorization": "Token ${widget.token}"
                             }
                         )
                     );
@@ -132,7 +134,7 @@ class saldo_page_state extends State<saldo_page> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => add_monto_page(),
+              builder: (context) => add_monto_page(token: widget.token,),
             ),
           );
         },
