@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:bicheros_frontmobile/home_page.dart';
+import 'package:bicheros_frontmobile/register_page.dart';
 
 class loginPage extends StatefulWidget {
   @override
@@ -66,12 +67,14 @@ class loginPageState extends State<loginPage> {
       ),
     );
 
-    final forgotLabel = FlatButton(
+    final registerLabel = FlatButton(
       child: Text(
         'Registrarse',
         style: TextStyle(color: Colors.black54),
       ),
-      onPressed: () {},
+      onPressed: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => registerPage()));
+      },
     );
 
     return Scaffold(
@@ -88,7 +91,7 @@ class loginPageState extends State<loginPage> {
             password,
             SizedBox(height: 24.0),
             loginButton,
-            forgotLabel
+            registerLabel
           ],
         ),
       ),
