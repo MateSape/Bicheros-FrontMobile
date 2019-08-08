@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:bicheros_frontmobile/login_page.dart';
-
+import 'package:bicheros_frontmobile/cap_page.dart';
 class HomePage extends StatefulWidget {
   final String token;
 
@@ -85,8 +85,9 @@ class _HomePageState extends State<HomePage> {
                   : NetworkImage(data[index]["photo"]),
             ),
             title: Text(
-                ' - ${data[index]["name"]}'),
-            trailing: Text(" ${data[index]["race"]}"),
+                ' ${data[index]["name"]}',
+            textAlign: TextAlign.center,),
+            //trailing: Text(" ${data[index]["race"]}"),
             onTap: () {
               Navigator.push(
                 context,
@@ -129,14 +130,14 @@ class _HomePageState extends State<HomePage> {
         ),
         ListTile(
           title: Text("Adoptantes"),
-          /*onTap: () => {
+          onTap: () => {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => saldo_page(),
+                    builder: (context) => capPage(token: widget.token,),
                   ),
                 )
-              },*/
+              },
         ),
         ListTile(
           title: Text("Donaciones"),

@@ -74,8 +74,7 @@ class registerPageState extends State<registerPage> {
             "password1": passwordController.text,
             "password2": password2Controller.text
           });
-          Dio().post("http://192.168.100.231:8080/registration/", data: formData);
-          Navigator.pop(context);
+          var response = Dio().post("http://192.168.100.231:8080/registration/", data: formData).whenComplete((){Navigator.pop(context);});
         },
         padding: EdgeInsets.all(12),
         color: Colors.lightBlueAccent,
