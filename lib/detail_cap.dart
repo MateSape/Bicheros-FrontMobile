@@ -85,7 +85,7 @@ class _DetailCapPageState extends State<DetailCapPage> {
       address.text = data["address"];
       birthdate.text = data["date_of_birth"];
       email.text = data["email"];
-      phone.text = data["phone"];
+      phone.text = data["telefono"];
     }
     return editMode == false ? _renderAnimalDetail() : _renderAnimalEdit();
   }

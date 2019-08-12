@@ -6,6 +6,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:bicheros_frontmobile/login_page.dart';
 import 'package:bicheros_frontmobile/cap_page.dart';
+import 'package:bicheros_frontmobile/donation_page.dart';
+
 class HomePage extends StatefulWidget {
   final String token;
 
@@ -141,14 +143,14 @@ class _HomePageState extends State<HomePage> {
         ),
         ListTile(
           title: Text("Donaciones"),
-          /*onTap: () => {
+          onTap: () => {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => saldo_page(),
+                    builder: (context) => donationPage(token: widget.token,),
                   ),
                 )
-              },*/
+              },
         ),
         ListTile(
           title: Center(child: MaterialButton(onPressed: null, child: Text("Log Out", style: TextStyle(color: Colors.white),), color: Colors.blueAccent,),),
