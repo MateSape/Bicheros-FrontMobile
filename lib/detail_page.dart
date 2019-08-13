@@ -86,11 +86,13 @@ class _DetailPageState extends State<DetailPage> {
           ? ListTile(
               leading: IconButton(
                 onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(title: Image.network(ica["photo"]));
-                      });
+                  if (ica["photo"] != null){
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(title: Image.network(ica["photo"]));
+                        });
+                  };
                 },
                 icon: CircleAvatar(
                   backgroundImage:
@@ -169,19 +171,21 @@ class _DetailPageState extends State<DetailPage> {
       ListTile(
         leading: newImage == null
             ? IconButton(
-                icon: CircleAvatar(
-                  backgroundImage:
-                      ica["photo"] == null ? null : NetworkImage(ica["photo"]),
-                ),
-                onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                            title: Image(image: NetworkImage(ica["photo"])));
-                      });
-                },
-              )
+          icon: CircleAvatar(
+            backgroundImage:
+            ica["photo"] == null ? null : NetworkImage(ica["photo"]),
+          ),
+          onPressed: () {
+            if (ica["photo"] != null){
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                        title: Image(image: NetworkImage(ica["photo"])));
+                  });
+            };
+          },
+        )
             : IconButton(
                 onPressed: () {
                   showDialog(

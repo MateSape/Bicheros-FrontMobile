@@ -17,11 +17,9 @@ class loginPageState extends State<loginPage> {
   @override
   Widget build(BuildContext context) {
     final logo = CircleAvatar(
-        radius: 48.0,
+        radius: 75.0,
         backgroundColor: Colors.transparent,
-        child: Image(
-            image: NetworkImage(
-                "http://192.168.100.231:8080/media/img/logo.png")));
+        child: Image(image: AssetImage("images/logo.png")),);
 
     final username = TextFormField(
       controller: usernameController,

@@ -7,6 +7,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:bicheros_frontmobile/login_page.dart';
 import 'package:bicheros_frontmobile/cap_page.dart';
 import 'package:bicheros_frontmobile/donation_page.dart';
+import 'package:bicheros_frontmobile/veterinaria_page.dart';
 
 class HomePage extends StatefulWidget {
   final String token;
@@ -110,14 +111,14 @@ class _HomePageState extends State<HomePage> {
       children: <Widget>[
         ListTile(
           title: Text("Veterinarias"),
-          /*onTap: () => {
+          onTap: () => {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => saldo_page(),
+                    builder: (context) => VeterinariaPage(token: widget.token,),
                   ),
                 )
-              },*/
+              },
         ),
         ListTile(
           title: Text("Saldo"),

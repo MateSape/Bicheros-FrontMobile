@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:io';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:dio/dio.dart';
 
@@ -112,6 +111,21 @@ class detailDonacionState extends State<detailDonacion> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Modificar donacion"),
+         actions: <Widget>[
+           IconButton(
+             icon: Icon(Icons.delete),
+             onPressed: () {
+               dio.delete(
+                 "donacion/${widget.donation}/",
+                   options: Options(headers: {
+                     "Authorization":
+                     "Token ${widget.token}"
+                   }),
+               );
+               Navigator.pop(context);
+             },
+           )
+         ],
       ),
       body: ica == null
           ? Center(

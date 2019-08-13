@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_picker/flutter_picker.dart';
 
 //wizzard
 BaseOptions options = new BaseOptions(
