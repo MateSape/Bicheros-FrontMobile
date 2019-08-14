@@ -24,7 +24,7 @@ class VeterinariaPageState extends State<VeterinariaPage> {
       // 192.168.0.X
       // 172.20.10.X
       // 192.168.100.235
-      baseUrl: "http://192.168.100.231:8080/api/",
+      baseUrl: "http://192.168.100.113:8080/api/",
     );
 
     dio = Dio(options);
@@ -49,13 +49,13 @@ class VeterinariaPageState extends State<VeterinariaPage> {
             title: Text("${data[index]["name"]}"),
             trailing: Text(' ${data[index]["phone"]}'),
             onTap: () {
-              /*Navigator.push(
+              Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) =>
-                      DetailCapPage(cap: data[index]["id_cap"], token: widget.token,),
+                      DetailVetPage(vet: data[index]["id_veterinaria"], token: widget.token,),
                 ),
-              );*/
+              );
             },
           );
         },
@@ -77,12 +77,12 @@ class VeterinariaPageState extends State<VeterinariaPage> {
       ) : _renderAnimalList(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          /*Navigator.push(
+          Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => AddCapPage(token: widget.token,),
+              builder: (context) => AddVeterinariaPage(token: widget.token,),
             ),
-          );*/
+          );
         },
         tooltip: 'Add',
         child: Icon(Icons.add),

@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 
 //wizzard
 BaseOptions options = new BaseOptions(
-  baseUrl: "http:///192.168.100.235:8000/api/",
+  baseUrl: "http:///192.168.100.113:8000/api/",
 );
 
 var dio = Dio(options);

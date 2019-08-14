@@ -38,7 +38,7 @@ class _DetailPageState extends State<DetailPage> {
       // 192.168.0.X
       // 172.20.10.X
       // 192.168.100.235
-      baseUrl: "http://192.168.100.231:8080/api/",
+      baseUrl: "http://192.168.100.113:8080/api/",
     );
     dio = Dio(options);
     getJsonData();

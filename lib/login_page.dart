@@ -54,7 +54,7 @@ class loginPageState extends State<loginPage> {
             "password": passwordController.text
           });
           token = null;
-          var response = await Dio().post("http://192.168.100.231:8080/auth/login/", data: formData);
+          var response = await Dio().post("http://192.168.100.113:8080/auth/login/", data: formData);
           token = response.data["key"];
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => HomePage(token: token,)));
