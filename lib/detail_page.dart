@@ -7,8 +7,9 @@ import 'package:dio/dio.dart';
 class DetailPage extends StatefulWidget {
   final animal;
   final String token;
+  final String baseDir;
 
-  DetailPage({Key key, this.animal, this.token}) : super(key: key);
+  DetailPage({Key key, this.animal, this.token, this.baseDir}) : super(key: key);
 
   @override
   _DetailPageState createState() => _DetailPageState();
@@ -35,10 +36,7 @@ class _DetailPageState extends State<DetailPage> {
     super.initState();
 
     BaseOptions options = new BaseOptions(
-      // 192.168.0.X
-      // 172.20.10.X
-      // 192.168.100.235
-      baseUrl: "http://192.168.100.113:8080/api/",
+      baseUrl: widget.baseDir+"/api/",
     );
     dio = Dio(options);
     getJsonData();

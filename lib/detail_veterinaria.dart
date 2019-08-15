@@ -3,10 +3,11 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:dio/dio.dart';
 
 class DetailVetPage extends StatefulWidget {
+  final String baseDir;
   final vet;
   final String token;
 
-  DetailVetPage({Key key, this.vet, this.token}) : super(key: key);
+  DetailVetPage({Key key, this.vet, this.token, this.baseDir}) : super(key: key);
 
   @override
   DetailVetPageState createState() => DetailVetPageState();
@@ -29,10 +30,7 @@ class DetailVetPageState extends State<DetailVetPage> {
     super.initState();
 
     BaseOptions options = new BaseOptions(
-      // 192.168.0.X
-      // 172.20.10.X
-      // 192.168.100.235
-      baseUrl: "http://192.168.100.113:8080/api/",
+      baseUrl: widget.baseDir+"/api/",
     );
     dio = Dio(options);
     getJsonData();

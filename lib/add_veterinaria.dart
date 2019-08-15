@@ -5,7 +5,9 @@ import 'package:dio/dio.dart';
 
 class AddVeterinariaPage extends StatefulWidget {
   final String token;
-  AddVeterinariaPage({Key key, this.token}) : super(key: key);
+  final String baseDir;
+
+  AddVeterinariaPage({Key key, this.token, this.baseDir}) : super(key: key);
   @override
   AddVeterinariaPageState createState() => new AddVeterinariaPageState();
 }
@@ -24,10 +26,7 @@ class AddVeterinariaPageState extends State<AddVeterinariaPage> {
     super.initState();
 
     BaseOptions options = new BaseOptions(
-      // 192.168.0.X
-      // 172.20.10.X
-      // 192.168.100.235
-      baseUrl: "http://192.168.100.113:8080/api/",
+      baseUrl: widget.baseDir+"/api/",
     );
     dio = Dio(options);
   }

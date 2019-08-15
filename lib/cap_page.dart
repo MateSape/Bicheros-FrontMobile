@@ -6,8 +6,9 @@ import 'package:bicheros_frontmobile/detail_cap.dart';
 
 class capPage extends StatefulWidget {
   final String token;
+  final String baseDir;
 
-  capPage({Key key, this.token}) : super(key: key);
+  capPage({Key key, this.token, this.baseDir}) : super(key: key);
 
   @override
   _capPageState createState() => _capPageState();
@@ -27,10 +28,7 @@ class _capPageState extends State<capPage> {
   void initState() {
     super.initState();
     BaseOptions options = new BaseOptions(
-      // 192.168.0.X
-      // 172.20.10.X
-      // 192.168.100.235
-      baseUrl: "http://192.168.100.113:8080/api/",
+      baseUrl: widget.baseDir+"/api/",
     );
 
     dio = Dio(options);
@@ -82,7 +80,7 @@ class _capPageState extends State<capPage> {
                 context,
                 MaterialPageRoute(
                   builder: (context) =>
-                      DetailCapPage(cap: data[index]["id_cap"], token: widget.token,),
+                      DetailCapPage(cap: data[index]["id_cap"], token: widget.token, baseDir: widget.baseDir,),
                 ),
               );
             },
@@ -109,7 +107,7 @@ class _capPageState extends State<capPage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => AddCapPage(token: widget.token,),
+              builder: (context) => AddCapPage(token: widget.token, baseDir: widget.baseDir,),
             ),
           );
         },

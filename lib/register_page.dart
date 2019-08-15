@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 
 class registerPage extends StatefulWidget {
+  var baseDir;
+  registerPage({Key key, this.baseDir}) : super(key: key);
   @override
   State<StatefulWidget> createState() =>registerPageState();
 }
@@ -74,7 +76,7 @@ class registerPageState extends State<registerPage> {
             "password1": passwordController.text,
             "password2": password2Controller.text
           });
-          var response = Dio().post("http://192.168.100.113:8080/registration/", data: formData).whenComplete((){Navigator.pop(context);});
+          var response = Dio().post(widget.baseDir+"/registration/", data: formData).whenComplete((){Navigator.pop(context);});
         },
         padding: EdgeInsets.all(12),
         color: Colors.lightBlueAccent,

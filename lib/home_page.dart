@@ -11,8 +11,9 @@ import 'package:bicheros_frontmobile/veterinaria_page.dart';
 
 class HomePage extends StatefulWidget {
   final String token;
+  final String baseDir;
 
-  HomePage({Key key, this.token}) : super(key: key);
+  HomePage({Key key, this.token, this.baseDir}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -32,10 +33,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     BaseOptions options = new BaseOptions(
-      // 192.168.0.X
-      // 172.20.10.X
-      // 192.168.100.235
-      baseUrl: "http://192.168.100.113:8080/api/",
+      baseUrl: widget.baseDir+"/api/",
     );
 
     dio = Dio(options);
@@ -96,7 +94,7 @@ class _HomePageState extends State<HomePage> {
                 context,
                 MaterialPageRoute(
                   builder: (context) =>
-                      DetailPage(animal: data[index]["id_animal"], token: widget.token,),
+                      DetailPage(animal: data[index]["id_animal"], token: widget.token, baseDir: widget.baseDir),
                 ),
               );
             },
@@ -115,7 +113,7 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => VeterinariaPage(token: widget.token,),
+                    builder: (context) => VeterinariaPage(token: widget.token, baseDir: widget.baseDir,),
                   ),
                 )
               },
@@ -126,7 +124,7 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => saldo_page(token: widget.token,),
+                    builder: (context) => saldo_page(token: widget.token, baseDir: widget.baseDir,),
                   ),
                 )
               },
@@ -137,7 +135,7 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => capPage(token: widget.token,),
+                    builder: (context) => capPage(token: widget.token, baseDir: widget.baseDir,),
                   ),
                 )
               },
@@ -148,7 +146,7 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => donationPage(token: widget.token,),
+                    builder: (context) => donationPage(token: widget.token, baseDir: widget.baseDir,),
                   ),
                 )
               },
@@ -189,7 +187,7 @@ class _HomePageState extends State<HomePage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => AddAnimalPage(token: widget.token,),
+              builder: (context) => AddAnimalPage(token: widget.token, baseDir: widget.baseDir),
             ),
           );
         },

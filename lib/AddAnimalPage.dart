@@ -6,7 +6,8 @@ import 'package:dio/dio.dart';
 
 class AddAnimalPage extends StatefulWidget {
   final String token;
-  AddAnimalPage ({Key key, this.token}) : super(key: key);
+  final String baseDir;
+  AddAnimalPage ({Key key, this.token, this.baseDir}) : super(key: key);
   @override
   AddAnimalPageState createState() => new AddAnimalPageState();
 }
@@ -27,10 +28,7 @@ class AddAnimalPageState extends State<AddAnimalPage> {
     super.initState();
 
     BaseOptions options = new BaseOptions(
-        // 192.168.0.X
-        // 172.20.10.X
-        // 192.168.100.235
-        baseUrl: "http://192.168.100.113:8080/api/",);
+        baseUrl: widget.baseDir+"/api/",);
     dio = Dio(options);
   }
 

@@ -8,7 +8,8 @@ import 'detail_saldo.dart';
 
 class saldo_page extends StatefulWidget {
   final String token;
-  saldo_page({Key key, this.token}) : super(key: key);
+  final String baseDir;
+  saldo_page({Key key, this.token, this.baseDir}) : super(key: key);
   @override
   saldo_page_state createState() => new saldo_page_state();
 }
@@ -27,10 +28,7 @@ class saldo_page_state extends State<saldo_page> {
     puchito = true;
 
     BaseOptions options = new BaseOptions(
-        // 192.168.0.X
-        // 172.20.10.X
-        // 192.168.100.235
-        baseUrl: "http://192.168.100.113:8080/api/",);
+        baseUrl: widget.baseDir+"/api/",);
     dio = Dio(options);
     getJsonData();
   }
@@ -79,7 +77,7 @@ class saldo_page_state extends State<saldo_page> {
                   context,
                   MaterialPageRoute(
                     builder: (context) =>
-                        detail_saldo(saldo: balance[index - 1]["id"], token: widget.token,),
+                        detail_saldo(saldo: balance[index - 1]["id"], token: widget.token, baseDir: widget.baseDir,),
                   ),
                 );
               },
@@ -134,7 +132,7 @@ class saldo_page_state extends State<saldo_page> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => add_monto_page(token: widget.token,),
+              builder: (context) => add_monto_page(token: widget.token, baseDir: widget.baseDir),
             ),
           );
         },

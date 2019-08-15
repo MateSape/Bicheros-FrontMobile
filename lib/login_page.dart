@@ -9,6 +9,10 @@ class loginPage extends StatefulWidget {
 }
 
 class loginPageState extends State<loginPage> {
+  // 192.168.0.X
+  // 172.20.10.X
+  // 192.168.100.235
+  var baseDir = "http://192.168.100.113:8080";
   var token;
 
   TextEditingController usernameController = TextEditingController();
@@ -54,10 +58,10 @@ class loginPageState extends State<loginPage> {
             "password": passwordController.text
           });
           token = null;
-          var response = await Dio().post("http://192.168.100.113:8080/auth/login/", data: formData);
+          var response = await Dio().post(baseDir+"/auth/login/", data: formData);
           token = response.data["key"];
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => HomePage(token: token,)));
+              context, MaterialPageRoute(builder: (context) => HomePage(token: token, baseDir: baseDir,)));
         },
         padding: EdgeInsets.all(12),
         color: Colors.lightBlueAccent,
@@ -71,7 +75,7 @@ class loginPageState extends State<loginPage> {
         style: TextStyle(color: Colors.black54),
       ),
       onPressed: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => registerPage()));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => registerPage(baseDir: baseDir,)));
       },
     );
 

@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 
-//wizzard
-BaseOptions options = new BaseOptions(
-  baseUrl: "http:///192.168.100.113:8000/api/",
-);
-
-var dio = Dio(options);
-
 class add_donation_page extends StatefulWidget {
   final token;
-  add_donation_page({Key key, this.token}) : super(key: key);
+  final String baseDir;
+  add_donation_page({Key key, this.token, this.baseDir}) : super(key: key);
   @override
   add_donation_page_state createState() => new add_donation_page_state();
 }
@@ -27,10 +21,7 @@ class add_donation_page_state extends State<add_donation_page> {
     super.initState();
 
     BaseOptions options = new BaseOptions(
-      // 192.168.0.X
-      // 172.20.10.X
-      // 192.168.100.235
-      baseUrl: "http://192.168.100.231:8080/api/",
+      baseUrl: widget.baseDir+"/api/",
     );
     dio = Dio(options);
   }

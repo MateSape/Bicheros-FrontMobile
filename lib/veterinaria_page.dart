@@ -6,8 +6,9 @@ import 'package:bicheros_frontmobile/detail_veterinaria.dart';
 
 class VeterinariaPage extends StatefulWidget {
   final String token;
+  final String baseDir;
 
-  VeterinariaPage({Key key, this.token}) : super(key: key);
+  VeterinariaPage({Key key, this.token, this.baseDir}) : super(key: key);
 
   @override
   VeterinariaPageState createState() => VeterinariaPageState();
@@ -21,10 +22,7 @@ class VeterinariaPageState extends State<VeterinariaPage> {
   void initState() {
     super.initState();
     BaseOptions options = new BaseOptions(
-      // 192.168.0.X
-      // 172.20.10.X
-      // 192.168.100.235
-      baseUrl: "http://192.168.100.113:8080/api/",
+      baseUrl: widget.baseDir+"/api/",
     );
 
     dio = Dio(options);
@@ -53,7 +51,7 @@ class VeterinariaPageState extends State<VeterinariaPage> {
                 context,
                 MaterialPageRoute(
                   builder: (context) =>
-                      DetailVetPage(vet: data[index]["id_veterinaria"], token: widget.token,),
+                      DetailVetPage(vet: data[index]["id_veterinaria"], token: widget.token, baseDir: widget.baseDir,),
                 ),
               );
             },
@@ -80,7 +78,7 @@ class VeterinariaPageState extends State<VeterinariaPage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => AddVeterinariaPage(token: widget.token,),
+              builder: (context) => AddVeterinariaPage(token: widget.token, baseDir: widget.baseDir,),
             ),
           );
         },

@@ -11,8 +11,9 @@ var dio = Dio(options);
 class detailDonacion extends StatefulWidget {
   final token;
   final donation;
+  final String baseDir;
 
-  detailDonacion({Key key, this.donation, this.token}) : super(key: key);
+  detailDonacion({Key key, this.donation, this.token, this.baseDir}) : super(key: key);
 
   @override
   detailDonacionState createState() => detailDonacionState();
@@ -34,10 +35,7 @@ class detailDonacionState extends State<detailDonacion> {
     super.initState();
 
     BaseOptions options = new BaseOptions(
-      // 192.168.0.X
-      // 172.20.10.X
-      // 192.168.100.235
-      baseUrl: "http://192.168.100.113:8080/api/",
+      baseUrl: widget.baseDir+"/api/",
     );
     dio = Dio(options);
   }

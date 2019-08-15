@@ -5,8 +5,9 @@ import 'package:dio/dio.dart';
 class DetailCapPage extends StatefulWidget {
   final cap;
   final String token;
+  final String baseDir;
 
-  DetailCapPage({Key key, this.cap, this.token}) : super(key: key);
+  DetailCapPage({Key key, this.cap, this.token, this.baseDir}) : super(key: key);
 
   @override
   _DetailCapPageState createState() => _DetailCapPageState();
@@ -31,10 +32,7 @@ class _DetailCapPageState extends State<DetailCapPage> {
     super.initState();
 
     BaseOptions options = new BaseOptions(
-      // 192.168.0.X
-      // 172.20.10.X
-      // 192.168.100.235
-      baseUrl: "http://192.168.100.113:8080/api/",
+      baseUrl: widget.baseDir+"/api/",
     );
     dio = Dio(options);
     getJsonData();

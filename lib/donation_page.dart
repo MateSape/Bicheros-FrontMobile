@@ -6,8 +6,8 @@ import 'package:bicheros_frontmobile/detail_donation.dart';
 
 class donationPage extends StatefulWidget {
   final String token;
-
-  donationPage({Key key, this.token}) : super(key: key);
+  final String baseDir;
+  donationPage({Key key, this.token, this.baseDir}) : super(key: key);
 
   @override
   donationPageState createState() => donationPageState();
@@ -27,10 +27,7 @@ class donationPageState extends State<donationPage> {
   void initState() {
     super.initState();
     BaseOptions options = new BaseOptions(
-      // 192.168.0.X
-      // 172.20.10.X
-      // 192.168.100.235
-      baseUrl: "http://192.168.100.113:8080/api/",
+      baseUrl: widget.baseDir+"/api/",
     );
 
     dio = Dio(options);
@@ -82,7 +79,7 @@ class donationPageState extends State<donationPage> {
                 context,
                 MaterialPageRoute(
                   builder: (context) =>
-                      detailDonacion(donation: data[index]["id_donation"], token: widget.token,),
+                      detailDonacion(donation: data[index]["id_donation"], token: widget.token, baseDir: widget.baseDir,),
                 ),
               );
             },
@@ -109,7 +106,7 @@ class donationPageState extends State<donationPage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => add_donation_page(token: widget.token,),
+              builder: (context) => add_donation_page(token: widget.token, baseDir: widget.baseDir,),
             ),
           );
         },

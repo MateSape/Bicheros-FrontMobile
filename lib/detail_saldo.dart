@@ -3,17 +3,12 @@ import 'dart:io';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:dio/dio.dart';
 
-BaseOptions options = new BaseOptions(
-  baseUrl: "http:///192.168.100.235:8000/api/",
-);
-
-var dio = Dio(options);
-
 class detail_saldo extends StatefulWidget {
   final token;
+  final String baseDir;
   final saldo;
 
-  detail_saldo({Key key, this.saldo, this.token}) : super(key: key);
+  detail_saldo({Key key, this.saldo, this.token, this.baseDir}) : super(key: key);
 
   @override
   _DetailSaldoState createState() => _DetailSaldoState();
@@ -35,10 +30,7 @@ class _DetailSaldoState extends State<detail_saldo> {
     super.initState();
 
     BaseOptions options = new BaseOptions(
-      // 192.168.0.X
-      // 172.20.10.X
-      // 192.168.100.235
-      baseUrl: "http://192.168.100.113:8080/api/",
+      baseUrl: widget.baseDir+"/api/",
     );
     dio = Dio(options);
   }

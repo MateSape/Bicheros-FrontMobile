@@ -10,7 +10,8 @@ var dio = Dio(options);
 
 class add_monto_page extends StatefulWidget {
   final token;
-  add_monto_page({Key key, this.token}) : super(key: key);
+  final String baseDir;
+  add_monto_page({Key key, this.token, this.baseDir}) : super(key: key);
   @override
   add_monto_page_state createState() => new add_monto_page_state();
 }
@@ -27,10 +28,7 @@ class add_monto_page_state extends State<add_monto_page> {
     super.initState();
 
     BaseOptions options = new BaseOptions(
-      // 192.168.0.X
-      // 172.20.10.X
-      // 192.168.100.235
-      baseUrl: "http://192.168.100.113:8080/api/",
+      baseUrl: widget.baseDir+"/api/",
     );
     dio = Dio(options);
   }
