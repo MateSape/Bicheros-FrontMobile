@@ -146,7 +146,7 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => donationPage(token: widget.token, baseDir: widget.baseDir,),
+                    builder: (context) => donationPage(token: widget.token, baseDir: widget.baseDir ,),
                   ),
                 )
               },

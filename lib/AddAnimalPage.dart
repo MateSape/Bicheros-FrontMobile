@@ -7,7 +7,7 @@ import 'package:dio/dio.dart';
 class AddAnimalPage extends StatefulWidget {
   final String token;
   final String baseDir;
-  AddAnimalPage ({Key key, this.token, this.baseDir}) : super(key: key);
+  AddAnimalPage({Key key, this.token, this.baseDir}) : super(key: key);
   @override
   AddAnimalPageState createState() => new AddAnimalPageState();
 }
@@ -22,14 +22,18 @@ class AddAnimalPageState extends State<AddAnimalPage> {
   var placeFounded = new TextEditingController();
   var species = new TextEditingController();
   var gender = false;
+  var dropdownValue = null;
+  var dropdownButton;
+  List<DropdownMenuItem<String>> caps;
 
   @override
   void initState() {
-    super.initState();
-
     BaseOptions options = new BaseOptions(
-        baseUrl: widget.baseDir+"/api/",);
+      baseUrl: widget.baseDir + "/api/",
+    );
     dio = Dio(options);
+    getCaps();
+    super.initState();
   }
 
   Future getImage() async {
@@ -37,6 +41,21 @@ class AddAnimalPageState extends State<AddAnimalPage> {
 
     setState(() {
       image = image2;
+    });
+  }
+
+  Future getCaps() async {
+    caps = [];
+    var response = await dio.get('cap/',
+        options: Options(headers: {"Authorization": "Token ${widget.token}"}));
+    setState(() {
+      for (int x = 0; x < response.data.length; x++) {
+        caps.add(DropdownMenuItem(
+          child: Text(
+              response.data[x]["nameC"] + " " + response.data[x]["last_nameC"]),
+          value: response.data[x]["id_cap"].toString(),
+        ));
+      }
     });
   }
 
@@ -57,7 +76,6 @@ class AddAnimalPageState extends State<AddAnimalPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
         title: Text("Agregar Animal"),
       ),
       body: ListView(
@@ -73,6 +91,20 @@ class AddAnimalPageState extends State<AddAnimalPage> {
             title: TextField(
               controller: placeFounded,
             ),
+          ),
+          ListTile(
+            title: DropdownButton<String>(
+              hint: Text("Seleccione una opcion"),
+              value: dropdownValue,
+              items: caps.length == 0 ? null :  caps,
+              onChanged: (value) {
+                print (value);
+                setState(() {
+                  dropdownValue = value;
+                });
+              },
+            ),
+            leading: Text("Cap"),
           ),
           ListTile(
               leading: Text("Fecha Encontrado: "),
@@ -165,20 +197,19 @@ class AddAnimalPageState extends State<AddAnimalPage> {
                 "-" +
                 dateFounded.day.toString(),
             "place_founded": placeFounded.text,
-            "photo": image == null ? null : UploadFileInfo(image, image.path),
+            "cap": int.parse(dropdownValue),
+            "veterinaria": null,
+            //"photo": image == null ? null : UploadFileInfo(image, image.path),
             "species": species.text,
             "gender": gender == false ? 0 : 1,
           });
-          print(formData);
           dio
               .post("animals/",
                   data: formData,
-                  options:
-                      Options(method: 'POST', responseType: ResponseType.plain,
-                          headers: {
-                            "Authorization": "Token ${widget.token}"
-                          }
-                      ))
+                  options: Options(
+                      method: 'POST',
+                      responseType: ResponseType.plain,
+                      headers: {"Authorization": "Token ${widget.token}"}))
               .whenComplete(() => Navigator.pop(context));
         },
         child: Icon(
