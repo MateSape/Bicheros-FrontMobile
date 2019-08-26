@@ -26,9 +26,9 @@ class _DetailPageState extends State<DetailPage> {
   List<DropdownMenuItem<String>> caps = [];
   var cap;
   var capValue;
-  var veterinarias = [];
-  var veterinaria;
-  var veterinariaValue;
+  List<DropdownMenuItem<String>> vets = [];
+  var vet;
+  var vetValue;
   var dateFounded = new TextEditingController();
   var gender;
   var placeFounded = new TextEditingController();
@@ -56,8 +56,16 @@ class _DetailPageState extends State<DetailPage> {
     setState(() {
       ica = response.data;
     });
-    getCap();
+
+    if (ica["cap"] != null){
+      getCap();
+    }
     getCaps();
+
+    if (ica["veterinaria"] != null){
+      getVet();
+    }
+    getVets();
   }
 
   Future getImage() async {
@@ -81,11 +89,42 @@ class _DetailPageState extends State<DetailPage> {
     var response = await dio.get('cap/',
         options: Options(headers: {"Authorization": "Token ${widget.token}"}));
     setState(() {
+      caps.add(DropdownMenuItem(
+        child: Text("Ninguno."),
+        value: "9999",
+      ));
       for (int x = 0; x < response.data.length; x++) {
         caps.add(DropdownMenuItem(
           child: Text(
               response.data[x]["nameC"] + " " + response.data[x]["last_nameC"]),
           value: response.data[x]["id_cap"].toString(),
+        ));
+      }
+    });
+  }
+
+  Future getVet() async {
+    var response = await dio.get("veterinaria/${ica["veterinaria"].toString()}/",options: Options(headers: {
+      "Authorization": "Token ${widget.token}"
+    }));
+    setState(() {
+      vet = response.data;
+    });
+  }
+
+  Future getVets() async {
+    var response = await dio.get('veterinaria/',
+        options: Options(headers: {"Authorization": "Token ${widget.token}"}));
+    setState(() {
+      vets.add(DropdownMenuItem(
+        child: Text("Ninguno."),
+        value: "9999",
+      ));
+      for (int x = 0; x < response.data.length; x++) {
+        vets.add(DropdownMenuItem(
+          child: Text(
+              response.data[x]["name"]),
+          value: response.data[x]["id_veterinaria"].toString(),
         ));
       }
     });
@@ -104,7 +143,8 @@ class _DetailPageState extends State<DetailPage> {
       Text("Lugar encontrado: ${ica["place_founded"]}"),
       Text("Fecha encontrado: ${ica["date_founded"]}"),
       Text("Raza: ${ica["race"]}"),
-      Text("Adoptante: " + (cap == null ? " Ninguno" : cap["nameC"] + " " + cap["last_nameC"])),
+      Text("Adoptante: " + (cap == null ? " Ninguno." : cap["nameC"] + " " + cap["last_nameC"])),
+      Text("Ubicacion actual: " + (vet == null ? " Ninguna." : vet["name"])),
       Text("Sexo: ${ica["gender"]}"),
       Text("Especie: ${ica["species"]}"),
     ];
@@ -144,6 +184,16 @@ class _DetailPageState extends State<DetailPage> {
       race.text = ica["race"];
       gender = ica["gender"] == "Masculino" ? false : true;
       species.text = ica["species"];
+      if (ica["cap"] == null){
+        capValue = "9999";
+      }else{
+        capValue = ica["cap"].toString();
+      }
+      if (ica["veterinaria"] == null){
+        vetValue = "9999";
+      }else{
+        vetValue = ica["veterinaria"].toString();
+      }
     }
     return editMode == false ? _renderAnimalDetail() : _renderAnimalEdit();
   }
@@ -186,6 +236,20 @@ class _DetailPageState extends State<DetailPage> {
           },
         ),
         leading: Text("Cap"),
+      ),
+      ListTile(
+        title: DropdownButton<String>(
+          hint: Text("Seleccione una opcion"),
+          value: vetValue,
+          items: vets.length == 0 ? null :  vets,
+          onChanged: (value) {
+            print (value);
+            setState(() {
+              vetValue = value;
+            });
+          },
+        ),
+        leading: Text("Ubicacion actual: "),
       ),
       ListTile(
         leading: Text("sexo"),
@@ -316,8 +380,8 @@ class _DetailPageState extends State<DetailPage> {
                     "place_founded": placeFounded.text,
                     "date_founded": dateFounded.text,
                     "species": species.text,
-                    "cap": int.parse(capValue),
-                    "veterinaria": null,
+                    "cap": capValue == "9999" ? null : int.parse(capValue),
+                    "veterinaria": vetValue == "9999" ? null : int.parse(vetValue),
                     "gender": gender == false ? 0 : 1,
                   });
                 } else {
@@ -327,8 +391,8 @@ class _DetailPageState extends State<DetailPage> {
                     "place_founded": placeFounded.text,
                     "date_founded": dateFounded.text,
                     "species": species.text,
-                    "cap": int.parse(capValue),
-                    "veterinaria": null,
+                    "cap": capValue == "9999" ? null : int.parse(capValue),
+                    "veterinaria": vetValue == "9999" ? null : int.parse(vetValue),
                     "gender": gender == false ? 0 : 1,
                   });
                 }

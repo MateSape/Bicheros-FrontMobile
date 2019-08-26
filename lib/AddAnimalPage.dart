@@ -22,9 +22,12 @@ class AddAnimalPageState extends State<AddAnimalPage> {
   var placeFounded = new TextEditingController();
   var species = new TextEditingController();
   var gender = false;
-  var dropdownValue = null;
+  var dropdownValue;
+  var dropdownValue2;
+
   var dropdownButton;
-  List<DropdownMenuItem<String>> caps;
+  List<DropdownMenuItem<String>> caps = [];
+  List<DropdownMenuItem<String>> vets = [];
 
   @override
   void initState() {
@@ -33,6 +36,7 @@ class AddAnimalPageState extends State<AddAnimalPage> {
     );
     dio = Dio(options);
     getCaps();
+    getVets();
     super.initState();
   }
 
@@ -45,15 +49,36 @@ class AddAnimalPageState extends State<AddAnimalPage> {
   }
 
   Future getCaps() async {
-    caps = [];
     var response = await dio.get('cap/',
         options: Options(headers: {"Authorization": "Token ${widget.token}"}));
     setState(() {
+      caps.add(DropdownMenuItem(
+        child: Text("Ninguno."),
+        value: "9999",
+      ));
       for (int x = 0; x < response.data.length; x++) {
         caps.add(DropdownMenuItem(
           child: Text(
               response.data[x]["nameC"] + " " + response.data[x]["last_nameC"]),
           value: response.data[x]["id_cap"].toString(),
+        ));
+      }
+    });
+  }
+  Future getVets() async {
+    var response = await dio.get('veterinaria/',
+        options: Options(headers: {"Authorization": "Token ${widget.token}"}));
+    print(response.data);
+    setState(() {
+      vets.add(DropdownMenuItem(
+        child: Text("Ninguno."),
+        value: "9999",
+      ));
+      for (int x = 0; x < response.data.length; x++) {
+        vets.add(DropdownMenuItem(
+          child: Text(
+              response.data[x]["name"]),
+          value: response.data[x]["id_veterinaria"].toString(),
         ));
       }
     });
@@ -91,20 +116,6 @@ class AddAnimalPageState extends State<AddAnimalPage> {
             title: TextField(
               controller: placeFounded,
             ),
-          ),
-          ListTile(
-            title: DropdownButton<String>(
-              hint: Text("Seleccione una opcion"),
-              value: dropdownValue,
-              items: caps.length == 0 ? null :  caps,
-              onChanged: (value) {
-                print (value);
-                setState(() {
-                  dropdownValue = value;
-                });
-              },
-            ),
-            leading: Text("Cap"),
           ),
           ListTile(
               leading: Text("Fecha Encontrado: "),
@@ -163,6 +174,34 @@ class AddAnimalPageState extends State<AddAnimalPage> {
             ),
           ),
           ListTile(
+            title: DropdownButton<String>(
+              hint: Text("Seleccione una opcion"),
+              value: dropdownValue,
+              items: caps.length == 0 ? null :  caps,
+              onChanged: (value) {
+                print (value);
+                setState(() {
+                  dropdownValue = value;
+                });
+              },
+            ),
+            leading: Text("Cap"),
+          ),ListTile(
+            title: DropdownButton<String>(
+              hint: Text("Seleccione una opcion"),
+              value: dropdownValue2,
+              items: vets.length == 0 ? null :  vets,
+              onChanged: (value) {
+                print (value);
+                setState(() {
+                  dropdownValue2 = value;
+                });
+              },
+            ),
+            leading: Text("Ubicacion actual: "),
+          ),
+
+          ListTile(
               leading: Text("Sexo: "),
               title: MaterialButton(
                 onPressed: () {
@@ -197,8 +236,8 @@ class AddAnimalPageState extends State<AddAnimalPage> {
                 "-" +
                 dateFounded.day.toString(),
             "place_founded": placeFounded.text,
-            "cap": int.parse(dropdownValue),
-            "veterinaria": null,
+            "cap": dropdownValue == "9999" ? null : int.parse(dropdownValue),
+            "veterinaria": dropdownValue2 == "9999" ? null : int.parse(dropdownValue2),
             //"photo": image == null ? null : UploadFileInfo(image, image.path),
             "species": species.text,
             "gender": gender == false ? 0 : 1,
