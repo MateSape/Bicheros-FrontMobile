@@ -23,11 +23,16 @@ class _DetailPageState extends State<DetailPage> {
   File newImage;
   var name = new TextEditingController();
   var race = new TextEditingController();
+  List<DropdownMenuItem<String>> caps = [];
+  var cap;
+  var capValue;
+  var veterinarias = [];
+  var veterinaria;
+  var veterinariaValue;
   var dateFounded = new TextEditingController();
   var gender;
   var placeFounded = new TextEditingController();
   var species = new TextEditingController();
-
   var editMode = false;
   var ica;
 
@@ -51,6 +56,8 @@ class _DetailPageState extends State<DetailPage> {
     setState(() {
       ica = response.data;
     });
+    getCap();
+    getCaps();
   }
 
   Future getImage() async {
@@ -58,6 +65,29 @@ class _DetailPageState extends State<DetailPage> {
 
     setState(() {
       newImage = image2;
+    });
+  }
+
+  Future getCap() async {
+    var response = await dio.get("cap/${ica["cap"].toString()}/",options: Options(headers: {
+      "Authorization": "Token ${widget.token}"
+    }));
+    setState(() {
+    cap = response.data;
+    });
+  }
+
+  Future getCaps() async {
+    var response = await dio.get('cap/',
+        options: Options(headers: {"Authorization": "Token ${widget.token}"}));
+    setState(() {
+      for (int x = 0; x < response.data.length; x++) {
+        caps.add(DropdownMenuItem(
+          child: Text(
+              response.data[x]["nameC"] + " " + response.data[x]["last_nameC"]),
+          value: response.data[x]["id_cap"].toString(),
+        ));
+      }
     });
   }
 
@@ -74,6 +104,7 @@ class _DetailPageState extends State<DetailPage> {
       Text("Lugar encontrado: ${ica["place_founded"]}"),
       Text("Fecha encontrado: ${ica["date_founded"]}"),
       Text("Raza: ${ica["race"]}"),
+      Text("Adoptante: " + (cap == null ? " Ninguno" : cap["nameC"] + " " + cap["last_nameC"])),
       Text("Sexo: ${ica["gender"]}"),
       Text("Especie: ${ica["species"]}"),
     ];
@@ -142,6 +173,19 @@ class _DetailPageState extends State<DetailPage> {
         title: TextField(
           controller: race,
         ),
+      ),
+      ListTile(
+        title: DropdownButton<String>(
+          hint: Text("Seleccione una opcion"),
+          value: capValue,
+          items: caps.length == 0 ? null :  caps,
+          onChanged: (value) {
+            setState(() {
+              capValue = value;
+            });
+          },
+        ),
+        leading: Text("Cap"),
       ),
       ListTile(
         leading: Text("sexo"),
@@ -264,6 +308,7 @@ class _DetailPageState extends State<DetailPage> {
           ? null
           : FloatingActionButton(
               onPressed: () {
+                print(capValue);
                 if (newImage == null) {
                   formData = new FormData.from({
                     "name": name.text,
@@ -271,6 +316,8 @@ class _DetailPageState extends State<DetailPage> {
                     "place_founded": placeFounded.text,
                     "date_founded": dateFounded.text,
                     "species": species.text,
+                    "cap": int.parse(capValue),
+                    "veterinaria": null,
                     "gender": gender == false ? 0 : 1,
                   });
                 } else {
@@ -280,8 +327,9 @@ class _DetailPageState extends State<DetailPage> {
                     "place_founded": placeFounded.text,
                     "date_founded": dateFounded.text,
                     "species": species.text,
+                    "cap": int.parse(capValue),
+                    "veterinaria": null,
                     "gender": gender == false ? 0 : 1,
-                    "photo": UploadFileInfo(newImage, newImage.path),
                   });
                 }
                 dio
