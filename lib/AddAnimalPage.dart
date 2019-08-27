@@ -24,6 +24,7 @@ class AddAnimalPageState extends State<AddAnimalPage> {
   var gender = false;
   var dropdownValue;
   var dropdownValue2;
+  var temperamento = new TextEditingController();
 
   var dropdownButton;
   List<DropdownMenuItem<String>> caps = [];
@@ -68,7 +69,6 @@ class AddAnimalPageState extends State<AddAnimalPage> {
   Future getVets() async {
     var response = await dio.get('veterinaria/',
         options: Options(headers: {"Authorization": "Token ${widget.token}"}));
-    print(response.data);
     setState(() {
       vets.add(DropdownMenuItem(
         child: Text("Ninguno."),
@@ -179,7 +179,6 @@ class AddAnimalPageState extends State<AddAnimalPage> {
               value: dropdownValue,
               items: caps.length == 0 ? null :  caps,
               onChanged: (value) {
-                print (value);
                 setState(() {
                   dropdownValue = value;
                 });
@@ -192,7 +191,6 @@ class AddAnimalPageState extends State<AddAnimalPage> {
               value: dropdownValue2,
               items: vets.length == 0 ? null :  vets,
               onChanged: (value) {
-                print (value);
                 setState(() {
                   dropdownValue2 = value;
                 });
@@ -223,6 +221,12 @@ class AddAnimalPageState extends State<AddAnimalPage> {
               controller: species,
             ),
           ),
+          ListTile(
+            leading: Text("Temperamento: "),
+            title: TextField(
+              controller: temperamento,
+            ),
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -230,6 +234,7 @@ class AddAnimalPageState extends State<AddAnimalPage> {
           FormData formData = new FormData.from({
             "name": name.text,
             "race": race.text,
+            "temperamento": temperamento.text,
             "date_founded": dateFounded.year.toString() +
                 "-" +
                 dateFounded.month.toString() +

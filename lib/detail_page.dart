@@ -33,6 +33,7 @@ class _DetailPageState extends State<DetailPage> {
   var gender;
   var placeFounded = new TextEditingController();
   var species = new TextEditingController();
+  var temperamento = new TextEditingController();
   var editMode = false;
   var ica;
 
@@ -147,6 +148,7 @@ class _DetailPageState extends State<DetailPage> {
       Text("Ubicacion actual: " + (vet == null ? " Ninguna." : vet["name"])),
       Text("Sexo: ${ica["gender"]}"),
       Text("Especie: ${ica["species"]}"),
+      Text("Temperamento: ${ica["temperamento"]}"),
     ];
 
     return ListView.separated(
@@ -194,6 +196,7 @@ class _DetailPageState extends State<DetailPage> {
       }else{
         vetValue = ica["veterinaria"].toString();
       }
+      temperamento.text = ica["temperamento"];
     }
     return editMode == false ? _renderAnimalDetail() : _renderAnimalEdit();
   }
@@ -243,7 +246,6 @@ class _DetailPageState extends State<DetailPage> {
           value: vetValue,
           items: vets.length == 0 ? null :  vets,
           onChanged: (value) {
-            print (value);
             setState(() {
               vetValue = value;
             });
@@ -272,6 +274,12 @@ class _DetailPageState extends State<DetailPage> {
         leading: Text("Especie"),
         title: TextField(
           controller: species,
+        ),
+      ),
+      ListTile(
+        leading: Text("Temperamento"),
+        title: TextField(
+          controller: temperamento,
         ),
       ),
       ListTile(
@@ -372,7 +380,6 @@ class _DetailPageState extends State<DetailPage> {
           ? null
           : FloatingActionButton(
               onPressed: () {
-                print(capValue);
                 if (newImage == null) {
                   formData = new FormData.from({
                     "name": name.text,
