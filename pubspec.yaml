@@ -27,7 +27,7 @@ dependencies:
   image_picker: ^0.6.0
   dio: ^2.1.0
   flutter_picker: ^1.0.13
-
+  rflutter_alert: ^1.0.2
 
 dev_dependencies:
   flutter_test:

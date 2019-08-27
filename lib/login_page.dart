@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:bicheros_frontmobile/home_page.dart';
 import 'package:bicheros_frontmobile/register_page.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class loginPage extends StatefulWidget {
   @override
@@ -21,9 +22,10 @@ class loginPageState extends State<loginPage> {
   @override
   Widget build(BuildContext context) {
     final logo = CircleAvatar(
-        radius: 75.0,
-        backgroundColor: Colors.transparent,
-        child: Image(image: AssetImage("images/logo.png")),);
+      radius: 75.0,
+      backgroundColor: Colors.transparent,
+      child: Image(image: AssetImage("images/logo.png")),
+    );
 
     final username = TextFormField(
       controller: usernameController,
@@ -58,10 +60,27 @@ class loginPageState extends State<loginPage> {
             "password": passwordController.text
           });
           token = null;
-          var response = await Dio().post(baseDir+"/auth/login/", data: formData);
-          token = response.data["key"];
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => HomePage(token: token, baseDir: baseDir,)));
+
+
+          try {
+            var response =
+            await Dio().post(baseDir + "/auth/login/", data: formData);
+            print(response);
+            token = response.data["key"];
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => HomePage(
+                      token: token,
+                      baseDir: baseDir,
+                    )));
+          } catch (e) {
+            Alert(
+                context: context,
+                title: "Error",
+                desc: "Usuario y/o constraseña incorrectos.")
+                .show();
+          }
         },
         padding: EdgeInsets.all(12),
         color: Colors.lightBlueAccent,
@@ -75,7 +94,12 @@ class loginPageState extends State<loginPage> {
         style: TextStyle(color: Colors.black54),
       ),
       onPressed: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => registerPage(baseDir: baseDir,)));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => registerPage(
+                      baseDir: baseDir,
+                    )));
       },
     );
 
