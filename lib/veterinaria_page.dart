@@ -17,6 +17,7 @@ class VeterinariaPage extends StatefulWidget {
 class VeterinariaPageState extends State<VeterinariaPage> {
   var dio;
   List data;
+  var search = new TextEditingController();
 
   @override
   void initState() {
@@ -30,7 +31,7 @@ class VeterinariaPageState extends State<VeterinariaPage> {
   }
 
   Future getJsonData() async {
-    var response = await dio.get('veterinaria/',
+    var response = await dio.get('veterinaria/?search=${search.text}',
         options: Options(headers: {"Authorization": "Token ${widget.token}"}));
     setState(() {
       data = response.data;
@@ -41,21 +42,32 @@ class VeterinariaPageState extends State<VeterinariaPage> {
     return RefreshIndicator(
       onRefresh: () => getJsonData(),
       child: ListView.builder(
-        itemCount: data == null ? 0 : data.length,
+        itemCount: data == null ? 0 : data.length+1,
         itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            title: Text("${data[index]["name"]}"),
-            trailing: Text(' ${data[index]["phone"]}'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      DetailVetPage(vet: data[index]["id_veterinaria"], token: widget.token, baseDir: widget.baseDir,),
-                ),
-              );
-            },
-          );
+          if (index == 0){
+            return ListTile(
+              title: TextField(
+                controller: search,
+              ),
+              trailing: IconButton(icon: Icon(Icons.search),
+              onPressed: () => getJsonData(),),
+            );
+          }
+          else{
+            return ListTile(
+              title: Text("${data[index-1]["name"]}"),
+              trailing: Text(' ${data[index-1]["phone"]}'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        DetailVetPage(vet: data[index-1]["id_veterinaria"], token: widget.token, baseDir: widget.baseDir,),
+                  ),
+                );
+              },
+            );
+          }
         },
       ),
     );
