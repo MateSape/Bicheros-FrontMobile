@@ -22,51 +22,42 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   var dio;
   var _filter = new TextEditingController(text: "");
+  var sexFilter ="";
   Icon _searchIcon = new Icon(
     Icons.search,
     color: Colors.white,
   );
   Widget _appBarTitle = new Text("Bichero's App");
   List data;
+  List<DropdownMenuItem<String>> sexos = [
+    DropdownMenuItem(
+      child: Text("Ninguno."),
+      value: "",
+    ),
+    DropdownMenuItem(
+      child: Text("Macho"),
+      value: "0",
+    ),
+    DropdownMenuItem(
+      child: Text("Hembra"),
+      value: "1",
+    )
+  ];
 
   @override
   void initState() {
     super.initState();
     BaseOptions options = new BaseOptions(
-      baseUrl: widget.baseDir+"/api/",
+      baseUrl: widget.baseDir + "/api/",
     );
 
     dio = Dio(options);
     getJsonData();
   }
 
-  void _searchPressed() {
-    setState(() {
-      if (this._searchIcon.icon == Icons.search) {
-        this._searchIcon = new Icon(Icons.close);
-        _filter.addListener(() {
-          getJsonData();
-        });
-        this._appBarTitle = new TextField(
-          controller: _filter,
-          decoration: new InputDecoration(
-            hintText: 'Buscar...',
-          ),
-        );
-      } else {
-        this._searchIcon = new Icon(Icons.search);
-        this._appBarTitle = new Text("Bichero's App");
-        _filter.clear();
-      }
-    });
-  }
-
   Future getJsonData() async {
-    var response = await dio.get('animals/?search=${_filter.text}', options: Options(
-      headers: {
-        "Authorization": "Token ${widget.token}"
-      }
-    ));
+    var response = await dio.get('animals/?search=${sexFilter} ${_filter.text}',
+        options: Options(headers: {"Authorization": "Token ${widget.token}"}));
     setState(() {
       data = response.data;
     });
@@ -77,24 +68,46 @@ class _HomePageState extends State<HomePage> {
     return RefreshIndicator(
       onRefresh: () => getJsonData(),
       child: ListView.builder(
-        itemCount: data == null ? 0 : data.length,
+        itemCount: data == null ? 0 : data.length + 1,
         itemBuilder: (BuildContext context, int index) {
+          if (index == 0) {
+            return ListTile(
+              title: TextField(
+                controller: _filter,
+              ),
+              trailing: IconButton(
+                icon: Icon(Icons.search),
+                onPressed: () => getJsonData(),
+              ),
+              leading: DropdownButton(
+                items: sexos,
+                value: sexFilter,
+                onChanged: (value) {
+                  setState(() {
+                    sexFilter = value;
+                  });
+                },
+              ),
+            );
+          }
           return ListTile(
             leading: CircleAvatar(
-              backgroundImage: data[index]["photo"] == null
+              backgroundImage: data[index - 1]["photo"] == null
                   ? null
-                  : NetworkImage(data[index]["photo"]),
+                  : NetworkImage(data[index - 1]["photo"]),
             ),
             title: Text(
-                ' ${data[index]["name"]}',
-            textAlign: TextAlign.center,),
-            //trailing: Text(" ${data[index]["race"]}"),
+              ' ${data[index - 1]["name"]}',
+              textAlign: TextAlign.center,
+            ),
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>
-                      DetailPage(animal: data[index]["id_animal"], token: widget.token, baseDir: widget.baseDir),
+                  builder: (context) => DetailPage(
+                      animal: data[index - 1]["id_animal"],
+                      token: widget.token,
+                      baseDir: widget.baseDir),
                 ),
               );
             },
@@ -113,7 +126,10 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => VeterinariaPage(token: widget.token, baseDir: widget.baseDir,),
+                    builder: (context) => VeterinariaPage(
+                          token: widget.token,
+                          baseDir: widget.baseDir,
+                        ),
                   ),
                 )
               },
@@ -124,7 +140,10 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => saldo_page(token: widget.token, baseDir: widget.baseDir,),
+                    builder: (context) => saldo_page(
+                          token: widget.token,
+                          baseDir: widget.baseDir,
+                        ),
                   ),
                 )
               },
@@ -135,7 +154,10 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => capPage(token: widget.token, baseDir: widget.baseDir,),
+                    builder: (context) => capPage(
+                          token: widget.token,
+                          baseDir: widget.baseDir,
+                        ),
                   ),
                 )
               },
@@ -146,15 +168,28 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => donationPage(token: widget.token, baseDir: widget.baseDir ,),
+                    builder: (context) => donationPage(
+                          token: widget.token,
+                          baseDir: widget.baseDir,
+                        ),
                   ),
                 )
               },
         ),
         ListTile(
-          title: Center(child: MaterialButton(onPressed: null, child: Text("Log Out", style: TextStyle(color: Colors.white),), color: Colors.blueAccent,),),
+          title: Center(
+            child: MaterialButton(
+              onPressed: null,
+              child: Text(
+                "Log Out",
+                style: TextStyle(color: Colors.white),
+              ),
+              color: Colors.blueAccent,
+            ),
+          ),
           onTap: () => {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => loginPage()))
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => loginPage()))
               },
         ),
       ],
@@ -167,27 +202,23 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         //automaticallyImplyLeading: false,
         title: _appBarTitle,
-        actions: <Widget>[
-          IconButton(
-            icon: _searchIcon,
-            color: Colors.white,
-            onPressed: _searchPressed,
-          ),
-        ],
       ),
       drawer: Drawer(child: _renderDrawerItems()),
-      body: data == null ? Center(
-        child: SpinKitWave(
-          color: Colors.black,
-          size: 75.0,
-        ),
-      ) : Container(child: _renderAnimalList()),
+      body: data == null
+          ? Center(
+              child: SpinKitWave(
+                color: Colors.black,
+                size: 75.0,
+              ),
+            )
+          : Container(child: _renderAnimalList()),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => AddAnimalPage(token: widget.token, baseDir: widget.baseDir),
+              builder: (context) =>
+                  AddAnimalPage(token: widget.token, baseDir: widget.baseDir),
             ),
           );
         },

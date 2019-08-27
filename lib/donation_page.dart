@@ -68,18 +68,25 @@ class donationPageState extends State<donationPage> {
     return RefreshIndicator(
       onRefresh: () => getJsonData(),
       child: ListView.builder(
-        itemCount: data == null ? 0 : data.length,
+        itemCount: data == null ? 0 : data.length+1,
         itemBuilder: (BuildContext context, int index) {
+          if(index == 0){
+            return Row(
+              children: <Widget>[
+                DropdownButton(),
+              ],
+            );
+          }
           return ListTile(
-            leading: Text("${data[index]["id_donation"]}"),
-            title: Text(' ${data[index]["type_of_donation"]}'),
-            trailing: Text("${data[index]["date"]} "),
+            leading: Text("${data[index-1]["id_donation"]}"),
+            title: Text(' ${data[index-1]["type_of_donation"]}'),
+            trailing: Text("${data[index-1]["date"]} "),
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) =>
-                      detailDonacion(donation: data[index]["id_donation"], token: widget.token, baseDir: widget.baseDir,),
+                      detailDonacion(donation: data[index-1]["id_donation"], token: widget.token, baseDir: widget.baseDir,),
                 ),
               );
             },

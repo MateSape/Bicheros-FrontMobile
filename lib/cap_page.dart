@@ -16,7 +16,7 @@ class capPage extends StatefulWidget {
 
 class _capPageState extends State<capPage> {
   var dio;
-  var _filter = new TextEditingController(text: "");
+  var _filter = new TextEditingController();
   Icon _searchIcon = new Icon(
     Icons.search,
     color: Colors.white,
@@ -35,27 +35,6 @@ class _capPageState extends State<capPage> {
     getJsonData();
   }
 
-  void _searchPressed() {
-    setState(() {
-      if (this._searchIcon.icon == Icons.search) {
-        this._searchIcon = new Icon(Icons.close);
-        _filter.addListener(() {
-          getJsonData();
-        });
-        this._appBarTitle = new TextField(
-          controller: _filter,
-          decoration: new InputDecoration(
-            hintText: 'Buscar...',
-          ),
-        );
-      } else {
-        this._searchIcon = new Icon(Icons.search);
-        this._appBarTitle = new Text("Bichero's App");
-        _filter.clear();
-      }
-    });
-  }
-
   Future getJsonData() async {
     var response = await dio.get('cap/?search=${_filter.text}',
         options: Options(headers: {"Authorization": "Token ${widget.token}"}));
@@ -69,18 +48,27 @@ class _capPageState extends State<capPage> {
     return RefreshIndicator(
       onRefresh: () => getJsonData(),
       child: ListView.builder(
-        itemCount: data == null ? 0 : data.length,
+        itemCount: data == null ? 0 : data.length+1,
         itemBuilder: (BuildContext context, int index) {
+          if( index == 0){
+            return ListTile(
+              title: TextField(
+                controller: _filter,
+              ),
+              trailing: IconButton(icon: Icon(Icons.search),
+                onPressed: () => getJsonData(),),
+            );
+          }
           return ListTile(
-            leading: Text("${data[index]["id_cap"]}"),
-            title: Text(' ${data[index]["nameC"]} ${data[index]["last_nameC"]}',),
-            trailing: Text("${data[index]["telefono"]} "),
+            leading: Text("${data[index-1]["id_cap"]}"),
+            title: Text(' ${data[index-1]["nameC"]} ${data[index-1]["last_nameC"]}',),
+            trailing: Text("${data[index-1]["telefono"]} "),
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) =>
-                      DetailCapPage(cap: data[index]["id_cap"], token: widget.token, baseDir: widget.baseDir,),
+                      DetailCapPage(cap: data[index-1]["id_cap"], token: widget.token, baseDir: widget.baseDir,),
                 ),
               );
             },

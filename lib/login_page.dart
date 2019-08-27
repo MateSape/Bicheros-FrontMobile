@@ -11,8 +11,8 @@ class loginPage extends StatefulWidget {
 class loginPageState extends State<loginPage> {
   // 192.168.0.X
   // 172.20.10.X
-  // 192.168.100.235
-  var baseDir = "http://192.168.150.98:8080";
+  // 192.168.100.X
+  var baseDir = "http://192.168.150.53:8080";
   var token;
 
   TextEditingController usernameController = TextEditingController();
