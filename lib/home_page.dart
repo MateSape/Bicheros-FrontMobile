@@ -22,7 +22,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   var dio;
   var _filter = new TextEditingController(text: "");
-  var sexFilter;
+  var sexFilter = "";
   Icon _searchIcon = new Icon(
     Icons.search,
     color: Colors.white,
@@ -56,8 +56,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future getJsonData() async {
-    print (sexFilter+" "+ _filter.text);
-    var response = await dio.get('animals/?search=${sexFilter}'+' '+'${_filter.text}',
+    var response = await dio.get('animals/?search=${sexFilter} ${_filter.text}',
         options: Options(headers: {"Authorization": "Token ${widget.token}"}));
     setState(() {
       data = response.data;
@@ -124,63 +123,66 @@ class _HomePageState extends State<HomePage> {
         ListTile(
           title: Text("Veterinarias"),
           onTap: () => {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => VeterinariaPage(
-                          token: widget.token,
-                          baseDir: widget.baseDir,
-                        ),
-                  ),
-                )
-              },
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => VeterinariaPage(
+                  token: widget.token,
+                  baseDir: widget.baseDir,
+                ),
+              ),
+            )
+          },
         ),
         ListTile(
           title: Text("Saldo"),
           onTap: () => {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => saldo_page(
-                          token: widget.token,
-                          baseDir: widget.baseDir,
-                        ),
-                  ),
-                )
-              },
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => saldo_page(
+                  token: widget.token,
+                  baseDir: widget.baseDir,
+                ),
+              ),
+            )
+          },
         ),
         ListTile(
           title: Text("Adoptantes"),
           onTap: () => {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => capPage(
-                          token: widget.token,
-                          baseDir: widget.baseDir,
-                        ),
-                  ),
-                )
-              },
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => capPage(
+                  token: widget.token,
+                  baseDir: widget.baseDir,
+                ),
+              ),
+            )
+          },
         ),
         ListTile(
           title: Text("Donaciones"),
           onTap: () => {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => donationPage(
-                          token: widget.token,
-                          baseDir: widget.baseDir,
-                        ),
-                  ),
-                )
-              },
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => donationPage(
+                  token: widget.token,
+                  baseDir: widget.baseDir,
+                ),
+              ),
+            )
+          },
         ),
         ListTile(
           title: Center(
             child: MaterialButton(
-              onPressed: null,
+              onPressed: () => {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => loginPage()))
+              },
               child: Text(
                 "Log Out",
                 style: TextStyle(color: Colors.white),
@@ -188,10 +190,6 @@ class _HomePageState extends State<HomePage> {
               color: Colors.blueAccent,
             ),
           ),
-          onTap: () => {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => loginPage()))
-              },
         ),
       ],
     );

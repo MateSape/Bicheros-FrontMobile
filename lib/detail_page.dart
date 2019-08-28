@@ -10,7 +10,8 @@ class DetailPage extends StatefulWidget {
   final String token;
   final String baseDir;
 
-  DetailPage({Key key, this.animal, this.token, this.baseDir}) : super(key: key);
+  DetailPage({Key key, this.animal, this.token, this.baseDir})
+      : super(key: key);
 
   @override
   _DetailPageState createState() => _DetailPageState();
@@ -35,6 +36,7 @@ class _DetailPageState extends State<DetailPage> {
   var placeFounded = new TextEditingController();
   var species = new TextEditingController();
   var temperamento = new TextEditingController();
+  var video = new TextEditingController();
   var editMode = false;
   var ica;
 
@@ -43,7 +45,7 @@ class _DetailPageState extends State<DetailPage> {
     super.initState();
 
     BaseOptions options = new BaseOptions(
-      baseUrl: widget.baseDir+"/api/",
+      baseUrl: widget.baseDir + "/api/",
     );
     dio = Dio(options);
     getJsonData();
@@ -51,20 +53,18 @@ class _DetailPageState extends State<DetailPage> {
 
   Future getJsonData() async {
     var response = await dio.get("animals/${widget.animal.toString()}/",
-        options: Options(headers: {
-          "Authorization": "Token ${widget.token}"
-        }));
+        options: Options(headers: {"Authorization": "Token ${widget.token}"}));
 
     setState(() {
       ica = response.data;
     });
 
-    if (ica["cap"] != null){
+    if (ica["cap"] != null) {
       getCap();
     }
     getCaps();
 
-    if (ica["veterinaria"] != null){
+    if (ica["veterinaria"] != null) {
       getVet();
     }
     getVets();
@@ -79,11 +79,10 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   Future getCap() async {
-    var response = await dio.get("cap/${ica["cap"].toString()}/",options: Options(headers: {
-      "Authorization": "Token ${widget.token}"
-    }));
+    var response = await dio.get("cap/${ica["cap"].toString()}/",
+        options: Options(headers: {"Authorization": "Token ${widget.token}"}));
     setState(() {
-    cap = response.data;
+      cap = response.data;
     });
   }
 
@@ -106,9 +105,9 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   Future getVet() async {
-    var response = await dio.get("veterinaria/${ica["veterinaria"].toString()}/",options: Options(headers: {
-      "Authorization": "Token ${widget.token}"
-    }));
+    var response = await dio.get(
+        "veterinaria/${ica["veterinaria"].toString()}/",
+        options: Options(headers: {"Authorization": "Token ${widget.token}"}));
     setState(() {
       vet = response.data;
     });
@@ -124,8 +123,7 @@ class _DetailPageState extends State<DetailPage> {
       ));
       for (int x = 0; x < response.data.length; x++) {
         vets.add(DropdownMenuItem(
-          child: Text(
-              response.data[x]["name"]),
+          child: Text(response.data[x]["name"]),
           value: response.data[x]["id_veterinaria"].toString(),
         ));
       }
@@ -145,9 +143,10 @@ class _DetailPageState extends State<DetailPage> {
       Text("Lugar encontrado: ${ica["place_founded"]}"),
       Text("Fecha encontrado: ${ica["date_founded"]}"),
       Text("Raza: ${ica["race"]}"),
-      Text("Adoptante: " + (cap == null ? " Ninguno." : cap["nameC"] + " " + cap["last_nameC"])),
+      Text("Adoptante: " +
+          (cap == null ? " Ninguno." : cap["nameC"] + " " + cap["last_nameC"])),
       Text("Ubicacion actual: " + (vet == null ? " Ninguna." : vet["name"])),
-      ListTile(
+      ica["video"] != "" ? ListTile(
         leading: Text("Video"),
         title: YoutubePlayer(
           width: 225,
@@ -161,7 +160,7 @@ class _DetailPageState extends State<DetailPage> {
             var _videoController = controller;
           },
         ),
-      ),
+      ) : Text("No hay video"),
       Text("Sexo: ${ica["gender"]}"),
       Text("Especie: ${ica["species"]}"),
       Text("Temperamento: ${ica["temperamento"]}"),
@@ -173,13 +172,15 @@ class _DetailPageState extends State<DetailPage> {
           ? ListTile(
               leading: IconButton(
                 onPressed: () {
-                  if (ica["photo"] != null){
+                  if (ica["photo"] != null) {
                     showDialog(
                         context: context,
                         builder: (BuildContext context) {
-                          return AlertDialog(title: Image.network(ica["photo"]));
+                          return AlertDialog(
+                              title: Image.network(ica["photo"]));
                         });
-                  };
+                  }
+                  ;
                 },
                 icon: CircleAvatar(
                   backgroundImage:
@@ -202,14 +203,15 @@ class _DetailPageState extends State<DetailPage> {
       race.text = ica["race"];
       gender = ica["gender"] == "Masculino" ? false : true;
       species.text = ica["species"];
-      if (ica["cap"] == null){
+      video.text = ica["video"];
+      if (ica["cap"] == null) {
         capValue = "9999";
-      }else{
+      } else {
         capValue = ica["cap"].toString();
       }
-      if (ica["veterinaria"] == null){
+      if (ica["veterinaria"] == null) {
         vetValue = "9999";
-      }else{
+      } else {
         vetValue = ica["veterinaria"].toString();
       }
       temperamento.text = ica["temperamento"];
@@ -244,10 +246,16 @@ class _DetailPageState extends State<DetailPage> {
         ),
       ),
       ListTile(
+        leading: Text("Video"),
+        title: TextField(
+          controller: video,
+        ),
+      ),
+      ListTile(
         title: DropdownButton<String>(
           hint: Text("Seleccione una opcion"),
           value: capValue,
-          items: caps.length == 0 ? null :  caps,
+          items: caps.length == 0 ? null : caps,
           onChanged: (value) {
             setState(() {
               capValue = value;
@@ -260,7 +268,7 @@ class _DetailPageState extends State<DetailPage> {
         title: DropdownButton<String>(
           hint: Text("Seleccione una opcion"),
           value: vetValue,
-          items: vets.length == 0 ? null :  vets,
+          items: vets.length == 0 ? null : vets,
           onChanged: (value) {
             setState(() {
               vetValue = value;
@@ -301,21 +309,22 @@ class _DetailPageState extends State<DetailPage> {
       ListTile(
         leading: newImage == null
             ? IconButton(
-          icon: CircleAvatar(
-            backgroundImage:
-            ica["photo"] == null ? null : NetworkImage(ica["photo"]),
-          ),
-          onPressed: () {
-            if (ica["photo"] != null){
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                        title: Image(image: NetworkImage(ica["photo"])));
-                  });
-            };
-          },
-        )
+                icon: CircleAvatar(
+                  backgroundImage:
+                      ica["photo"] == null ? null : NetworkImage(ica["photo"]),
+                ),
+                onPressed: () {
+                  if (ica["photo"] != null) {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                              title: Image(image: NetworkImage(ica["photo"])));
+                        });
+                  }
+                  ;
+                },
+              )
             : IconButton(
                 onPressed: () {
                   showDialog(
@@ -342,10 +351,8 @@ class _DetailPageState extends State<DetailPage> {
           title: MaterialButton(
         onPressed: () {
           dio.delete("animals/${widget.animal.toString()}/",
-              options: Options(headers: {
-                "Authorization":
-                    "Token ${widget.token}"
-              }));
+              options:
+                  Options(headers: {"Authorization": "Token ${widget.token}"}));
           Navigator.pop(context);
         },
         color: Colors.red,
@@ -396,29 +403,18 @@ class _DetailPageState extends State<DetailPage> {
           ? null
           : FloatingActionButton(
               onPressed: () {
-                if (newImage == null) {
-                  formData = new FormData.from({
-                    "name": name.text,
-                    "race": race.text,
-                    "place_founded": placeFounded.text,
-                    "date_founded": dateFounded.text,
-                    "species": species.text,
-                    "cap": capValue == "9999" ? null : int.parse(capValue),
-                    "veterinaria": vetValue == "9999" ? null : int.parse(vetValue),
-                    "gender": gender == false ? 0 : 1,
-                  });
-                } else {
-                  formData = new FormData.from({
-                    "name": name.text,
-                    "race": race.text,
-                    "place_founded": placeFounded.text,
-                    "date_founded": dateFounded.text,
-                    "species": species.text,
-                    "cap": capValue == "9999" ? null : int.parse(capValue),
-                    "veterinaria": vetValue == "9999" ? null : int.parse(vetValue),
-                    "gender": gender == false ? 0 : 1,
-                  });
-                }
+                formData = new FormData.from({
+                  "name": name.text,
+                  "race": race.text,
+                  "place_founded": placeFounded.text,
+                  "date_founded": dateFounded.text,
+                  "species": species.text,
+                  "cap": capValue == "9999" ? null : int.parse(capValue),
+                  "veterinaria":
+                      vetValue == "9999" ? null : int.parse(vetValue),
+                  "gender": gender == false ? 0 : 1,
+                  "video": video.text,
+                });
                 dio
                     .put('animals/${widget.animal.toString()}/',
                         data: formData,
@@ -426,8 +422,7 @@ class _DetailPageState extends State<DetailPage> {
                             method: 'PUT',
                             responseType: ResponseType.plain,
                             headers: {
-                              "Authorization":
-                                  "Token ${widget.token}"
+                              "Authorization": "Token ${widget.token}"
                             }))
                     .catchError((error) => print(error));
                 Navigator.pop(context);

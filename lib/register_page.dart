@@ -75,7 +75,7 @@ class registerPageState extends State<registerPage> {
         onPressed: () async {
           var formData = new FormData.from({
             "username": usernameController.text,
-            "email": emailController.text,
+            //"email": emailController.text,
             "password1": passwordController.text,
             "password2": password2Controller.text
           });

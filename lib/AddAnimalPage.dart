@@ -26,6 +26,7 @@ class AddAnimalPageState extends State<AddAnimalPage> {
   var dropdownValue;
   var dropdownValue2;
   var temperamento = new TextEditingController();
+  var video = new TextEditingController();
 
   var dropdownButton;
   List<DropdownMenuItem<String>> caps = [];
@@ -175,6 +176,12 @@ class AddAnimalPageState extends State<AddAnimalPage> {
             ),
           ),
           ListTile(
+            leading: Text("Video: "),
+            title: TextField(
+              controller: video,
+            ),
+          ),
+          ListTile(
             title: DropdownButton<String>(
               hint: Text("Seleccione una opcion"),
               value: dropdownValue,
@@ -248,6 +255,7 @@ class AddAnimalPageState extends State<AddAnimalPage> {
               //"photo": image == null ? null : UploadFileInfo(image, image.path),
               "species": species.text,
               "gender": gender == false ? 0 : 1,
+              "video":video.text
             });
             dio
                 .post("animals/",
