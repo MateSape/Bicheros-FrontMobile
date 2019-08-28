@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class registerPage extends StatefulWidget {
   var baseDir;
   registerPage({Key key, this.baseDir}) : super(key: key);
   @override
-  State<StatefulWidget> createState() =>registerPageState();
+  State<StatefulWidget> createState() => registerPageState();
 }
 
 class registerPageState extends State<registerPage> {
@@ -16,10 +17,12 @@ class registerPageState extends State<registerPage> {
 
   @override
   Widget build(BuildContext context) {
-    final title =
-      Center(child: Text("Registrarse",
-      style: TextStyle(fontSize: 25,)),
-      );
+    final title = Center(
+      child: Text("Registrarse",
+          style: TextStyle(
+            fontSize: 25,
+          )),
+    );
 
     final username = TextFormField(
       controller: usernameController,
@@ -76,7 +79,17 @@ class registerPageState extends State<registerPage> {
             "password1": passwordController.text,
             "password2": password2Controller.text
           });
-          var response = Dio().post(widget.baseDir+"/registration/", data: formData).whenComplete((){Navigator.pop(context);});
+          try {
+            var response = await Dio()
+                .post(widget.baseDir + "/registration/", data: formData);
+            Navigator.pop(context);
+          } catch (e) {
+            Alert(
+                    context: context,
+                    title: "Error",
+                    desc: "Por favor intente de nuevo.")
+                .show();
+          }
         },
         padding: EdgeInsets.all(12),
         color: Colors.lightBlueAccent,
@@ -84,7 +97,7 @@ class registerPageState extends State<registerPage> {
       ),
     );
     final backButton = IconButton(
-      onPressed: (){
+      onPressed: () {
         Navigator.pop(context);
       },
       icon: Icon(Icons.arrow_back),
@@ -94,7 +107,6 @@ class registerPageState extends State<registerPage> {
       backgroundColor: Colors.white,
       body: Center(
         child: ListView(
-
           shrinkWrap: true,
           padding: EdgeInsets.only(left: 24.0, right: 24.0),
           children: <Widget>[

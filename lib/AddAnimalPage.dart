@@ -3,6 +3,7 @@ import "dart:async";
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class AddAnimalPage extends StatefulWidget {
   final String token;
@@ -231,31 +232,39 @@ class AddAnimalPageState extends State<AddAnimalPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          FormData formData = new FormData.from({
-            "name": name.text,
-            "race": race.text,
-            "temperamento": temperamento.text,
-            "date_founded": dateFounded.year.toString() +
-                "-" +
-                dateFounded.month.toString() +
-                "-" +
-                dateFounded.day.toString(),
-            "place_founded": placeFounded.text,
-            "cap": dropdownValue == "9999" ? null : int.parse(dropdownValue),
-            "veterinaria": dropdownValue2 == "9999" ? null : int.parse(dropdownValue2),
-            //"photo": image == null ? null : UploadFileInfo(image, image.path),
-            "species": species.text,
-            "gender": gender == false ? 0 : 1,
-          });
-          dio
-              .post("animals/",
-                  data: formData,
-                  options: Options(
-                      method: 'POST',
-                      responseType: ResponseType.plain,
-                      headers: {"Authorization": "Token ${widget.token}"}))
-              .whenComplete(() => Navigator.pop(context));
-        },
+          try {
+            FormData formData = new FormData.from({
+              "name": name.text,
+              "race": race.text,
+              "temperamento": temperamento.text,
+              "date_founded": dateFounded.year.toString() +
+                  "-" +
+                  dateFounded.month.toString() +
+                  "-" +
+                  dateFounded.day.toString(),
+              "place_founded": placeFounded.text,
+              "cap": dropdownValue == "9999" ? null : int.parse(dropdownValue),
+              "veterinaria": dropdownValue2 == "9999" ? null : int.parse(dropdownValue2),
+              //"photo": image == null ? null : UploadFileInfo(image, image.path),
+              "species": species.text,
+              "gender": gender == false ? 0 : 1,
+            });
+            dio
+                .post("animals/",
+                data: formData,
+                options: Options(
+                    method: 'POST',
+                    responseType: ResponseType.plain,
+                    headers: {"Authorization": "Token ${widget.token}"}));
+            Navigator.pop(context);
+          } catch (e) {
+            Alert(
+                context: context,
+                title: "Error",
+                desc: "Intente de nuevo")
+                .show();
+          }
+          },
         child: Icon(
           Icons.save_alt,
           color: Colors.white,
@@ -264,3 +273,5 @@ class AddAnimalPageState extends State<AddAnimalPage> {
     );
   }
 }
+
+

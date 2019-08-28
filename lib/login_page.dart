@@ -61,7 +61,6 @@ class loginPageState extends State<loginPage> {
           });
           token = null;
 
-
           try {
             var response =
             await Dio().post(baseDir + "/auth/login/", data: formData);
@@ -124,3 +123,4 @@ class loginPageState extends State<loginPage> {
     );
   }
 }
+

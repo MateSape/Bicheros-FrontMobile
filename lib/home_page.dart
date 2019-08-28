@@ -22,7 +22,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   var dio;
   var _filter = new TextEditingController(text: "");
-  var sexFilter ="";
+  var sexFilter;
   Icon _searchIcon = new Icon(
     Icons.search,
     color: Colors.white,
@@ -56,7 +56,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future getJsonData() async {
-    var response = await dio.get('animals/?search=${sexFilter} ${_filter.text}',
+    print (sexFilter+" "+ _filter.text);
+    var response = await dio.get('animals/?search=${sexFilter}'+' '+'${_filter.text}',
         options: Options(headers: {"Authorization": "Token ${widget.token}"}));
     setState(() {
       data = response.data;

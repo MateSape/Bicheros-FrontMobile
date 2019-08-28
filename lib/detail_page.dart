@@ -3,6 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart';
+import 'package:youtube_player/youtube_player.dart';
 
 class DetailPage extends StatefulWidget {
   final animal;
@@ -146,6 +147,21 @@ class _DetailPageState extends State<DetailPage> {
       Text("Raza: ${ica["race"]}"),
       Text("Adoptante: " + (cap == null ? " Ninguno." : cap["nameC"] + " " + cap["last_nameC"])),
       Text("Ubicacion actual: " + (vet == null ? " Ninguna." : vet["name"])),
+      ListTile(
+        leading: Text("Video"),
+        title: YoutubePlayer(
+          width: 225,
+          autoPlay: false,
+          context: context,
+          source: ica["video"],
+          quality: YoutubeQuality.LOWEST,
+          // callbackController is (optional).
+          // use it to control player on your own.
+          callbackController: (controller) {
+            var _videoController = controller;
+          },
+        ),
+      ),
       Text("Sexo: ${ica["gender"]}"),
       Text("Especie: ${ica["species"]}"),
       Text("Temperamento: ${ica["temperamento"]}"),
