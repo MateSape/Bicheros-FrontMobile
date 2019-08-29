@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart';
 import 'package:youtube_player/youtube_player.dart';
+import 'package:bicheros_frontmobile/historialM_page.dart';
 
 class DetailPage extends StatefulWidget {
   final animal;
@@ -164,6 +165,18 @@ class _DetailPageState extends State<DetailPage> {
       Text("Sexo: ${ica["gender"]}"),
       Text("Especie: ${ica["species"]}"),
       Text("Temperamento: ${ica["temperamento"]}"),
+      MaterialButton(
+        child: Text("Historial medico"),
+        color: Colors.green,
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => historialMPage(token: widget.token, baseDir: widget.baseDir, anid: ica["id_animal"],),
+            ),
+          );
+        },
+      ),
     ];
 
     return ListView.separated(
