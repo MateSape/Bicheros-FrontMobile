@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:bicheros_frontmobile/detail_historialM.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'add_historialM.dart';
 
 class historialMPage extends StatefulWidget {
   final String token;
@@ -76,12 +77,12 @@ class historialMPageState extends State<historialMPage> {
       ) : _renderAnimalList(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          /*Navigator.push(
+          Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => AddVeterinariaPage(token: widget.token, baseDir: widget.baseDir,),
+              builder: (context) => add_historialM_page(token: widget.token, baseDir: widget.baseDir, anid: widget.anid,),
             ),
-          );*/
+          );
         },
         tooltip: 'Add',
         child: Icon(Icons.add),

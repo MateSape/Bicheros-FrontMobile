@@ -68,6 +68,7 @@ class AddAnimalPageState extends State<AddAnimalPage> {
       }
     });
   }
+
   Future getVets() async {
     var response = await dio.get('veterinaria/',
         options: Options(headers: {"Authorization": "Token ${widget.token}"}));
@@ -78,8 +79,7 @@ class AddAnimalPageState extends State<AddAnimalPage> {
       ));
       for (int x = 0; x < response.data.length; x++) {
         vets.add(DropdownMenuItem(
-          child: Text(
-              response.data[x]["name"]),
+          child: Text(response.data[x]["name"]),
           value: response.data[x]["id_veterinaria"].toString(),
         ));
       }
@@ -185,7 +185,7 @@ class AddAnimalPageState extends State<AddAnimalPage> {
             title: DropdownButton<String>(
               hint: Text("Seleccione una opcion"),
               value: dropdownValue,
-              items: caps.length == 0 ? null :  caps,
+              items: caps.length == 0 ? null : caps,
               onChanged: (value) {
                 setState(() {
                   dropdownValue = value;
@@ -193,11 +193,12 @@ class AddAnimalPageState extends State<AddAnimalPage> {
               },
             ),
             leading: Text("Cap"),
-          ),ListTile(
+          ),
+          ListTile(
             title: DropdownButton<String>(
               hint: Text("Seleccione una opcion"),
               value: dropdownValue2,
-              items: vets.length == 0 ? null :  vets,
+              items: vets.length == 0 ? null : vets,
               onChanged: (value) {
                 setState(() {
                   dropdownValue2 = value;
@@ -206,7 +207,6 @@ class AddAnimalPageState extends State<AddAnimalPage> {
             ),
             leading: Text("Ubicacion actual: "),
           ),
-
           ListTile(
               leading: Text("Sexo: "),
               title: MaterialButton(
@@ -251,14 +251,14 @@ class AddAnimalPageState extends State<AddAnimalPage> {
                   dateFounded.day.toString(),
               "place_founded": placeFounded.text,
               "cap": dropdownValue == "9999" ? null : int.parse(dropdownValue),
-              "veterinaria": dropdownValue2 == "9999" ? null : int.parse(dropdownValue2),
+              "veterinaria":
+                  dropdownValue2 == "9999" ? null : int.parse(dropdownValue2),
               //"photo": image == null ? null : UploadFileInfo(image, image.path),
               "species": species.text,
               "gender": gender == false ? 0 : 1,
-              "video":video.text
+              "video": video.text == "" ? null : video.text
             });
-            dio
-                .post("animals/",
+            dio.post("animals/",
                 data: formData,
                 options: Options(
                     method: 'POST',
@@ -266,13 +266,10 @@ class AddAnimalPageState extends State<AddAnimalPage> {
                     headers: {"Authorization": "Token ${widget.token}"}));
             Navigator.pop(context);
           } catch (e) {
-            Alert(
-                context: context,
-                title: "Error",
-                desc: "Intente de nuevo")
+            Alert(context: context, title: "Error", desc: "Intente de nuevo")
                 .show();
           }
-          },
+        },
         child: Icon(
           Icons.save_alt,
           color: Colors.white,
@@ -281,5 +278,3 @@ class AddAnimalPageState extends State<AddAnimalPage> {
     );
   }
 }
-
-

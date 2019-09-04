@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class detail_historialM_page extends StatefulWidget {
   final String token;
@@ -88,19 +89,53 @@ class detail_historialM_page_state extends State<detail_historialM_page> {
             value: estado,
             items: estados,
             onChanged: (value) {
-              estado = value;
+              setState(() {
+                estado = value;
+              });
             },
           ),
           leading: Text("Estado: "),
+        ),
+        ListTile(
+          title: MaterialButton(
+            onPressed: () => delHM(),
+            child: Icon(Icons.delete,
+            color: Colors.white,),
+            color: Colors.red,
+          ),
         ),
       ],
     );
   }
 
+  Future delHM() async {
+    try{
+      dio.delete("historial/${widget.hid}/",
+          options: Options(
+              method: 'PUT',
+              responseType: ResponseType.plain,
+              headers: {
+                "Authorization": "Token ${widget.token}"
+              })
+      ).whenComplete(() {
+        Navigator.pop(context);
+      });
+    }
+    catch(e){
+      Alert(
+          context: context,
+          title: "Error",
+          desc: "Error, intente nuevamente.")
+          .show();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text("Disease"),
+      ),
       body: hm == null
           ? Center(
               child: SpinKitWave(
@@ -132,7 +167,11 @@ class detail_historialM_page_state extends State<detail_historialM_page> {
             Navigator.pop(context);
           }
           catch(e) {
-
+            Alert(
+                context: context,
+                title: "Error",
+                desc: "Error, intente nuevamente.")
+                .show();
           }
         },
       ),
