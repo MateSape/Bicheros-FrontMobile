@@ -27,6 +27,7 @@ class AddAnimalPageState extends State<AddAnimalPage> {
   var dropdownValue2;
   var temperamento = new TextEditingController();
   var video = new TextEditingController();
+  DateTime birthDate;
 
   var dropdownButton;
   List<DropdownMenuItem<String>> caps = [];
@@ -86,7 +87,7 @@ class AddAnimalPageState extends State<AddAnimalPage> {
     });
   }
 
-  Future getDate() async {
+  Future getDateFounded() async {
     final newDate = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
@@ -95,6 +96,18 @@ class AddAnimalPageState extends State<AddAnimalPage> {
     if (newDate != null && newDate != dateFounded) {
       setState(() {
         dateFounded = newDate;
+      });
+    }
+  }
+  Future getBirthDate() async {
+    final newDate = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2000),
+        lastDate: DateTime(2100));
+    if (newDate != null && newDate != birthDate) {
+      setState(() {
+        birthDate = newDate;
       });
     }
   }
@@ -123,7 +136,7 @@ class AddAnimalPageState extends State<AddAnimalPage> {
               leading: Text("Fecha Encontrado: "),
               title: dateFounded == null
                   ? MaterialButton(
-                      onPressed: () => getDate(),
+                      onPressed: () => getDateFounded(),
                       child: Text(
                         "Seleccione una fecha",
                         style: TextStyle(color: Colors.white),
@@ -131,7 +144,7 @@ class AddAnimalPageState extends State<AddAnimalPage> {
                       color: Colors.lightBlue,
                     )
                   : MaterialButton(
-                      onPressed: () => getDate(),
+                      onPressed: () => getDateFounded(),
                       child: Text(
                         '${dateFounded.day}' +
                             "/" +
@@ -142,6 +155,29 @@ class AddAnimalPageState extends State<AddAnimalPage> {
                       ),
                       color: Colors.lightBlue,
                     )),
+          ListTile(
+              leading: Text("Fecha de nacimiento: "),
+              title: birthDate == null
+                  ? MaterialButton(
+                onPressed: () => getBirthDate(),
+                child: Text(
+                  "Seleccione una fecha",
+                  style: TextStyle(color: Colors.white),
+                ),
+                color: Colors.lightBlue,
+              )
+                  : MaterialButton(
+                onPressed: () => getBirthDate(),
+                child: Text(
+                  '${birthDate.day}' +
+                      "/" +
+                      '${birthDate.month}' +
+                      "/" +
+                      '${birthDate.year}',
+                  style: TextStyle(color: Colors.white),
+                ),
+                color: Colors.lightBlue,
+              )),
           ListTile(
             leading: image == null
                 ? CircleAvatar(
@@ -256,6 +292,11 @@ class AddAnimalPageState extends State<AddAnimalPage> {
               //"photo": image == null ? null : UploadFileInfo(image, image.path),
               "species": species.text,
               "gender": gender == false ? 0 : 1,
+              "date_of_birth": birthDate.year.toString() +
+                  "-" +
+                  birthDate.month.toString() +
+                  "-" +
+                  birthDate.day.toString(),
               "video": video.text == "" ? null : video.text
             });
             dio.post("animals/",

@@ -33,6 +33,7 @@ class _DetailPageState extends State<DetailPage> {
   var vet;
   var vetValue;
   var dateFounded = new TextEditingController();
+  var birthDate = new TextEditingController();
   var gender;
   var placeFounded = new TextEditingController();
   var species = new TextEditingController();
@@ -143,6 +144,7 @@ class _DetailPageState extends State<DetailPage> {
       ),
       Text("Lugar encontrado: ${ica["place_founded"]  == null ? "*****" : ica["place_founded"]}"),
       Text("Fecha encontrado: ${ica["date_founded"]  == null ? "*****" : ica["date_founded"]}"),
+      Text("Fecha de nacimiento: ${ica["date_of_birth"]  == null ? "*****" : ica["date_of_birth"]}"),
       Text("Raza: ${ica["race"]  == null ? "*****" : ica["race"]}"),
       Text("Adoptante: " +
           (cap == null ? " Ninguno." : cap["nameC"] + " " + cap["last_nameC"])),
@@ -219,6 +221,7 @@ class _DetailPageState extends State<DetailPage> {
       name.text = ica["name"];
       placeFounded.text = ica["place_founded"];
       dateFounded.text = ica["date_founded"];
+      birthDate.text = ica["date_of_birth"];
       race.text = ica["race"];
       gender = ica["gender"] == "Masculino" ? false : true;
       species.text = ica["species"];
@@ -256,6 +259,12 @@ class _DetailPageState extends State<DetailPage> {
         leading: Text("fecha encontrado"),
         title: TextField(
           controller: dateFounded,
+        ),
+      ),
+      ListTile(
+        leading: Text("fecha de nacimiento"),
+        title: TextField(
+          controller: birthDate,
         ),
       ),
       ListTile(
@@ -428,6 +437,7 @@ class _DetailPageState extends State<DetailPage> {
                   "race": race.text,
                   "place_founded": placeFounded.text,
                   "date_founded": dateFounded.text,
+                  "date_of_birth": birthDate.text,
                   "species": species.text,
                   "cap": capValue == "9999" ? null : int.parse(capValue),
                   "veterinaria":
