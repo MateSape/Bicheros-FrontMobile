@@ -134,21 +134,21 @@ class _DetailPageState extends State<DetailPage> {
   Widget _renderAnimalDetail() {
     List<Widget> items = [
       Text(
-        ica["name"],
+        ica["name"] == null ? "*****" : ica["name"],
         textAlign: TextAlign.center,
         style: TextStyle(
           fontSize: 25,
           fontWeight: FontWeight.bold,
         ),
       ),
-      Text("Lugar encontrado: ${ica["place_founded"]}"),
-      Text("Fecha encontrado: ${ica["date_founded"]}"),
-      Text("Raza: ${ica["race"]}"),
+      Text("Lugar encontrado: ${ica["place_founded"]  == null ? "*****" : ica["place_founded"]}"),
+      Text("Fecha encontrado: ${ica["date_founded"]  == null ? "*****" : ica["date_founded"]}"),
+      Text("Raza: ${ica["race"]  == null ? "*****" : ica["race"]}"),
       Text("Adoptante: " +
           (cap == null ? " Ninguno." : cap["nameC"] + " " + cap["last_nameC"])),
       Text("Ubicacion actual: " + (vet == null ? " Ninguna." : vet["name"])),
       ica["video"] != null
-          ? ListTile(
+          ? ica["video"] != "" ? ListTile(
               leading: Text("Video"),
               title: YoutubePlayer(
                 width: 225,
@@ -163,10 +163,10 @@ class _DetailPageState extends State<DetailPage> {
                 },
               ),
             )
-          : Text("Link nulo o no valido"),
-      Text("Sexo: ${ica["gender"]}"),
-      Text("Especie: ${ica["species"]}"),
-      Text("Temperamento: ${ica["temperamento"]}"),
+          : Text("Link nulo o no valido") : Text("Link nulo o no valido"),
+      Text("Sexo: ${ica["gender"]  == null ? "*****" : ica["gender"]}"),
+      Text("Especie: ${ica["species"]  == null ? "*****" : ica["species"]}"),
+      Text("Temperamento: ${ica["temperamento"]  == null ? "*****" : ica["temperamento"]}"),
       MaterialButton(
         child: Text("Historial medico"),
         color: Colors.green,
@@ -222,7 +222,7 @@ class _DetailPageState extends State<DetailPage> {
       race.text = ica["race"];
       gender = ica["gender"] == "Masculino" ? false : true;
       species.text = ica["species"];
-      video.text = ica["video"];
+      video.text = ica["video"] == "" ? null : ica["video"];
       if (ica["cap"] == null) {
         capValue = "9999";
       } else {
@@ -422,6 +422,7 @@ class _DetailPageState extends State<DetailPage> {
           ? null
           : FloatingActionButton(
               onPressed: () {
+                print(video.text);
                 formData = new FormData.from({
                   "name": name.text,
                   "race": race.text,
@@ -432,7 +433,8 @@ class _DetailPageState extends State<DetailPage> {
                   "veterinaria":
                       vetValue == "9999" ? null : int.parse(vetValue),
                   "gender": gender == false ? 0 : 1,
-                  "video": video.text,
+                  "video": video.text == " " ? null : video.text,
+                  "temperamento": temperamento.text
                 });
                 dio
                     .put('animals/${widget.animal.toString()}/',
