@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:bicheros_frontmobile/home_page.dart';
-import 'package:bicheros_frontmobile/register_page.dart';
+import 'package:bicheros_frontmobile/login/register_page.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class loginPage extends StatefulWidget {

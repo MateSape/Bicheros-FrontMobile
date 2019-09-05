@@ -1,23 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:bicheros_frontmobile/add_veterinaria.dart';
-import 'package:bicheros_frontmobile/detail_veterinaria.dart';
+import 'package:bicheros_frontmobile/cap/add_cap_page.dart';
+import 'package:bicheros_frontmobile/cap/detail_cap.dart';
 
-class VeterinariaPage extends StatefulWidget {
+class capPage extends StatefulWidget {
   final String token;
   final String baseDir;
 
-  VeterinariaPage({Key key, this.token, this.baseDir}) : super(key: key);
+  capPage({Key key, this.token, this.baseDir}) : super(key: key);
 
   @override
-  VeterinariaPageState createState() => VeterinariaPageState();
+  _capPageState createState() => _capPageState();
 }
 
-class VeterinariaPageState extends State<VeterinariaPage> {
+class _capPageState extends State<capPage> {
   var dio;
+  var _filter = new TextEditingController();
+  Icon _searchIcon = new Icon(
+    Icons.search,
+    color: Colors.white,
+  );
+  Widget _appBarTitle = new Text("Bichero's App");
   List data;
-  var search = new TextEditingController();
 
   @override
   void initState() {
@@ -31,7 +36,7 @@ class VeterinariaPageState extends State<VeterinariaPage> {
   }
 
   Future getJsonData() async {
-    var response = await dio.get('veterinaria/?search=${search.text}',
+    var response = await dio.get('cap/?search=${_filter.text}',
         options: Options(headers: {"Authorization": "Token ${widget.token}"}));
     setState(() {
       data = response.data;
@@ -39,35 +44,35 @@ class VeterinariaPageState extends State<VeterinariaPage> {
   }
 
   Widget _renderAnimalList() {
+    //getJsonData();
     return RefreshIndicator(
       onRefresh: () => getJsonData(),
       child: ListView.builder(
         itemCount: data == null ? 0 : data.length+1,
         itemBuilder: (BuildContext context, int index) {
-          if (index == 0){
+          if( index == 0){
             return ListTile(
               title: TextField(
-                controller: search,
+                controller: _filter,
               ),
               trailing: IconButton(icon: Icon(Icons.search),
-              onPressed: () => getJsonData(),),
+                onPressed: () => getJsonData(),),
             );
           }
-          else{
-            return ListTile(
-              title: Text("${data[index-1]["name"]}"),
-              trailing: Text(' ${data[index-1]["phone"]}'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        DetailVetPage(vet: data[index-1]["id_veterinaria"], token: widget.token, baseDir: widget.baseDir,),
-                  ),
-                );
-              },
-            );
-          }
+          return ListTile(
+            leading: Text("${data[index-1]["id_cap"]}"),
+            title: Text(' ${data[index-1]["nameC"]} ${data[index-1]["last_nameC"]}',),
+            trailing: Text("${data[index-1]["telefono"]} "),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      DetailCapPage(cap: data[index-1]["id_cap"], token: widget.token, baseDir: widget.baseDir,),
+                ),
+              );
+            },
+          );
         },
       ),
     );
@@ -77,7 +82,7 @@ class VeterinariaPageState extends State<VeterinariaPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Veterinarias"),
+        title: Text("Adoptantes"),
       ),
       body: data == null ? Center(
         child: SpinKitWave(
@@ -90,7 +95,7 @@ class VeterinariaPageState extends State<VeterinariaPage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => AddVeterinariaPage(token: widget.token, baseDir: widget.baseDir,),
+              builder: (context) => AddCapPage(token: widget.token, baseDir: widget.baseDir,),
             ),
           );
         },

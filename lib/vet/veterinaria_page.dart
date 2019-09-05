@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:bicheros_frontmobile/detail_historialM.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'add_historialM.dart';
+import 'package:bicheros_frontmobile/vet/add_veterinaria.dart';
+import 'package:bicheros_frontmobile/vet/detail_veterinaria.dart';
 
-class historialMPage extends StatefulWidget {
+class VeterinariaPage extends StatefulWidget {
   final String token;
   final String baseDir;
-  final int anid;
 
-  historialMPage({Key key, this.token, this.baseDir, this.anid}) : super(key: key);
+  VeterinariaPage({Key key, this.token, this.baseDir}) : super(key: key);
 
   @override
-  historialMPageState createState() => historialMPageState();
+  VeterinariaPageState createState() => VeterinariaPageState();
 }
 
-class historialMPageState extends State<historialMPage> {
+class VeterinariaPageState extends State<VeterinariaPage> {
   var dio;
   List data;
-
+  var search = new TextEditingController();
 
   @override
   void initState() {
@@ -32,7 +31,7 @@ class historialMPageState extends State<historialMPage> {
   }
 
   Future getJsonData() async {
-    var response = await dio.get('historial/?search=${widget.anid}',
+    var response = await dio.get('veterinaria/?search=${search.text}',
         options: Options(headers: {"Authorization": "Token ${widget.token}"}));
     setState(() {
       data = response.data;
@@ -43,21 +42,32 @@ class historialMPageState extends State<historialMPage> {
     return RefreshIndicator(
       onRefresh: () => getJsonData(),
       child: ListView.builder(
-        itemCount: data == null ? 0 : data.length,
+        itemCount: data == null ? 0 : data.length+1,
         itemBuilder: (BuildContext context, int index) {
+          if (index == 0){
             return ListTile(
-              title: Text("${data[index]["enfermedad"]}"),
-              trailing: Text(' ${data[index]["fecha"]}'),
+              title: TextField(
+                controller: search,
+              ),
+              trailing: IconButton(icon: Icon(Icons.search),
+              onPressed: () => getJsonData(),),
+            );
+          }
+          else{
+            return ListTile(
+              title: Text("${data[index-1]["name"]}"),
+              trailing: Text(' ${data[index-1]["phone"]}'),
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) =>
-                        detail_historialM_page(hid: data[index]["id_HM"], token: widget.token, baseDir: widget.baseDir,),
+                        DetailVetPage(vet: data[index-1]["id_veterinaria"], token: widget.token, baseDir: widget.baseDir,),
                   ),
                 );
               },
             );
+          }
         },
       ),
     );
@@ -67,7 +77,7 @@ class historialMPageState extends State<historialMPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Historial Medico"),
+        title: Text("Veterinarias"),
       ),
       body: data == null ? Center(
         child: SpinKitWave(
@@ -80,7 +90,7 @@ class historialMPageState extends State<historialMPage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => add_historialM_page(token: widget.token, baseDir: widget.baseDir, anid: widget.anid,),
+              builder: (context) => AddVeterinariaPage(token: widget.token, baseDir: widget.baseDir,),
             ),
           );
         },

@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart';
 import 'package:youtube_player/youtube_player.dart';
-import 'package:bicheros_frontmobile/historialM_page.dart';
+import 'package:bicheros_frontmobile/animals/hm/historialM_page.dart';
 
 class DetailPage extends StatefulWidget {
   final animal;

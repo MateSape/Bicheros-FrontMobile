@@ -1,13 +1,13 @@
-import 'package:bicheros_frontmobile/detail_page.dart';
-import 'package:bicheros_frontmobile/AddAnimalPage.dart';
-import 'saldo_page.dart';
+import 'package:bicheros_frontmobile/animals/detail_page.dart';
+import 'package:bicheros_frontmobile/animals/AddAnimalPage.dart';
+import 'saldo/saldo_page.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:bicheros_frontmobile/login_page.dart';
-import 'package:bicheros_frontmobile/cap_page.dart';
-import 'package:bicheros_frontmobile/donations_page.dart';
-import 'package:bicheros_frontmobile/veterinaria_page.dart';
+import 'package:bicheros_frontmobile/login/login_page.dart';
+import 'package:bicheros_frontmobile/cap/cap_page.dart';
+import 'package:bicheros_frontmobile/donations/donations_page.dart';
+import 'package:bicheros_frontmobile/vet/veterinaria_page.dart';
 
 class HomePage extends StatefulWidget {
   final String token;
@@ -91,11 +91,11 @@ class _HomePageState extends State<HomePage> {
             );
           }
           return ListTile(
-            leading: CircleAvatar(
+            leading: /*CircleAvatar(
               backgroundImage: data[index - 1]["photo"] == null
                   ? null
                   : NetworkImage(data[index - 1]["photo"]),
-            ),
+            )*/Text(data[index -1]["race"]),
             title: Text(
               ' ${data[index - 1]["name"]}',
               textAlign: TextAlign.center,

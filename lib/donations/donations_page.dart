@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:bicheros_frontmobile/add_donation.dart';
-import 'package:bicheros_frontmobile/donation_page.dart';
+import 'package:bicheros_frontmobile/donations/add_donation.dart';
+import 'package:bicheros_frontmobile/donations/donation_page.dart';
 
 class donationsPage extends StatefulWidget {
   final String token;
