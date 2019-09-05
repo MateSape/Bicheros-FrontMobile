@@ -6,7 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:bicheros_frontmobile/login_page.dart';
 import 'package:bicheros_frontmobile/cap_page.dart';
-import 'package:bicheros_frontmobile/donation_page.dart';
+import 'package:bicheros_frontmobile/donations_page.dart';
 import 'package:bicheros_frontmobile/veterinaria_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -168,7 +168,7 @@ class _HomePageState extends State<HomePage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => donationPage(
+                builder: (context) => donationsPage(
                   token: widget.token,
                   baseDir: widget.baseDir,
                 ),

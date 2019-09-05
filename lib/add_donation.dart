@@ -12,8 +12,9 @@ class add_donation_page extends StatefulWidget {
 class add_donation_page_state extends State<add_donation_page> {
   var dio;
   var dropdownValue = null;
-  var type = <String> ['comida de gato', 'comida de perro', 'ropa', 'otros'];
+  var type = <String> ['comida de gato', 'comida de perro', 'remedios', 'collar', 'otros'];
   var Mdate;
+  var description = TextEditingController();
   var amount = TextEditingController();
 
   @override
@@ -43,9 +44,15 @@ class add_donation_page_state extends State<add_donation_page> {
         children: <Widget>[
           ListTile(
             title: TextField(
-              controller: amount,
+              controller: description,
             ),
             leading: Text("Descripcion"),
+          ),
+          ListTile(
+            title: TextField(
+              controller: amount,
+            ),
+            leading: Text("Cantidad"),
           ),
           ListTile(
             title: MaterialButton(
@@ -105,6 +112,7 @@ class add_donation_page_state extends State<add_donation_page> {
                         Mdate.day.toString(),
                     "description": amount.text,
                     "type_of_donation": getItemIndex(),
+                    'cantidad': int.parse(amount.text)
                   },
                   options: Options(
                       headers: {"Authorization": "Token ${widget.token}"}))

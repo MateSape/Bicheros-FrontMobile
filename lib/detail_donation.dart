@@ -22,10 +22,11 @@ class detailDonacion extends StatefulWidget {
 class detailDonacionState extends State<detailDonacion> {
   var dio;
 
-  var type = <String> ['comida de gato', 'comida de perro', 'ropa', 'otros'];
+  var type = <String> ['comida de gato', 'comida de perro', 'remedios', 'collar', 'otros'];
   var puchito = false;
   var descripcion = new TextEditingController();
   var Dtype;
+  var amount = new TextEditingController();
   var date = new TextEditingController();
 
   var ica;
@@ -54,6 +55,7 @@ class detailDonacionState extends State<detailDonacion> {
       descripcion.text = ica["description"];
       date.text = ica["date"];
       Dtype = ica["type_of_donation"];
+      amount.text = ica["cantidad"].toString();
     }
   }
 
@@ -72,6 +74,12 @@ class detailDonacionState extends State<detailDonacion> {
           leading: Text("Descripcion"),
           title: TextField(
             controller: descripcion,
+          ),
+        ),
+        ListTile(
+          leading: Text("Cantidad"),
+          title: TextField(
+            controller: amount,
           ),
         ),
         ListTile(
@@ -141,6 +149,7 @@ class detailDonacionState extends State<detailDonacion> {
                 "date": date.text,
                 "description": descripcion.text,
                 "type_of_donation": getItemIndex(),
+                "cantidad": int.parse(amount.text)
               },
               options: Options(headers: {
                 "Authorization":
