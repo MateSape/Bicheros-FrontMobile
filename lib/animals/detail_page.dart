@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart';
 import 'package:youtube_player/youtube_player.dart';
+import 'photos/photosPage.dart';
 import 'package:bicheros_frontmobile/animals/hm/historialM_page.dart';
 
 class DetailPage extends StatefulWidget {
@@ -177,6 +178,21 @@ class _DetailPageState extends State<DetailPage> {
             context,
             MaterialPageRoute(
               builder: (context) => historialMPage(
+                token: widget.token,
+                baseDir: widget.baseDir,
+                anid: ica["id_animal"],
+              ),
+            ),
+          );
+        },
+      ),
+      MaterialButton(
+        child: Text("Fotos"),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => photosPage(
                 token: widget.token,
                 baseDir: widget.baseDir,
                 anid: ica["id_animal"],

@@ -15,11 +15,6 @@ class donationsPage extends StatefulWidget {
 
 class donationsPageState extends State<donationsPage> {
   var dio;
-  var _filter = new TextEditingController(text: "");
-  Icon _searchIcon = new Icon(
-    Icons.search,
-    color: Colors.white,
-  );
   int v1 = 0;
   int v2 = 0;
   int v3 = 0;
@@ -39,7 +34,7 @@ class donationsPageState extends State<donationsPage> {
   }
 
   Future getJsonData() async {
-    var response = await dio.get('donacion/?search=${_filter.text}',
+    var response = await dio.get('donacion/',
         options: Options(headers: {"Authorization": "Token ${widget.token}"}));
     setState(() {
       data = response.data;
