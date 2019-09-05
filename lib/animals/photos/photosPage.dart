@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:bicheros_frontmobile/donations/add_donation.dart';
-import 'package:bicheros_frontmobile/donations/donation_page.dart';
+import 'addPhotoPage.dart';
 
 class photosPage extends StatefulWidget {
   final String token;
@@ -77,15 +76,16 @@ class photosPageState extends State<photosPage> {
           : _renderAnimalList(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          /*Navigator.push(
+          Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => add_donation_page(
+              builder: (context) => addPhotoPage(
                 token: widget.token,
                 baseDir: widget.baseDir,
+                anid: widget.anid,
               ),
             ),
-          );*/
+          );
         },
         tooltip: 'Add',
         child: Icon(Icons.add),

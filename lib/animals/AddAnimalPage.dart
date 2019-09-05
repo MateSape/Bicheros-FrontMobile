@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import "dart:async";
-import 'dart:io';
-import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
@@ -16,7 +14,6 @@ class AddAnimalPage extends StatefulWidget {
 class AddAnimalPageState extends State<AddAnimalPage> {
   var dio;
 
-  File image;
   var name = new TextEditingController();
   var race = new TextEditingController();
   DateTime dateFounded;
@@ -42,14 +39,6 @@ class AddAnimalPageState extends State<AddAnimalPage> {
     getCaps();
     getVets();
     super.initState();
-  }
-
-  Future getImage() async {
-    var image2 = await ImagePicker.pickImage(source: ImageSource.gallery);
-
-    setState(() {
-      image = image2;
-    });
   }
 
   Future getCaps() async {
@@ -178,33 +167,6 @@ class AddAnimalPageState extends State<AddAnimalPage> {
                 ),
                 color: Colors.lightBlue,
               )),
-          ListTile(
-            leading: image == null
-                ? CircleAvatar(
-                    child: Text("N"),
-                  )
-                : IconButton(
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                                title: Image(image: FileImage(image)));
-                          });
-                    },
-                    icon: CircleAvatar(
-                      backgroundImage: FileImage(image),
-                    ),
-                  ),
-            title: MaterialButton(
-              color: Colors.lightBlue,
-              onPressed: () => getImage(),
-              child: Icon(
-                Icons.image,
-                color: Colors.white,
-              ),
-            ),
-          ),
           ListTile(
             leading: Text("Raza: "),
             title: TextField(
