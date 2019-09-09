@@ -23,10 +23,6 @@ class _HomePageState extends State<HomePage> {
   var dio;
   var _filter = new TextEditingController(text: "");
   var sexFilter = "";
-  Icon _searchIcon = new Icon(
-    Icons.search,
-    color: Colors.white,
-  );
   Widget _appBarTitle = new Text("Bichero's App");
   List data;
   List<DropdownMenuItem<String>> sexos = [

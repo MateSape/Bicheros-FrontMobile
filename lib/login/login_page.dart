@@ -13,7 +13,7 @@ class loginPageState extends State<loginPage> {
   // 192.168.0.X
   // 172.20.10.X
   // 192.168.100.X
-  var baseDir = "http://192.168.150.191:8080";
+  var baseDir = "http://192.168.150.248:8080";
   var token;
 
   TextEditingController usernameController = TextEditingController();

@@ -3,6 +3,7 @@ import 'package:bicheros_frontmobile/animals/hm/detail_historialM.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'add_historialM.dart';
+// import 'package:flutter_share_me/flutter_share_me.dart';
 
 class historialMPage extends StatefulWidget {
   final String token;
@@ -68,6 +69,16 @@ class historialMPageState extends State<historialMPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Historial Medico"),
+        actions: <Widget>[
+          /*IconButton(
+            icon: Icon(Icons.share),
+              onPressed: () async {
+              var response = await FlutterShareMe().shareToWhatsApp(
+                msg: 'hola bb'
+              );
+              },
+          ),*/
+        ],
       ),
       body: data == null ? Center(
         child: SpinKitWave(
