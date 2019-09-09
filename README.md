@@ -28,7 +28,7 @@ Cambiar el directorio al del proyecto.
 cd Bicheros-FrontMobile/
 ```
 
-Installar las dependencias
+Instalar las dependencias
 
 ```
 flutter pub get
