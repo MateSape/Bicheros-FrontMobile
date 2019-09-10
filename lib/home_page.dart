@@ -87,11 +87,6 @@ class _HomePageState extends State<HomePage> {
             );
           }
           return ListTile(
-            leading: /*CircleAvatar(
-              backgroundImage: data[index - 1]["photo"] == null
-                  ? null
-                  : NetworkImage(data[index - 1]["photo"]),
-            )*/Text(data[index -1]["race"]),
             title: Text(
               ' ${data[index - 1]["name"]}',
               textAlign: TextAlign.center,

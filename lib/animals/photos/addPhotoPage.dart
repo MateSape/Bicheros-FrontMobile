@@ -28,6 +28,7 @@ class addPhotoPageState extends State<addPhotoPage> {
     dio = Dio(options);
   }
 
+
   Future getImage() async {
     var image2 = await ImagePicker.pickImage(source: ImageSource.gallery);
 
@@ -40,7 +41,7 @@ class addPhotoPageState extends State<addPhotoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Añadir nueva donacion"),
+        title: Text("Añadir nueva foto"),
       ),
       body: ListView(
         children: <Widget>[

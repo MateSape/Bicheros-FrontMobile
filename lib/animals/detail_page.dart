@@ -149,7 +149,7 @@ class _DetailPageState extends State<DetailPage> {
       Text("Raza: ${ica["race"]  == null ? "*****" : ica["race"]}"),
       Text("Adoptante: " +
           (cap == null ? " Ninguno." : cap["nameC"] + " " + cap["last_nameC"])),
-      Text("Ubicacion actual: " + (vet == null ? " Ninguna." : vet["name"])),
+      Text("Ubicado en: " + (vet == null ? " Ninguna." : vet["name"])),
       ica["video"] != null
           ? ica["video"] != "" ? ListTile(
               leading: Text("Video"),
@@ -171,7 +171,7 @@ class _DetailPageState extends State<DetailPage> {
       Text("Especie: ${ica["species"]  == null ? "*****" : ica["species"]}"),
       Text("Temperamento: ${ica["temperamento"]  == null ? "*****" : ica["temperamento"]}"),
       MaterialButton(
-        child: Text("Historial medico"),
+        child: Text("Historial medico", style: TextStyle(color: Colors.white),),
         color: Colors.green,
         onPressed: () {
           Navigator.push(
@@ -187,7 +187,8 @@ class _DetailPageState extends State<DetailPage> {
         },
       ),
       MaterialButton(
-        child: Text("Fotos"),
+        child: Text("Fotos", style: TextStyle(color: Colors.white),),
+        color: Colors.blueAccent,
         onPressed: () {
           Navigator.push(
             context,
@@ -207,23 +208,6 @@ class _DetailPageState extends State<DetailPage> {
       itemCount: items.length,
       itemBuilder: (context, index) => index == 0
           ? ListTile(
-              leading: IconButton(
-                onPressed: () {
-                  if (ica["photo"] != null) {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                              title: Image.network(ica["photo"]));
-                        });
-                  }
-                  ;
-                },
-                icon: CircleAvatar(
-                  backgroundImage:
-                      ica["photo"] == null ? null : NetworkImage(ica["photo"]),
-                ),
-              ),
               title: items[index],
             )
           : ListTile(title: items[index]),
@@ -319,7 +303,7 @@ class _DetailPageState extends State<DetailPage> {
             });
           },
         ),
-        leading: Text("Ubicacion actual: "),
+        leading: Text("Ubicado en: "),
       ),
       ListTile(
         leading: Text("sexo"),

@@ -203,7 +203,7 @@ class AddAnimalPageState extends State<AddAnimalPage> {
                 });
               },
             ),
-            leading: Text("Ubicacion actual: "),
+            leading: Text("Ubicado en: "),
           ),
           ListTile(
               leading: Text("Sexo: "),

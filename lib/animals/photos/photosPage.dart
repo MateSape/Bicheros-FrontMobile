@@ -1,7 +1,9 @@
+import 'package:bicheros_frontmobile/donations/detail_donation.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'addPhotoPage.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class photosPage extends StatefulWidget {
   final String token;
@@ -47,13 +49,42 @@ class photosPageState extends State<photosPage> {
         crossAxisSpacing: 8.0,
         mainAxisSpacing: 5.0,
         children: data
-            .map((data) => Card(
+            .map((data) => GestureDetector(
+          onTap: () {
+            Alert(context: context, title: "Borrar Foto", desc: "Esta seguro que quiere borrar esta foto?",buttons: <DialogButton>[
+              DialogButton(
+                child: Text("No, todavia no", style: TextStyle(color: Colors.white),),
+                color: Colors.red,
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              DialogButton(
+                child: Text("Si, estoy seguro", style: TextStyle(color: Colors.white),),
+                color: Colors.green,
+                onPressed: () {
+                  dio.delete(
+                    "photo/${data["id_photo"]}/",
+                    options:  Options(
+                        method: 'POST',
+                        responseType: ResponseType.plain,
+                        headers: {"Authorization": "Token ${widget.token}"})
+                  );
+                  getJsonData();
+                  Navigator.pop(context);
+                },
+              ),
+            ])
+                .show();
+          },
+              child: Card(
           child: Center(
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Image(image: NetworkImage(data["photo"]),),
-              )),
-        ))
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Image(image: NetworkImage(data["photo"]),),
+                )),
+        ),
+            ))
             .toList(),
       ),
     );
