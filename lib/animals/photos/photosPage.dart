@@ -54,14 +54,14 @@ class photosPageState extends State<photosPage> {
             Alert(context: context, title: "Borrar Foto", desc: "Esta seguro que quiere borrar esta foto?",buttons: <DialogButton>[
               DialogButton(
                 child: Text("No, todavia no", style: TextStyle(color: Colors.white),),
-                color: Colors.red,
+                color: Colors.green,
                 onPressed: () {
                   Navigator.pop(context);
                 },
               ),
               DialogButton(
                 child: Text("Si, estoy seguro", style: TextStyle(color: Colors.white),),
-                color: Colors.green,
+                color: Colors.red,
                 onPressed: () {
                   dio.delete(
                     "photo/${data["id_photo"]}/",
