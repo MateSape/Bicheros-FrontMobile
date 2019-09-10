@@ -2,13 +2,13 @@
 
 En este repositorio se encuentra todo el desarrollo de la parte movil del proyecto de "Bicheros". En el, se podra, entre otras cosas, gestionar los registros de animales, donaciones, adoptantes, saldo, y hogares para los animales. Todo desde un dispositivo movil de preferencia Android.
 
-![alt text](./ScreenLogin.jpg)
+![](./ScreenLogin.jpg)
 
-![alt text](./ScreenAnimals.png)
+![](./ScreenAnimals.png)
 
-![alt text](./ScreenPhotos.png)
+![](./ScreenPhotos.png)
 
-![alt text](./ScreenSaldo.png)
+![](./ScreenSaldo.png)
 
 ## Empezando
 
