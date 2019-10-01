@@ -82,7 +82,7 @@ class historialMPageState extends State<historialMPage> {
       ),
       body: data == null ? Center(
         child: SpinKitWave(
-          color: Colors.black,
+          color: Colors.white,
           size: 75.0,
         ),
       ) : _renderAnimalList(),

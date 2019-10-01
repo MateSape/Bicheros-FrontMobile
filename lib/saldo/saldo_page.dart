@@ -122,7 +122,7 @@ class saldo_page_state extends State<saldo_page> {
       body: balance == null
           ? Center(
               child: SpinKitWave(
-                color: Colors.black,
+                color: Colors.white,
                 size: 75.0,
               ),
             )
@@ -138,7 +138,6 @@ class saldo_page_state extends State<saldo_page> {
         },
         child: Icon(
           Icons.add,
-          color: Colors.white,
         ),
       ),
     );

@@ -197,7 +197,7 @@ class _HomePageState extends State<HomePage> {
       body: data == null
           ? Center(
               child: SpinKitWave(
-                color: Colors.black,
+                color: Colors.white,
                 size: 75.0,
               ),
             )
@@ -213,7 +213,7 @@ class _HomePageState extends State<HomePage> {
           );
         },
         tooltip: 'Add',
-        child: Icon(Icons.add),
+        child: Icon(Icons.add,),
       ),
     );
   }

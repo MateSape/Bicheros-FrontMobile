@@ -139,7 +139,7 @@ class detail_historialM_page_state extends State<detail_historialM_page> {
       body: hm == null
           ? Center(
               child: SpinKitWave(
-                color: Colors.black,
+                color: Colors.white,
                 size: 75.0,
               ),
             )

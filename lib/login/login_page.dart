@@ -13,7 +13,7 @@ class loginPageState extends State<loginPage> {
   // 192.168.0.X
   // 172.20.10.X
   // 192.168.100.X
-  var baseDir = "http://192.168.150.248:8080";
+  var baseDir = "http://192.168.43.135:8080";
   var token;
 
   TextEditingController usernameController = TextEditingController();
@@ -90,7 +90,7 @@ class loginPageState extends State<loginPage> {
     final registerLabel = FlatButton(
       child: Text(
         'Registrarse',
-        style: TextStyle(color: Colors.black54),
+        style: TextStyle(color: Colors.white),
       ),
       onPressed: () {
         Navigator.push(
@@ -103,7 +103,6 @@ class loginPageState extends State<loginPage> {
     );
 
     return Scaffold(
-      backgroundColor: Colors.white,
       body: Center(
         child: ListView(
           shrinkWrap: true,

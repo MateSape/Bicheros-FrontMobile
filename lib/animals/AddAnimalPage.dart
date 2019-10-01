@@ -24,6 +24,7 @@ class AddAnimalPageState extends State<AddAnimalPage> {
   var dropdownValue2;
   var temperamento = new TextEditingController();
   var video = new TextEditingController();
+  var past = new TextEditingController();
   DateTime birthDate;
 
   var dropdownButton;
@@ -110,14 +111,18 @@ class AddAnimalPageState extends State<AddAnimalPage> {
       body: ListView(
         children: <Widget>[
           ListTile(
-            leading: Text("Nombre: "),
             title: TextField(
+              decoration: InputDecoration(
+                hintText: "Nombre"
+              ),
               controller: name,
             ),
           ),
           ListTile(
-            leading: Text("Lugar Encontrado: "),
             title: TextField(
+              decoration: InputDecoration(
+                  hintText: "Lugar Encontrado"
+              ),
               controller: placeFounded,
             ),
           ),
@@ -168,20 +173,24 @@ class AddAnimalPageState extends State<AddAnimalPage> {
                 color: Colors.lightBlue,
               )),
           ListTile(
-            leading: Text("Raza: "),
             title: TextField(
+              decoration: InputDecoration(
+                  hintText: "Raza"
+              ),
               controller: race,
             ),
           ),
           ListTile(
-            leading: Text("Video: "),
             title: TextField(
+              decoration: InputDecoration(
+                  hintText: "Video"
+              ),
               controller: video,
             ),
           ),
           ListTile(
             title: DropdownButton<String>(
-              hint: Text("Seleccione una opcion"),
+              hint: Text("Seleccione un adoptante"),
               value: dropdownValue,
               items: caps.length == 0 ? null : caps,
               onChanged: (value) {
@@ -190,11 +199,10 @@ class AddAnimalPageState extends State<AddAnimalPage> {
                 });
               },
             ),
-            leading: Text("Cap"),
           ),
           ListTile(
             title: DropdownButton<String>(
-              hint: Text("Seleccione una opcion"),
+              hint: Text("Seleccione una veterinaria"),
               value: dropdownValue2,
               items: vets.length == 0 ? null : vets,
               onChanged: (value) {
@@ -203,10 +211,8 @@ class AddAnimalPageState extends State<AddAnimalPage> {
                 });
               },
             ),
-            leading: Text("Ubicado en: "),
           ),
           ListTile(
-              leading: Text("Sexo: "),
               title: MaterialButton(
                 onPressed: () {
                   setState(() {
@@ -215,22 +221,34 @@ class AddAnimalPageState extends State<AddAnimalPage> {
                 },
                 child: gender == false
                     ? Text(
-                        "Masculino",
+                        "Macho",
                         style: TextStyle(color: Colors.white),
                       )
-                    : Text("Femenino", style: TextStyle(color: Colors.white)),
+                    : Text("Hembra", style: TextStyle(color: Colors.white)),
                 color: gender == false ? Colors.lightBlue : Colors.redAccent,
               )),
           ListTile(
-            leading: Text("Especie: "),
             title: TextField(
+              decoration: InputDecoration(
+                  hintText: "Especie"
+              ),
               controller: species,
             ),
           ),
           ListTile(
-            leading: Text("Temperamento: "),
             title: TextField(
+              decoration: InputDecoration(
+                  hintText: "Temperamento"
+              ),
               controller: temperamento,
+            ),
+          ),
+          ListTile(
+            title: TextField(
+              decoration: InputDecoration(
+                  hintText: "Historia"
+              ),
+              controller: past,
             ),
           ),
         ],
@@ -275,7 +293,6 @@ class AddAnimalPageState extends State<AddAnimalPage> {
         },
         child: Icon(
           Icons.save_alt,
-          color: Colors.white,
         ),
       ),
     );

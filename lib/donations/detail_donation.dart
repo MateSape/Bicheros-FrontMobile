@@ -136,7 +136,7 @@ class detailDonacionState extends State<detailDonacion> {
       body: ica == null
           ? Center(
         child: SpinKitWave(
-          color: Colors.black,
+          color: Colors.white,
           size: 75.0,
         ),
       )

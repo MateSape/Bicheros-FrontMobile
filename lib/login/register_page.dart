@@ -104,7 +104,6 @@ class registerPageState extends State<registerPage> {
     );
 
     return Scaffold(
-      backgroundColor: Colors.white,
       body: Center(
         child: ListView(
           shrinkWrap: true,

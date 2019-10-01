@@ -40,6 +40,7 @@ class _DetailPageState extends State<DetailPage> {
   var species = new TextEditingController();
   var temperamento = new TextEditingController();
   var video = new TextEditingController();
+  var past = new TextEditingController();
   var editMode = false;
   var ica;
 
@@ -71,14 +72,6 @@ class _DetailPageState extends State<DetailPage> {
       getVet();
     }
     getVets();
-  }
-
-  Future getImage() async {
-    var image2 = await ImagePicker.pickImage(source: ImageSource.gallery);
-
-    setState(() {
-      newImage = image2;
-    });
   }
 
   Future getCap() async {
@@ -170,6 +163,7 @@ class _DetailPageState extends State<DetailPage> {
       Text("Sexo: ${ica["gender"]  == null ? "*****" : ica["gender"]}"),
       Text("Especie: ${ica["species"]  == null ? "*****" : ica["species"]}"),
       Text("Temperamento: ${ica["temperamento"]  == null ? "*****" : ica["temperamento"]}"),
+      Text("Historia: ${ica["historia"]  == null ? "*****" : ica["historia"]}"),
       MaterialButton(
         child: Text("Historial medico", style: TextStyle(color: Colors.white),),
         color: Colors.green,
@@ -237,6 +231,7 @@ class _DetailPageState extends State<DetailPage> {
         vetValue = ica["veterinaria"].toString();
       }
       temperamento.text = ica["temperamento"];
+      past.text = ica["historia"];
     }
     return editMode == false ? _renderAnimalDetail() : _renderAnimalEdit();
   }
@@ -244,44 +239,56 @@ class _DetailPageState extends State<DetailPage> {
   Widget _renderAnimalEdit() {
     List<Widget> items = [
       ListTile(
-        leading: Text("nombre"),
         title: TextField(
+          decoration: InputDecoration(
+              hintText: "Nombre"
+          ),
           controller: name,
         ),
       ),
       ListTile(
-        leading: Text("Lugar encontrado"),
         title: TextField(
+          decoration: InputDecoration(
+              hintText: "Lugar encontrado"
+          ),
           controller: placeFounded,
         ),
       ),
       ListTile(
-        leading: Text("fecha encontrado"),
         title: TextField(
+          decoration: InputDecoration(
+              hintText: "Fecha encontrado"
+          ),
           controller: dateFounded,
         ),
       ),
       ListTile(
-        leading: Text("fecha de nacimiento"),
         title: TextField(
+          decoration: InputDecoration(
+              hintText: "Fecha de nacimiento"
+          ),
           controller: birthDate,
         ),
       ),
       ListTile(
-        leading: Text("Raza"),
         title: TextField(
+          decoration: InputDecoration(
+              hintText: "raza"
+          ),
           controller: race,
         ),
       ),
       ListTile(
-        leading: Text("Video"),
         title: TextField(
+          decoration: InputDecoration(
+              hintText: "video"
+          ),
           controller: video,
         ),
       ),
       ListTile(
         title: DropdownButton<String>(
-          hint: Text("Seleccione una opcion"),
+          hint: Text("Seleccione un adoptante"),
           value: capValue,
           items: caps.length == 0 ? null : caps,
           onChanged: (value) {
@@ -290,11 +297,10 @@ class _DetailPageState extends State<DetailPage> {
             });
           },
         ),
-        leading: Text("Cap"),
       ),
       ListTile(
         title: DropdownButton<String>(
-          hint: Text("Seleccione una opcion"),
+          hint: Text("Seleccione una veterinaria"),
           value: vetValue,
           items: vets.length == 0 ? null : vets,
           onChanged: (value) {
@@ -303,10 +309,8 @@ class _DetailPageState extends State<DetailPage> {
             });
           },
         ),
-        leading: Text("Ubicado en: "),
       ),
       ListTile(
-        leading: Text("sexo"),
         title: MaterialButton(
           onPressed: () {
             setState(() {
@@ -323,56 +327,27 @@ class _DetailPageState extends State<DetailPage> {
         ),
       ),
       ListTile(
-        leading: Text("Especie"),
         title: TextField(
+          decoration: InputDecoration(
+              hintText: "Especie"
+          ),
           controller: species,
         ),
       ),
       ListTile(
-        leading: Text("Temperamento"),
         title: TextField(
+          decoration: InputDecoration(
+              hintText: "Temperamento"
+          ),
           controller: temperamento,
         ),
       ),
       ListTile(
-        leading: newImage == null
-            ? IconButton(
-                icon: CircleAvatar(
-                  backgroundImage:
-                      ica["photo"] == null ? null : NetworkImage(ica["photo"]),
-                ),
-                onPressed: () {
-                  if (ica["photo"] != null) {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                              title: Image(image: NetworkImage(ica["photo"])));
-                        });
-                  }
-                  ;
-                },
-              )
-            : IconButton(
-                onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                            title: Image(image: FileImage(newImage)));
-                      });
-                },
-                icon: CircleAvatar(
-                  backgroundImage: FileImage(newImage),
-                ),
-              ),
-        title: MaterialButton(
-          color: Colors.lightBlue,
-          onPressed: () => getImage(),
-          child: Icon(
-            Icons.image,
-            color: Colors.white,
+        title: TextField(
+          decoration: InputDecoration(
+              hintText: "Historia"
           ),
+          controller: past,
         ),
       ),
       ListTile(
@@ -422,7 +397,7 @@ class _DetailPageState extends State<DetailPage> {
       body: ica == null
           ? Center(
               child: SpinKitWave(
-                color: Colors.black,
+                color: Colors.white,
                 size: 75.0,
               ),
             )
@@ -444,7 +419,8 @@ class _DetailPageState extends State<DetailPage> {
                       vetValue == "9999" ? null : int.parse(vetValue),
                   "gender": gender == false ? 0 : 1,
                   "video": video.text == " " ? null : video.text,
-                  "temperamento": temperamento.text
+                  "temperamento": temperamento.text,
+                  "historia": past.text
                 });
                 dio
                     .put('animals/${widget.animal.toString()}/',

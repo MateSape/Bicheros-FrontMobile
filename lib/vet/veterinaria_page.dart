@@ -81,7 +81,7 @@ class VeterinariaPageState extends State<VeterinariaPage> {
       ),
       body: data == null ? Center(
         child: SpinKitWave(
-          color: Colors.black,
+          color: Colors.white,
           size: 75.0,
         ),
       ) : _renderAnimalList(),

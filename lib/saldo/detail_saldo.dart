@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:io';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:dio/dio.dart';
 
@@ -99,7 +98,7 @@ class _DetailSaldoState extends State<detail_saldo> {
       body: ica == null
           ? Center(
               child: SpinKitWave(
-                color: Colors.black,
+                color: Colors.white,
                 size: 75.0,
               ),
             )
