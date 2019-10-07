@@ -56,16 +56,17 @@ class _DetailSaldoState extends State<detail_saldo> {
     return ListView(
       children: <Widget>[
         ListTile(
-          leading: Text("Monto"),
           title: TextField(
             controller: monto,
+            decoration: InputDecoration(
+                hintText: "Monto"
+            ),
           ),
         ),
         ListTile(
           title: TextField(
             controller: date,
           ),
-          leading: Text("Fecha"),
         ),
         ListTile(
           title: MaterialButton(
@@ -120,7 +121,6 @@ class _DetailSaldoState extends State<detail_saldo> {
         },
         child: Icon(
           Icons.save_alt,
-          color: Colors.white,
         ),
       ),
     );

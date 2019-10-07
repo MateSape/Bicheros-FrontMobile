@@ -44,8 +44,10 @@ class add_monto_page_state extends State<add_monto_page> {
           ListTile(
             title: TextField(
               controller: amount,
+              decoration: InputDecoration(
+                  hintText: "Monto"
+              ),
             ),
-            leading: Text("Monto"),
           ),
           ListTile(
             title: MaterialButton(
@@ -71,7 +73,6 @@ class add_monto_page_state extends State<add_monto_page> {
                         '${Mdate.day.toString()} / ' +
                             '${Mdate.month.toString()} / ${Mdate.year.toString()}',
                         style: TextStyle(color: Colors.white))),
-            leading: Text("Fecha"),
           ),
           ListTile(
             title: MaterialButton(
@@ -88,7 +89,6 @@ class add_monto_page_state extends State<add_monto_page> {
                   : Text("Gasto", style: TextStyle(color: Colors.white)),
               color: type == false ? Colors.greenAccent : Colors.redAccent,
             ),
-            leading: Text("Tipo"),
           ),
         ],
       ),
@@ -113,7 +113,6 @@ class add_monto_page_state extends State<add_monto_page> {
         },
         child: Icon(
           Icons.save_alt,
-          color: Colors.white,
         ),
       ),
     );

@@ -50,29 +50,32 @@ class AddCapPageState extends State<AddCapPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Agregar Animal"),
+        title: Text("Agregar Adoptante"),
       ),
       body: ListView(
         children: <Widget>[
           ListTile(
-            leading: Text("Nombre: "),
             title: TextField(
               controller: name,
+              decoration: InputDecoration(
+                  hintText: "Nombre"
+              ),
             ),
           ),
           ListTile(
-            leading: Text("Apellido: "),
             title: TextField(
-              controller: surname,
+              controller: surname,decoration: InputDecoration(
+                hintText: "Apellido"
+            ),
+
             ),
           ),
           ListTile(
-              leading: Text("Fecha de nacimiento: "),
               title: birthDate == null
                   ? MaterialButton(
                       onPressed: () => getDate(),
                       child: Text(
-                        "Seleccione una fecha",
+                        "fecha de nacimiento",
                         style: TextStyle(color: Colors.white),
                       ),
                       color: Colors.lightBlue,
@@ -90,21 +93,29 @@ class AddCapPageState extends State<AddCapPage> {
                       color: Colors.lightBlue,
                     )),
           ListTile(
-            leading: Text("email: "),
             title: TextField(
               controller: email,
+              decoration: InputDecoration(
+                hintText: "Email"
+            ),
+
             ),
           ),
           ListTile(
-            leading: Text("Direccion: "),
             title: TextField(
               controller: address,
+              decoration: InputDecoration(
+                hintText: "Direccion"
+            ),
+
             ),
           ),
           ListTile(
-            leading: Text("Telefono: "),
             title: TextField(
               controller: phone,
+              decoration: InputDecoration(
+                  hintText: "Telefono"
+              ),
             ),
           ),
         ],
@@ -135,7 +146,6 @@ class AddCapPageState extends State<AddCapPage> {
         },
         child: Icon(
           Icons.save_alt,
-          color: Colors.white,
         ),
       ),
     );

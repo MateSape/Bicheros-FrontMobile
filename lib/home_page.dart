@@ -87,6 +87,7 @@ class _HomePageState extends State<HomePage> {
             );
           }
           return ListTile(
+            subtitle: Text('Raza: ${data[index - 1]["race"]} \n Especie: ${data[index -1]["species"]}', textAlign: TextAlign.center,),
             title: Text(
               ' ${data[index - 1]["name"]}',
               textAlign: TextAlign.center,
@@ -176,9 +177,9 @@ class _HomePageState extends State<HomePage> {
               },
               child: Text(
                 "Log Out",
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.black),
               ),
-              color: Colors.blueAccent,
+              color: Colors.greenAccent,
             ),
           ),
         ),

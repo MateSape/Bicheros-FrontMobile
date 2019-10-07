@@ -45,14 +45,18 @@ class add_donation_page_state extends State<add_donation_page> {
           ListTile(
             title: TextField(
               controller: description,
+              decoration: InputDecoration(
+                  hintText: "Descripcion"
+              ),
             ),
-            leading: Text("Descripcion"),
           ),
           ListTile(
             title: TextField(
               controller: amount,
+              decoration: InputDecoration(
+                  hintText: "Cantidad"
+              ),
             ),
-            leading: Text("Cantidad"),
           ),
           ListTile(
             title: MaterialButton(
@@ -78,11 +82,10 @@ class add_donation_page_state extends State<add_donation_page> {
                         '${Mdate.day.toString()} / ' +
                             '${Mdate.month.toString()} / ${Mdate.year.toString()}',
                         style: TextStyle(color: Colors.white))),
-            leading: Text("Fecha"),
           ),
           ListTile(
             title: new DropdownButton<String>(
-              hint: Text("Seleccione una opcion"),
+              hint: Text("Seleccione un tipo de donacion"),
               value: dropdownValue,
               items: type.map((String value) {
                 return new DropdownMenuItem<String>(
@@ -96,7 +99,6 @@ class add_donation_page_state extends State<add_donation_page> {
                 });
               },
             ),
-            leading: Text("Tipo"),
           ),
         ],
       ),
@@ -110,7 +112,7 @@ class add_donation_page_state extends State<add_donation_page> {
                         Mdate.month.toString() +
                         "-" +
                         Mdate.day.toString(),
-                    "description": amount.text,
+                    "description": description.text,
                     "type_of_donation": getItemIndex(),
                     'cantidad': int.parse(amount.text)
                   },
@@ -120,7 +122,6 @@ class add_donation_page_state extends State<add_donation_page> {
         },
         child: Icon(
           Icons.save_alt,
-          color: Colors.white,
         ),
       ),
     );

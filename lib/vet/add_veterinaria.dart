@@ -40,27 +40,35 @@ class AddVeterinariaPageState extends State<AddVeterinariaPage> {
       body: ListView(
         children: <Widget>[
           ListTile(
-            leading: Text("Nombre: "),
             title: TextField(
               controller: name,
+              decoration: InputDecoration(
+                hintText: "Nombre"
+              ),
             ),
           ),
           ListTile(
-            leading: Text("email: "),
             title: TextField(
               controller: email,
+              decoration: InputDecoration(
+                  hintText: "email"
+              ),
             ),
           ),
           ListTile(
-            leading: Text("Direccion: "),
             title: TextField(
               controller: address,
+              decoration: InputDecoration(
+                  hintText: "Direccion"
+              ),
             ),
           ),
           ListTile(
-            leading: Text("Telefono: "),
             title: TextField(
               controller: phone,
+              decoration: InputDecoration(
+                  hintText: "Telefono"
+              ),
             ),
           ),
         ],
@@ -85,7 +93,6 @@ class AddVeterinariaPageState extends State<AddVeterinariaPage> {
         },
         child: Icon(
           Icons.save_alt,
-          color: Colors.white,
         ),
       ),
     );

@@ -53,11 +53,12 @@ class add_historialM_page_state extends State<add_historialM_page> {
         ListTile(
           title: TextField(
             controller: enfermedad,
+            decoration: InputDecoration(
+              hintText: "Enfermedad"
+            ),
           ),
-          leading: Text("Enfermedad: "),
         ),
         ListTile(
-            leading: Text("Fecha: "),
             title: fecha == null
                 ? MaterialButton(
               onPressed: () => getDate(),
@@ -82,20 +83,22 @@ class add_historialM_page_state extends State<add_historialM_page> {
         ListTile(
           title: TextField(
             controller: descripcion,
+            decoration: InputDecoration(
+              hintText: "Descripcion"
+            ),
           ),
-          leading: Text("Descripcion: "),
         ),
         ListTile(
-          title: DropdownButton(
-            value: estado,
-            items: estados,
-            onChanged: (value) {
-              setState(() {
-                estado = value;
-              });
-            },
-          ),
-          leading: Text("Estado: "),
+           title: DropdownButton(
+             hint: Text("Elija un estado"),
+              value: estado,
+              items: estados,
+              onChanged: (value) {
+                setState(() {
+                  estado = value;
+                });
+              },
+            ),
         ),
       ],
     );

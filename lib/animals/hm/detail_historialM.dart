@@ -69,32 +69,38 @@ class detail_historialM_page_state extends State<detail_historialM_page> {
         ListTile(
           title: TextField(
             controller: enfermedad,
+            decoration: InputDecoration(
+              hintText: "Enfermedad"
+            ),
           ),
-          leading: Text("Enfermedad: "),
         ),
         ListTile(
           title: TextField(
             controller: fecha,
+            decoration: InputDecoration(
+                hintText: "Fecha"
+            ),
           ),
-          leading: Text("Fecha: "),
         ),
         ListTile(
           title: TextField(
             controller: descripcion,
+            decoration: InputDecoration(
+                hintText: "Descripcion"
+            ),
           ),
-          leading: Text("Descripcion: "),
         ),
         ListTile(
           title: DropdownButton(
             value: estado,
             items: estados,
+            hint: Text("Estado"),
             onChanged: (value) {
               setState(() {
                 estado = value;
               });
             },
           ),
-          leading: Text("Estado: "),
         ),
         ListTile(
           title: MaterialButton(

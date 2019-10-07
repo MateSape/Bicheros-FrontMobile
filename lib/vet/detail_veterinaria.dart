@@ -85,27 +85,37 @@ class DetailVetPageState extends State<DetailVetPage> {
   Widget _renderAnimalEdit() {
     List<Widget> items = [
       ListTile(
-        leading: Text("nombre"),
         title: TextField(
           controller: name,
+          decoration: InputDecoration(
+              hintText: "Nombre"
+          ),
         ),
       ),
       ListTile(
-        leading: Text("Direccion"),
         title: TextField(
           controller: address,
+          decoration: InputDecoration(
+            hintText: "Direccion"
+        ),
+
         ),
       ),
       ListTile(
-        leading: Text("email"),
         title: TextField(
           controller: email,
+          decoration: InputDecoration(
+              hintText: "Email"
+          ),
         ),
       ),
       ListTile(
-        leading: Text("telefono"),
         title: TextField(
           controller: phone,
+          decoration: InputDecoration(
+            hintText: "Telefono"
+        ),
+
         ),
       ),
       ListTile(

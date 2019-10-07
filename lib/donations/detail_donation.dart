@@ -71,27 +71,33 @@ class detailDonacionState extends State<detailDonacion> {
     return ListView(
       children: <Widget>[
         ListTile(
-          leading: Text("Descripcion"),
           title: TextField(
             controller: descripcion,
+            decoration: InputDecoration(
+              hintText: "Descripcion"
+            ),
           ),
         ),
         ListTile(
-          leading: Text("Cantidad"),
           title: TextField(
             controller: amount,
+            decoration: InputDecoration(
+              hintText: "Cantidad"
+          ),
+
           ),
         ),
         ListTile(
           title: TextField(
             controller: date,
+            decoration: InputDecoration(
+                hintText: "Fecha"
+            ),
           ),
-          leading: Text("Fecha"),
         ),
         ListTile(
-          leading: Text("Tipo "),
           title: new DropdownButton<String>(
-            hint: Text("Seleccione una opcion"),
+            hint: Text("Seleccione un tipo de donacion"),
             value: Dtype,
             items: type.map((String value) {
               return new DropdownMenuItem<String>(
@@ -106,6 +112,20 @@ class detailDonacionState extends State<detailDonacion> {
             },
           ),
         ),
+        ListTile(
+            title: MaterialButton(
+              onPressed: () {
+                dio.delete("donacion/${widget.donation.toString()}/",
+                    options:
+                    Options(headers: {"Authorization": "Token ${widget.token}"}));
+                Navigator.pop(context);
+              },
+              color: Colors.red,
+              child: Icon(
+                Icons.delete,
+                color: Colors.white,
+              ),
+            )),
       ],
     );
   }
@@ -117,21 +137,6 @@ class detailDonacionState extends State<detailDonacion> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Modificar donacion"),
-         actions: <Widget>[
-           IconButton(
-             icon: Icon(Icons.delete),
-             onPressed: () {
-               dio.delete(
-                 "donacion/${widget.donation}/",
-                   options: Options(headers: {
-                     "Authorization":
-                     "Token ${widget.token}"
-                   }),
-               );
-               Navigator.pop(context);
-             },
-           )
-         ],
       ),
       body: ica == null
           ? Center(
@@ -159,7 +164,6 @@ class detailDonacionState extends State<detailDonacion> {
         },
         child: Icon(
           Icons.save_alt,
-          color: Colors.white,
         ),
       ),
     );

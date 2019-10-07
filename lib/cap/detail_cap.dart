@@ -90,39 +90,51 @@ class _DetailCapPageState extends State<DetailCapPage> {
   Widget _renderAnimalEdit() {
     List<Widget> items = [
       ListTile(
-        leading: Text("nombre"),
         title: TextField(
           controller: name,
+          decoration: InputDecoration(
+              hintText: "Nombre"
+          ),
         ),
       ),
       ListTile(
-        leading: Text("apellido"),
         title: TextField(
           controller: surname,
+          decoration: InputDecoration(
+              hintText: "Apellido"
+          ),
         ),
       ),
       ListTile(
-        leading: Text("Direccion"),
         title: TextField(
           controller: address,
+          decoration: InputDecoration(
+              hintText: "Direccion"
+          ),
         ),
       ),
       ListTile(
-        leading: Text("fecha de nacimiento"),
         title: TextField(
           controller: birthdate,
+          decoration: InputDecoration(
+              hintText: "Fecha de nacimiento"
+          ),
         ),
       ),
       ListTile(
-        leading: Text("email"),
         title: TextField(
           controller: email,
+          decoration: InputDecoration(
+              hintText: "Email"
+          ),
         ),
       ),
       ListTile(
-        leading: Text("telefono"),
         title: TextField(
           controller: phone,
+          decoration: InputDecoration(
+              hintText: "Telefono"
+          ),
         ),
       ),
       ListTile(
@@ -152,7 +164,7 @@ class _DetailCapPageState extends State<DetailCapPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Informacion detallada animal",
+          "Informacion detallada Adoptante",
           textAlign: TextAlign.center,
         ),
         actions: <Widget>[
