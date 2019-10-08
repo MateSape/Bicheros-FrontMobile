@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:dio/dio.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class DetailVetPage extends StatefulWidget {
   final String baseDir;
@@ -121,10 +122,7 @@ class DetailVetPageState extends State<DetailVetPage> {
       ListTile(
           title: MaterialButton(
             onPressed: () {
-              dio.delete("veterinaria/${widget.vet.toString()}/",
-                  options:
-                  Options(headers: {"Authorization": "Token ${widget.token}"}));
-              Navigator.pop(context);
+              borrar();
             },
             color: Colors.red,
             child: Icon(
@@ -138,6 +136,58 @@ class DetailVetPageState extends State<DetailVetPage> {
       itemBuilder: (context, index) => items[index],
       separatorBuilder: (context, index) => Divider(),
     );
+  }
+
+  Future borrar() async {
+    Alert(
+      context: context,
+      title: "-- Borrar Veterinaria --",
+      style: AlertStyle(
+          titleStyle: TextStyle(color: Colors.white),
+          descStyle: TextStyle(color: Colors.white)),
+      desc: "Esta seguro que quiere borrar esta veterinaria?",
+      buttons: <DialogButton>[
+        DialogButton(
+          child: Text(
+            "No, todavia no",
+            style: TextStyle(color: Colors.white),
+          ),
+          color: Colors.green,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        DialogButton(
+          child: Text(
+            "Si, estoy seguro",
+            style: TextStyle(color: Colors.white),
+          ),
+          color: Colors.red,
+          onPressed: () {
+            try{
+              dio.delete("veterinaria/${widget.vet}/",
+                  options: Options(
+                      method: 'PUT',
+                      responseType: ResponseType.plain,
+                      headers: {
+                        "Authorization": "Token ${widget.token}"
+                      })
+              ).whenComplete(() {
+                Navigator.pop(context);
+                Navigator.pop(context);
+              });
+            }
+            catch(e){
+              Alert(
+                  context: context,
+                  title: "Error",
+                  desc: "Error, intente nuevamente.")
+                  .show();
+            }
+          },
+        ),
+      ],
+    ).show();
   }
 
   @override

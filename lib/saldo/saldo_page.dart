@@ -3,7 +3,7 @@ import "dart:async";
 import 'add_monto_page.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:dio/dio.dart';
-
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'detail_saldo.dart';
 
 class saldo_page extends StatefulWidget {
@@ -28,17 +28,15 @@ class saldo_page_state extends State<saldo_page> {
     puchito = true;
 
     BaseOptions options = new BaseOptions(
-        baseUrl: widget.baseDir+"/api/",);
+      baseUrl: widget.baseDir + "/api/",
+    );
     dio = Dio(options);
     getJsonData();
   }
 
   Future getJsonData() async {
-    var response = await dio.get("monto/", options: Options(
-        headers: {
-          "Authorization": "Token ${widget.token}"
-        }
-    ));
+    var response = await dio.get("monto/",
+        options: Options(headers: {"Authorization": "Token ${widget.token}"}));
     setState(() {
       balance = response.data;
       saldo = 0;
@@ -76,8 +74,11 @@ class saldo_page_state extends State<saldo_page> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        detail_saldo(saldo: balance[index - 1]["id"], token: widget.token, baseDir: widget.baseDir,),
+                    builder: (context) => detail_saldo(
+                      saldo: balance[index - 1]["id"],
+                      token: widget.token,
+                      baseDir: widget.baseDir,
+                    ),
                   ),
                 );
               },
@@ -95,15 +96,7 @@ class saldo_page_state extends State<saldo_page> {
                     color: Colors.redAccent,
                   ),
                   onPressed: () {
-                    dio.delete(
-                      "monto/${balance[index - 1]["id"]}/",
-                        options: Options(
-                            headers: {
-                              "Authorization": "Token ${widget.token}"
-                            }
-                        )
-                    );
-                    getJsonData();
+                    borrar(balance[index]["id"]);
                   }),
             );
           }
@@ -111,6 +104,56 @@ class saldo_page_state extends State<saldo_page> {
         itemCount: balance.length == null ? null : balance.length + 1,
       ),
     );
+  }
+
+  Future borrar(id) async {
+    Alert(
+      context: context,
+      title: "-- Borrar monto --",
+      style: AlertStyle(
+          titleStyle: TextStyle(color: Colors.white),
+          descStyle: TextStyle(color: Colors.white)),
+      desc: "Esta seguro que quiere borrar este monto?",
+      buttons: <DialogButton>[
+        DialogButton(
+          child: Text(
+            "No, todavia no",
+            style: TextStyle(color: Colors.white),
+          ),
+          color: Colors.green,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        DialogButton(
+          child: Text(
+            "Si, estoy seguro",
+            style: TextStyle(color: Colors.white),
+          ),
+          color: Colors.red,
+          onPressed: () {
+            try {
+              dio
+                  .delete("monto/${id}/",
+                      options: Options(
+                          method: 'PUT',
+                          responseType: ResponseType.plain,
+                          headers: {"Authorization": "Token ${widget.token}"}))
+                  .whenComplete(() {
+                Navigator.pop(context);
+                getJsonData();
+              });
+            } catch (e) {
+              Alert(
+                      context: context,
+                      title: "Error",
+                      desc: "Error, intente nuevamente.")
+                  .show();
+            }
+          },
+        ),
+      ],
+    ).show();
   }
 
   @override
@@ -132,7 +175,8 @@ class saldo_page_state extends State<saldo_page> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => add_monto_page(token: widget.token, baseDir: widget.baseDir),
+              builder: (context) =>
+                  add_monto_page(token: widget.token, baseDir: widget.baseDir),
             ),
           );
         },

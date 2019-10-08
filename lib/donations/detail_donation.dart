@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:dio/dio.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 BaseOptions options = new BaseOptions(
   baseUrl: "http:///192.168.100.235:8000/api/",
@@ -115,10 +116,7 @@ class detailDonacionState extends State<detailDonacion> {
         ListTile(
             title: MaterialButton(
               onPressed: () {
-                dio.delete("donacion/${widget.donation.toString()}/",
-                    options:
-                    Options(headers: {"Authorization": "Token ${widget.token}"}));
-                Navigator.pop(context);
+                borrar();
               },
               color: Colors.red,
               child: Icon(
@@ -128,6 +126,58 @@ class detailDonacionState extends State<detailDonacion> {
             )),
       ],
     );
+  }
+
+  Future borrar() async {
+    Alert(
+      context: context,
+      title: "-- Borrar donacion --",
+      style: AlertStyle(
+          titleStyle: TextStyle(color: Colors.white),
+          descStyle: TextStyle(color: Colors.white)),
+      desc: "Esta seguro que quiere borrar esta donacion?",
+      buttons: <DialogButton>[
+        DialogButton(
+          child: Text(
+            "No, todavia no",
+            style: TextStyle(color: Colors.white),
+          ),
+          color: Colors.green,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        DialogButton(
+          child: Text(
+            "Si, estoy seguro",
+            style: TextStyle(color: Colors.white),
+          ),
+          color: Colors.red,
+          onPressed: () {
+            try{
+              dio.delete("donacion/${widget.donation}/",
+                  options: Options(
+                      method: 'PUT',
+                      responseType: ResponseType.plain,
+                      headers: {
+                        "Authorization": "Token ${widget.token}"
+                      })
+              ).whenComplete(() {
+                Navigator.pop(context);
+                Navigator.pop(context);
+              });
+            }
+            catch(e){
+              Alert(
+                  context: context,
+                  title: "Error",
+                  desc: "Error, intente nuevamente.")
+                  .show();
+            }
+          },
+        ),
+      ],
+    ).show();
   }
 
   @override

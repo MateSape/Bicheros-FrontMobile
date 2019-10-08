@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:dio/dio.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class DetailCapPage extends StatefulWidget {
   final cap;
   final String token;
   final String baseDir;
 
-  DetailCapPage({Key key, this.cap, this.token, this.baseDir}) : super(key: key);
+  DetailCapPage({Key key, this.cap, this.token, this.baseDir})
+      : super(key: key);
 
   @override
   _DetailCapPageState createState() => _DetailCapPageState();
@@ -32,7 +34,7 @@ class _DetailCapPageState extends State<DetailCapPage> {
     super.initState();
 
     BaseOptions options = new BaseOptions(
-      baseUrl: widget.baseDir+"/api/",
+      baseUrl: widget.baseDir + "/api/",
     );
     dio = Dio(options);
     getJsonData();
@@ -92,58 +94,43 @@ class _DetailCapPageState extends State<DetailCapPage> {
       ListTile(
         title: TextField(
           controller: name,
-          decoration: InputDecoration(
-              hintText: "Nombre"
-          ),
+          decoration: InputDecoration(hintText: "Nombre"),
         ),
       ),
       ListTile(
         title: TextField(
           controller: surname,
-          decoration: InputDecoration(
-              hintText: "Apellido"
-          ),
+          decoration: InputDecoration(hintText: "Apellido"),
         ),
       ),
       ListTile(
         title: TextField(
           controller: address,
-          decoration: InputDecoration(
-              hintText: "Direccion"
-          ),
+          decoration: InputDecoration(hintText: "Direccion"),
         ),
       ),
       ListTile(
         title: TextField(
           controller: birthdate,
-          decoration: InputDecoration(
-              hintText: "Fecha de nacimiento"
-          ),
+          decoration: InputDecoration(hintText: "Fecha de nacimiento"),
         ),
       ),
       ListTile(
         title: TextField(
           controller: email,
-          decoration: InputDecoration(
-              hintText: "Email"
-          ),
+          decoration: InputDecoration(hintText: "Email"),
         ),
       ),
       ListTile(
         title: TextField(
           controller: phone,
-          decoration: InputDecoration(
-              hintText: "Telefono"
-          ),
+          decoration: InputDecoration(hintText: "Telefono"),
         ),
       ),
       ListTile(
           title: MaterialButton(
         onPressed: () {
-          dio.delete("cap/${widget.cap.toString()}/",
-              options:
-                  Options(headers: {"Authorization": "Token ${widget.token}"}));
-          Navigator.pop(context);
+          borrar();
         },
         color: Colors.red,
         child: Icon(
@@ -157,6 +144,56 @@ class _DetailCapPageState extends State<DetailCapPage> {
       itemBuilder: (context, index) => items[index],
       separatorBuilder: (context, index) => Divider(),
     );
+  }
+
+  Future borrar() async {
+    Alert(
+      context: context,
+      title: "-- Borrar Adoptante --",
+      style: AlertStyle(
+          titleStyle: TextStyle(color: Colors.white),
+          descStyle: TextStyle(color: Colors.white)),
+      desc: "Esta seguro que quiere borrar este adoptante?",
+      buttons: <DialogButton>[
+        DialogButton(
+          child: Text(
+            "No, todavia no",
+            style: TextStyle(color: Colors.white),
+          ),
+          color: Colors.green,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        DialogButton(
+          child: Text(
+            "Si, estoy seguro",
+            style: TextStyle(color: Colors.white),
+          ),
+          color: Colors.red,
+          onPressed: () {
+            try {
+              dio
+                  .delete("cap/${widget.cap}/",
+                      options: Options(
+                          method: 'PUT',
+                          responseType: ResponseType.plain,
+                          headers: {"Authorization": "Token ${widget.token}"}))
+                  .whenComplete(() {
+                Navigator.pop(context);
+                Navigator.pop(context);
+              });
+            } catch (e) {
+              Alert(
+                      context: context,
+                      title: "Error",
+                      desc: "Error, intente nuevamente.")
+                  .show();
+            }
+          },
+        ),
+      ],
+    ).show();
   }
 
   @override

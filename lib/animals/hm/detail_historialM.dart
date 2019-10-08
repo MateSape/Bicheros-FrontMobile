@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
@@ -115,25 +116,55 @@ class detail_historialM_page_state extends State<detail_historialM_page> {
   }
 
   Future delHM() async {
-    try{
-      dio.delete("historial/${widget.hid}/",
-          options: Options(
-              method: 'PUT',
-              responseType: ResponseType.plain,
-              headers: {
-                "Authorization": "Token ${widget.token}"
-              })
-      ).whenComplete(() {
-        Navigator.pop(context);
-      });
-    }
-    catch(e){
-      Alert(
-          context: context,
-          title: "Error",
-          desc: "Error, intente nuevamente.")
-          .show();
-    }
+    Alert(
+      context: context,
+      title: "-- Borrar Enfermedad --",
+      style: AlertStyle(
+          titleStyle: TextStyle(color: Colors.white),
+          descStyle: TextStyle(color: Colors.white)),
+      desc: "Esta seguro que quiere borrar esta enfermedad?",
+      buttons: <DialogButton>[
+        DialogButton(
+          child: Text(
+            "No, todavia no",
+            style: TextStyle(color: Colors.white),
+          ),
+          color: Colors.green,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        DialogButton(
+          child: Text(
+            "Si, estoy seguro",
+            style: TextStyle(color: Colors.white),
+          ),
+          color: Colors.red,
+          onPressed: () {
+            try{
+              dio.delete("historial/${widget.hid}/",
+                  options: Options(
+                      method: 'PUT',
+                      responseType: ResponseType.plain,
+                      headers: {
+                        "Authorization": "Token ${widget.token}"
+                      })
+              ).whenComplete(() {
+                Navigator.pop(context);
+                Navigator.pop(context);
+              });
+            }
+            catch(e){
+              Alert(
+                  context: context,
+                  title: "Error",
+                  desc: "Error, intente nuevamente.")
+                  .show();
+            }
+          },
+        ),
+      ],
+    ).show();
   }
 
   @override

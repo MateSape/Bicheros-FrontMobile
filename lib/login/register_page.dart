@@ -92,8 +92,8 @@ class registerPageState extends State<registerPage> {
           }
         },
         padding: EdgeInsets.all(12),
-        color: Colors.lightBlueAccent,
-        child: Text('Registrarse', style: TextStyle(color: Colors.white)),
+        color: Colors.greenAccent,
+        child: Text('Registrarse', style: TextStyle(color: Colors.black)),
       ),
     );
     final backButton = IconButton(

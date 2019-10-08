@@ -50,41 +50,60 @@ class photosPageState extends State<photosPage> {
         mainAxisSpacing: 5.0,
         children: data
             .map((data) => GestureDetector(
-          onTap: () {
-            Alert(context: context, title: "Borrar Foto", desc: "Esta seguro que quiere borrar esta foto?",buttons: <DialogButton>[
-              DialogButton(
-                child: Text("No, todavia no", style: TextStyle(color: Colors.white),),
-                color: Colors.green,
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-              DialogButton(
-                child: Text("Si, estoy seguro", style: TextStyle(color: Colors.white),),
-                color: Colors.red,
-                onPressed: () {
-                  dio.delete(
-                    "photo/${data["id_photo"]}/",
-                    options:  Options(
-                        method: 'POST',
-                        responseType: ResponseType.plain,
-                        headers: {"Authorization": "Token ${widget.token}"})
-                  );
-                  getJsonData();
-                  Navigator.pop(context);
-                },
-              ),
-            ])
-                .show();
-          },
-              child: Card(
-          child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Image(image: NetworkImage(data["photo"]),),
-                )),
-        ),
-            ))
+                  onTap: () {
+                    Alert(
+                        context: context,
+                        title: "Borrar Foto",
+                        desc: "Esta seguro que quiere borrar esta foto?",
+                        style: AlertStyle(
+                            titleStyle: TextStyle(
+                                color: Colors.white
+                            ),
+                            descStyle: TextStyle(
+                                color: Colors.white
+                            )
+                        ),
+                        buttons: <DialogButton>[
+                          DialogButton(
+                            child: Text(
+                              "No, todavia no",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            color: Colors.green,
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                          DialogButton(
+                            child: Text(
+                              "Si, estoy seguro",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            color: Colors.red,
+                            onPressed: () {
+                              dio.delete("photo/${data["id_photo"]}/",
+                                  options: Options(
+                                      method: 'POST',
+                                      responseType: ResponseType.plain,
+                                      headers: {
+                                        "Authorization": "Token ${widget.token}"
+                                      }));
+                              getJsonData();
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ]).show();
+                  },
+                  child: Card(
+                    child: Center(
+                        child: Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Image(
+                        image: NetworkImage(data["photo"]),
+                      ),
+                    )),
+                  ),
+                ))
             .toList(),
       ),
     );
@@ -99,11 +118,11 @@ class photosPageState extends State<photosPage> {
       ),
       body: data == null
           ? Center(
-        child: SpinKitWave(
-          color: Colors.white,
-          size: 75.0,
-        ),
-      )
+              child: SpinKitWave(
+                color: Colors.white,
+                size: 75.0,
+              ),
+            )
           : _renderAnimalList(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

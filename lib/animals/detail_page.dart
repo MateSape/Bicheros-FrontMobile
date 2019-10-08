@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'dart:io';
-import 'package:image_picker/image_picker.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:dio/dio.dart';
 import 'package:youtube_player/youtube_player.dart';
 import 'photos/photosPage.dart';
@@ -136,36 +136,45 @@ class _DetailPageState extends State<DetailPage> {
           fontWeight: FontWeight.bold,
         ),
       ),
-      Text("Lugar encontrado: ${ica["place_founded"]  == null ? "*****" : ica["place_founded"]}"),
-      Text("Fecha encontrado: ${ica["date_founded"]  == null ? "*****" : ica["date_founded"]}"),
-      Text("Fecha de nacimiento: ${ica["date_of_birth"]  == null ? "*****" : ica["date_of_birth"]}"),
-      Text("Raza: ${ica["race"]  == null ? "*****" : ica["race"]}"),
+      Text(
+          "Lugar encontrado: ${ica["place_founded"] == null ? "*****" : ica["place_founded"]}"),
+      Text(
+          "Fecha encontrado: ${ica["date_founded"] == null ? "*****" : ica["date_founded"]}"),
+      Text(
+          "Fecha de nacimiento: ${ica["date_of_birth"] == null ? "*****" : ica["date_of_birth"]}"),
+      Text("Raza: ${ica["race"] == null ? "*****" : ica["race"]}"),
       Text("Adoptante: " +
           (cap == null ? " Ninguno." : cap["nameC"] + " " + cap["last_nameC"])),
       Text("Ubicado en: " + (vet == null ? " Ninguna." : vet["name"])),
       ica["video"] != null
-          ? ica["video"] != "" ? ListTile(
-              leading: Text("Video"),
-              title: YoutubePlayer(
-                width: 225,
-                autoPlay: false,
-                context: context,
-                source: ica["video"],
-                quality: YoutubeQuality.LOWEST,
-                // callbackController is (optional).
-                // use it to control player on your own.
-                callbackController: (controller) {
-                  var _videoController = controller;
-                },
-              ),
-            )
-          : Text("Link nulo o no valido") : Text("Link nulo o no valido"),
-      Text("Sexo: ${ica["gender"]  == null ? "*****" : ica["gender"]}"),
-      Text("Especie: ${ica["species"]  == null ? "*****" : ica["species"]}"),
-      Text("Temperamento: ${ica["temperamento"]  == null ? "*****" : ica["temperamento"]}"),
-      Text("Historia: ${ica["historia"]  == null ? "*****" : ica["historia"]}"),
+          ? ica["video"] != ""
+              ? ListTile(
+                  leading: Text("Video"),
+                  title: YoutubePlayer(
+                    width: 225,
+                    autoPlay: false,
+                    context: context,
+                    source: ica["video"],
+                    quality: YoutubeQuality.LOWEST,
+                    // callbackController is (optional).
+                    // use it to control player on your own.
+                    callbackController: (controller) {
+                      var _videoController = controller;
+                    },
+                  ),
+                )
+              : Text("Link nulo o no valido")
+          : Text("Link nulo o no valido"),
+      Text("Sexo: ${ica["gender"] == null ? "*****" : ica["gender"]}"),
+      Text("Especie: ${ica["species"] == null ? "*****" : ica["species"]}"),
+      Text(
+          "Temperamento: ${ica["temperamento"] == null ? "*****" : ica["temperamento"]}"),
+      Text("Historia: ${ica["historia"] == null ? "*****" : ica["historia"]}"),
       MaterialButton(
-        child: Text("Historial medico", style: TextStyle(color: Colors.white),),
+        child: Text(
+          "Historial medico",
+          style: TextStyle(color: Colors.white),
+        ),
         color: Colors.green,
         onPressed: () {
           Navigator.push(
@@ -181,7 +190,10 @@ class _DetailPageState extends State<DetailPage> {
         },
       ),
       MaterialButton(
-        child: Text("Fotos", style: TextStyle(color: Colors.white),),
+        child: Text(
+          "Fotos",
+          style: TextStyle(color: Colors.white),
+        ),
         color: Colors.blueAccent,
         onPressed: () {
           Navigator.push(
@@ -240,49 +252,37 @@ class _DetailPageState extends State<DetailPage> {
     List<Widget> items = [
       ListTile(
         title: TextField(
-          decoration: InputDecoration(
-              hintText: "Nombre"
-          ),
+          decoration: InputDecoration(hintText: "Nombre"),
           controller: name,
         ),
       ),
       ListTile(
         title: TextField(
-          decoration: InputDecoration(
-              hintText: "Lugar encontrado"
-          ),
+          decoration: InputDecoration(hintText: "Lugar encontrado"),
           controller: placeFounded,
         ),
       ),
       ListTile(
         title: TextField(
-          decoration: InputDecoration(
-              hintText: "Fecha encontrado"
-          ),
+          decoration: InputDecoration(hintText: "Fecha encontrado"),
           controller: dateFounded,
         ),
       ),
       ListTile(
         title: TextField(
-          decoration: InputDecoration(
-              hintText: "Fecha de nacimiento"
-          ),
+          decoration: InputDecoration(hintText: "Fecha de nacimiento"),
           controller: birthDate,
         ),
       ),
       ListTile(
         title: TextField(
-          decoration: InputDecoration(
-              hintText: "raza"
-          ),
+          decoration: InputDecoration(hintText: "raza"),
           controller: race,
         ),
       ),
       ListTile(
         title: TextField(
-          decoration: InputDecoration(
-              hintText: "video"
-          ),
+          decoration: InputDecoration(hintText: "video"),
           controller: video,
         ),
       ),
@@ -328,35 +328,59 @@ class _DetailPageState extends State<DetailPage> {
       ),
       ListTile(
         title: TextField(
-          decoration: InputDecoration(
-              hintText: "Especie"
-          ),
+          decoration: InputDecoration(hintText: "Especie"),
           controller: species,
         ),
       ),
       ListTile(
         title: TextField(
-          decoration: InputDecoration(
-              hintText: "Temperamento"
-          ),
+          decoration: InputDecoration(hintText: "Temperamento"),
           controller: temperamento,
         ),
       ),
       ListTile(
         title: TextField(
-          decoration: InputDecoration(
-              hintText: "Historia"
-          ),
+          decoration: InputDecoration(hintText: "Historia"),
           controller: past,
         ),
       ),
       ListTile(
           title: MaterialButton(
         onPressed: () {
-          dio.delete("animals/${widget.animal.toString()}/",
-              options:
-                  Options(headers: {"Authorization": "Token ${widget.token}"}));
-          Navigator.pop(context);
+          Alert(
+            context: context,
+            title: "-- Borrar Foto --",
+            style: AlertStyle(
+                titleStyle: TextStyle(color: Colors.white),
+                descStyle: TextStyle(color: Colors.white)),
+            desc: "Esta seguro que quiere borrar esta foto?",
+            buttons: <DialogButton>[
+              DialogButton(
+                child: Text(
+                  "No, todavia no",
+                  style: TextStyle(color: Colors.white),
+                ),
+                color: Colors.green,
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              DialogButton(
+                child: Text(
+                  "Si, estoy seguro",
+                  style: TextStyle(color: Colors.white),
+                ),
+                color: Colors.red,
+                onPressed: () {
+                  dio.delete("animals/${widget.animal.toString()}/",
+                      options: Options(
+                          headers: {"Authorization": "Token ${widget.token}"}));
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ).show();
         },
         color: Colors.red,
         child: Icon(
