@@ -16,18 +16,20 @@ class donationPage extends StatefulWidget {
 }
 
 class donationPageState extends State<donationPage> {
+  var types = <String> ['comida de gato', 'comida de perro', 'remedios', 'collar', 'otros'];
   var dio;
   List data;
+  String title;
 
   @override
   void initState() {
-    super.initState();
     BaseOptions options = new BaseOptions(
       baseUrl: widget.baseDir + "/api/",
     );
-
     dio = Dio(options);
     getJsonData();
+    getTitle();
+    super.initState();
   }
 
   Future getJsonData() async {
@@ -66,11 +68,21 @@ class donationPageState extends State<donationPage> {
     );
   }
 
+  void getTitle(){
+    for (var x=0; x<types.length; x++){
+      if (widget.type == x){
+        setState(() {
+          title =  types[x];
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Donaciones"),
+        title: Text(title),
       ),
       body: data == null
           ? Center(
