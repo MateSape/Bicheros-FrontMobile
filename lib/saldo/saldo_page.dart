@@ -96,7 +96,7 @@ class saldo_page_state extends State<saldo_page> {
                     color: Colors.redAccent,
                   ),
                   onPressed: () {
-                    borrar(balance[index]["id"]);
+                    borrar(balance[index -1]["id"]);
                   }),
             );
           }
