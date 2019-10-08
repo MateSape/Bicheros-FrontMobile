@@ -87,7 +87,7 @@ class _HomePageState extends State<HomePage> {
             );
           }
           return ListTile(
-            subtitle: Text('Raza: ${data[index - 1]["race"]} \n Especie: ${data[index -1]["species"]}', textAlign: TextAlign.center,),
+            subtitle: Text('Especie: ${data[index -1]["species"]}', textAlign: TextAlign.center,),
             title: Text(
               ' ${data[index - 1]["name"]}',
               textAlign: TextAlign.center,
