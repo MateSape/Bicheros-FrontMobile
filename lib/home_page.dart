@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
   List data;
   List<DropdownMenuItem<String>> sexos = [
     DropdownMenuItem(
-      child: Text("Ninguno."),
+      child: Text("Ninguno"),
       value: "",
     ),
     DropdownMenuItem(

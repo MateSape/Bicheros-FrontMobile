@@ -37,6 +37,7 @@ class photosPageState extends State<photosPage> {
     setState(() {
       data = response.data;
     });
+    print (data);
   }
 
   Widget _renderAnimalList() {
@@ -123,7 +124,13 @@ class photosPageState extends State<photosPage> {
                 size: 75.0,
               ),
             )
-          : _renderAnimalList(),
+          : data.length == 0 ? Center(
+        child: Text("No Hay Fotos!",
+        style: TextStyle(
+          color: Colors.black,
+          fontSize: 20
+        ),),
+      ):  _renderAnimalList(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(

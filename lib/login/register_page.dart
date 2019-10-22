@@ -75,15 +75,15 @@ class registerPageState extends State<registerPage> {
         onPressed: () async {
           var formData = new FormData.from({
             "username": usernameController.text,
-            //"email": emailController.text,
+            "email": emailController.text,
             "password1": passwordController.text,
             "password2": password2Controller.text
           });
           try {
-            var response = await Dio()
-                .post(widget.baseDir + "/registration/", data: formData);
-            Navigator.pop(context);
+            Dio()
+                .post(widget.baseDir + "/registration/", data: formData).whenComplete(() =>Navigator.pop(context));
           } catch (e) {
+            print (widget.baseDir);
             Alert(
                     context: context,
                     title: "Error",

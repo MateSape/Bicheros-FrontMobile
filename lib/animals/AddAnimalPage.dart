@@ -272,6 +272,7 @@ class AddAnimalPageState extends State<AddAnimalPage> {
               //"photo": image == null ? null : UploadFileInfo(image, image.path),
               "species": species.text,
               "gender": gender == false ? 0 : 1,
+              "historia": past.text,
               "date_of_birth": birthDate.year.toString() +
                   "-" +
                   birthDate.month.toString() +
