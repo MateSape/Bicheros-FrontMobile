@@ -56,7 +56,7 @@ class detailDonacionState extends State<detailDonacion> {
       descripcion.text = ica["description"];
       date.text = ica["date"];
       Dtype = ica["type_of_donation"];
-      amount.text = ica["cantidad"].toString();
+      amount.text = ica["quantity"].toString();
     }
   }
 
@@ -204,7 +204,7 @@ class detailDonacionState extends State<detailDonacion> {
                 "date": date.text,
                 "description": descripcion.text,
                 "type_of_donation": getItemIndex(),
-                "cantidad": int.parse(amount.text)
+                "quantity": int.parse(amount.text)
               },
               options: Options(headers: {
                 "Authorization":

@@ -64,23 +64,23 @@ class donationsPageState extends State<donationsPage> {
     for (int x = 0; x < data.length; x++) {
       if (data[x]["type_of_donation"] == "comida de gato") {
         setState(() {
-          v1 += data[x]["cantidad"];
+          v1 += data[x]["quantity"];
         });
       } else if (data[x]["type_of_donation"] == "comida de perro") {
         setState(() {
-          v2 += data[x]["cantidad"];
+          v2 += data[x]["quantity"];
         });
       } else if (data[x]["type_of_donation"] == "remedios") {
         setState(() {
-          v3 += data[x]["cantidad"];
+          v3 += data[x]["quantity"];
         });
       } else if (data[x]["type_of_donation"] == "collar") {
         setState(() {
-          v4 += data[x]["cantidad"];
+          v4 += data[x]["quantity"];
         });
       } else if (data[x]["type_of_donation"] == "otros") {
         setState(() {
-          v5 += data[x]["cantidad"];
+          v5 += data[x]["quantity"];
         });
       }
     }

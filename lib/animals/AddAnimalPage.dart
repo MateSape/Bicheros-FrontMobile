@@ -19,10 +19,10 @@ class AddAnimalPageState extends State<AddAnimalPage> {
   DateTime dateFounded;
   var placeFounded = new TextEditingController();
   var species = new TextEditingController();
-  var gender = false;
+  var sex = false;
   var dropdownValue;
   var dropdownValue2;
-  var temperamento = new TextEditingController();
+  var temperament = new TextEditingController();
   var video = new TextEditingController();
   var past = new TextEditingController();
   DateTime birthDate;
@@ -216,16 +216,16 @@ class AddAnimalPageState extends State<AddAnimalPage> {
               title: MaterialButton(
                 onPressed: () {
                   setState(() {
-                    gender = !gender;
+                    sex = !sex;
                   });
                 },
-                child: gender == false
+                child: sex == false
                     ? Text(
                         "Macho",
                         style: TextStyle(color: Colors.white),
                       )
                     : Text("Hembra", style: TextStyle(color: Colors.white)),
-                color: gender == false ? Colors.lightBlue : Colors.redAccent,
+                color: sex == false ? Colors.lightBlue : Colors.redAccent,
               )),
           ListTile(
             title: TextField(
@@ -240,7 +240,7 @@ class AddAnimalPageState extends State<AddAnimalPage> {
               decoration: InputDecoration(
                   hintText: "Temperamento"
               ),
-              controller: temperamento,
+              controller: temperament,
             ),
           ),
           ListTile(
@@ -259,7 +259,7 @@ class AddAnimalPageState extends State<AddAnimalPage> {
             FormData formData = new FormData.from({
               "name": name.text,
               "race": race.text,
-              "temperamento": temperamento.text,
+              "temperament": temperament.text,
               "date_founded": dateFounded.year.toString() +
                   "-" +
                   dateFounded.month.toString() +
@@ -267,12 +267,12 @@ class AddAnimalPageState extends State<AddAnimalPage> {
                   dateFounded.day.toString(),
               "place_founded": placeFounded.text,
               "cap": dropdownValue == "9999" ? null : int.parse(dropdownValue),
-              "veterinaria":
+              "veterinary":
                   dropdownValue2 == "9999" ? null : int.parse(dropdownValue2),
               //"photo": image == null ? null : UploadFileInfo(image, image.path),
               "species": species.text,
-              "gender": gender == false ? 0 : 1,
-              "historia": past.text,
+              "sex": sex == false ? 0 : 1,
+              "history": past.text,
               "date_of_birth": birthDate.year.toString() +
                   "-" +
                   birthDate.month.toString() +
@@ -288,7 +288,7 @@ class AddAnimalPageState extends State<AddAnimalPage> {
                     headers: {"Authorization": "Token ${widget.token}"}));
             Navigator.pop(context);
           } catch (e) {
-            Alert(context: context, title: "Error", desc: "Intente de nuevo")
+            Alert(context: context, title: "Error", desc: e.toString())
                 .show();
           }
         },

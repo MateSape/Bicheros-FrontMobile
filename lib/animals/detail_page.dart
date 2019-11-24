@@ -38,7 +38,7 @@ class _DetailPageState extends State<DetailPage> {
   var gender;
   var placeFounded = new TextEditingController();
   var species = new TextEditingController();
-  var temperamento = new TextEditingController();
+  var temperament = new TextEditingController();
   var video = new TextEditingController();
   var past = new TextEditingController();
   var editMode = false;
@@ -165,11 +165,11 @@ class _DetailPageState extends State<DetailPage> {
                 )
               : Text("Link nulo o no valido")
           : Text("Link nulo o no valido"),
-      Text("Sexo: ${ica["gender"] == null ? "*****" : ica["gender"]}"),
+      Text("Sexo: ${ica["sex"] == null ? "*****" : ica["sex"]}"),
       Text("Especie: ${ica["species"] == null ? "*****" : ica["species"]}"),
       Text(
-          "Temperamento: ${ica["temperamento"] == null ? "*****" : ica["temperamento"]}"),
-      Text("Historia: ${ica["historia"] == null ? "*****" : ica["historia"]}"),
+          "Temperamento: ${ica["temperament"] == null ? "*****" : ica["temperament"]}"),
+      Text("Historia: ${ica["history"] == null ? "*****" : ica["history"]}"),
       MaterialButton(
         child: Text(
           "Historial medico",
@@ -229,7 +229,7 @@ class _DetailPageState extends State<DetailPage> {
       dateFounded.text = ica["date_founded"];
       birthDate.text = ica["date_of_birth"];
       race.text = ica["race"];
-      gender = ica["gender"] == "Masculino" ? false : true;
+      gender = ica["sex"] == "Macho" ? false : true;
       species.text = ica["species"];
       video.text = ica["video"] == "" ? null : ica["video"];
       if (ica["cap"] == null) {
@@ -237,13 +237,13 @@ class _DetailPageState extends State<DetailPage> {
       } else {
         capValue = ica["cap"].toString();
       }
-      if (ica["veterinaria"] == null) {
+      if (ica["veterinary"] == null) {
         vetValue = "9999";
       } else {
-        vetValue = ica["veterinaria"].toString();
+        vetValue = ica["veterinary"].toString();
       }
-      temperamento.text = ica["temperamento"];
-      past.text = ica["historia"];
+      temperament.text = ica["temperament"];
+      past.text = ica["history"];
     }
     return editMode == false ? _renderAnimalDetail() : _renderAnimalEdit();
   }
@@ -335,7 +335,7 @@ class _DetailPageState extends State<DetailPage> {
       ListTile(
         title: TextField(
           decoration: InputDecoration(hintText: "Temperamento"),
-          controller: temperamento,
+          controller: temperament,
         ),
       ),
       ListTile(
@@ -443,7 +443,7 @@ class _DetailPageState extends State<DetailPage> {
                       vetValue == "9999" ? null : int.parse(vetValue),
                   "gender": gender == false ? 0 : 1,
                   "video": video.text == " " ? null : video.text,
-                  "temperamento": temperamento.text,
+                  "temperament": temperament.text,
                   "historia": past.text
                 });
                 dio

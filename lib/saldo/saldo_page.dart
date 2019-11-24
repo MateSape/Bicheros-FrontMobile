@@ -41,7 +41,7 @@ class saldo_page_state extends State<saldo_page> {
       balance = response.data;
       saldo = 0;
       for (var x = 0; x < balance.length; x++) {
-        if (balance[x]["tipo"] == "Ingreso") {
+        if (balance[x]["type"] == "Deposit") {
           saldo += balance[x]["amount"];
         } else {
           saldo -= balance[x]["amount"];
@@ -82,8 +82,8 @@ class saldo_page_state extends State<saldo_page> {
                   ),
                 );
               },
-              leading: Text(balance[index - 1]["tipo"]),
-              title: balance[index - 1]["tipo"] == "Gasto"
+              leading: Text(balance[index - 1]["type"]),
+              title: balance[index - 1]["type"] == "Expense"
                   ? Text(
                       balance[index - 1]["amount"].toString(),
                       style: TextStyle(color: Colors.red),

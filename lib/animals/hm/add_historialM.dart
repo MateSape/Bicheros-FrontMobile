@@ -21,10 +21,10 @@ class add_historialM_page_state extends State<add_historialM_page> {
   var options;
   var hm;
 
-  var enfermedad = new TextEditingController();
-  var fecha;
-  var descripcion = new TextEditingController();
-  String estado;
+  var illness = new TextEditingController();
+  var date;
+  var description = new TextEditingController();
+  String state;
 
   List<DropdownMenuItem<String>> estados = [
     DropdownMenuItem(
@@ -52,14 +52,14 @@ class add_historialM_page_state extends State<add_historialM_page> {
       children: <Widget>[
         ListTile(
           title: TextField(
-            controller: enfermedad,
+            controller: illness,
             decoration: InputDecoration(
               hintText: "Enfermedad"
             ),
           ),
         ),
         ListTile(
-            title: fecha == null
+            title: date == null
                 ? MaterialButton(
               onPressed: () => getDate(),
               child: Text(
@@ -71,18 +71,18 @@ class add_historialM_page_state extends State<add_historialM_page> {
                 : MaterialButton(
               onPressed: () => getDate(),
               child: Text(
-                '${fecha.day}' +
+                '${date.day}' +
                     "/" +
-                    '${fecha.month}' +
+                    '${date.month}' +
                     "/" +
-                    '${fecha.year}',
+                    '${date.year}',
                 style: TextStyle(color: Colors.white),
               ),
               color: Colors.lightBlue,
             )),
         ListTile(
           title: TextField(
-            controller: descripcion,
+            controller: description,
             decoration: InputDecoration(
               hintText: "Descripcion"
             ),
@@ -91,11 +91,11 @@ class add_historialM_page_state extends State<add_historialM_page> {
         ListTile(
            title: DropdownButton(
              hint: Text("Elija un estado"),
-              value: estado,
+              value: state,
               items: estados,
               onChanged: (value) {
                 setState(() {
-                  estado = value;
+                  state = value;
                 });
               },
             ),
@@ -110,9 +110,9 @@ class add_historialM_page_state extends State<add_historialM_page> {
         initialDate: DateTime.now(),
         firstDate: DateTime(2000),
         lastDate: DateTime(2100));
-    if (newDate != null && newDate != fecha) {
+    if (newDate != null && newDate != date) {
       setState(() {
-        fecha = newDate;
+        date = newDate;
       });
     }
   }
@@ -131,10 +131,10 @@ class add_historialM_page_state extends State<add_historialM_page> {
             print (widget.anid);
             var formData = new FormData.from({
               "animal": widget.anid,
-              "enfermedad": enfermedad.text,
-              "fecha": '${fecha.year}-${fecha.month}-${fecha.day}',
-              "description": descripcion.text,
-              "estado": int.parse(estado),
+              "illness": illness.text,
+              "date": '${date.year}-${date.month}-${date.day}',
+              "description": description.text,
+              "state": int.parse(state),
             });
             dio
                 .post('historial/',

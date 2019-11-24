@@ -114,7 +114,7 @@ class add_donation_page_state extends State<add_donation_page> {
                         Mdate.day.toString(),
                     "description": description.text,
                     "type_of_donation": getItemIndex(),
-                    'cantidad': int.parse(amount.text)
+                    'quantity': int.parse(amount.text)
                   },
                   options: Options(
                       headers: {"Authorization": "Token ${widget.token}"}))

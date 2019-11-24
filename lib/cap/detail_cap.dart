@@ -62,7 +62,7 @@ class _DetailCapPageState extends State<DetailCapPage> {
       Text("Direccion: ${data["address"]}"),
       Text("Fecha de nacimiento: ${data["date_of_birth"]}"),
       Text("email: ${data["email"]}"),
-      Text("Telefono: ${data["telefono"]}"),
+      Text("Telefono: ${data["phone"]}"),
     ];
 
     return ListView.separated(
@@ -235,7 +235,7 @@ class _DetailCapPageState extends State<DetailCapPage> {
                   "last_nameC": surname.text,
                   "address": address.text,
                   "date_of_birth": birthdate.text,
-                  "telefono": phone.text,
+                  "phone": phone.text,
                   "email": email.text,
                 });
 

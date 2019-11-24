@@ -47,7 +47,7 @@ class donationPageState extends State<donationPage> {
         itemCount: data == null ? 0 : data.length,
         itemBuilder: (BuildContext context, int index) {
           return ListTile(
-            leading: Text("${data[index]["cantidad"]}"),
+            leading: Text("${data[index]["quantity"]}"),
             title: Text(' ${data[index]["description"]}'),
             trailing: Text("${data[index]["date"]} "),
             onTap: () {

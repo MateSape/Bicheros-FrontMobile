@@ -132,7 +132,7 @@ class AddCapPageState extends State<AddCapPage> {
                 birthDate.day.toString(),
             "address": address.text,
             "email": email.text,
-            "telefono": phone.text
+            "phone": phone.text
           });
           print(formData);
           dio

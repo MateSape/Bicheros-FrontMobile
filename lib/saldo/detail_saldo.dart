@@ -46,7 +46,7 @@ class _DetailSaldoState extends State<detail_saldo> {
       });
       monto.text = ica["amount"].toString();
       date.text = ica["date"];
-      if (ica["tipo"] == "Gasto") {
+      if (ica["type"] == "Gasto") {
         type = true;
       }
     }
@@ -111,7 +111,7 @@ class _DetailSaldoState extends State<detail_saldo> {
                   data: {
                     "date": date.text,
                     "amount": monto.text,
-                    "tipo": type == false ? 0 : 1,
+                    "type": type == false ? 0 : 1,
                   },
                   options: Options(headers: {
                     "Authorization":

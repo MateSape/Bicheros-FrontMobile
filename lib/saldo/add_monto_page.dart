@@ -103,7 +103,7 @@ class add_monto_page_state extends State<add_monto_page> {
                         "-" +
                         Mdate.day.toString(),
                     "amount": amount.text,
-                    "tipo": type == false ? 0 : 1,
+                    "type": type == false ? 0 : 1,
                   },
                   options: Options(headers: {
                     "Authorization":

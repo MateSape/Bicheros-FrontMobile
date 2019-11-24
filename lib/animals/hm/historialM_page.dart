@@ -47,8 +47,8 @@ class historialMPageState extends State<historialMPage> {
         itemCount: data == null ? 0 : data.length,
         itemBuilder: (BuildContext context, int index) {
             return ListTile(
-              title: Text("${data[index]["enfermedad"]}"),
-              trailing: Text(' ${data[index]["fecha"]}'),
+              title: Text("${data[index]["illness"]}"),
+              trailing: Text(' ${data[index]["date"]}'),
               onTap: () {
                 Navigator.push(
                   context,

@@ -62,7 +62,7 @@ class _capPageState extends State<capPage> {
           return ListTile(
             leading: Text("${data[index-1]["id_cap"]}"),
             title: Text(' ${data[index-1]["nameC"]} ${data[index-1]["last_nameC"]}',),
-            trailing: Text("${data[index-1]["telefono"]} "),
+            trailing: Text("${data[index-1]["phone"]} "),
             onTap: () {
               Navigator.push(
                 context,

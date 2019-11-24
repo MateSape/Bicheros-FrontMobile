@@ -22,10 +22,10 @@ class detail_historialM_page_state extends State<detail_historialM_page> {
   var options;
   var hm;
 
-  var enfermedad = new TextEditingController();
-  var fecha = new TextEditingController();
-  var descripcion = new TextEditingController();
-  String estado;
+  var illness = new TextEditingController();
+  var date = new TextEditingController();
+  var description = new TextEditingController();
+  String state;
 
   List<DropdownMenuItem<String>> estados = [
     DropdownMenuItem(
@@ -57,10 +57,10 @@ class detail_historialM_page_state extends State<detail_historialM_page> {
 
     setState(() {
       hm = response.data;
-      enfermedad.text = hm["enfermedad"];
-      fecha.text = hm["fecha"];
-      descripcion.text = hm["description"];
-      estado = hm["estado"].toString();
+      illness.text = hm["illness"];
+      date.text = hm["date"];
+      description.text = hm["description"];
+      state = hm["state"].toString();
     });
   }
 
@@ -69,7 +69,7 @@ class detail_historialM_page_state extends State<detail_historialM_page> {
       children: <Widget>[
         ListTile(
           title: TextField(
-            controller: enfermedad,
+            controller: illness,
             decoration: InputDecoration(
               hintText: "Enfermedad"
             ),
@@ -77,7 +77,7 @@ class detail_historialM_page_state extends State<detail_historialM_page> {
         ),
         ListTile(
           title: TextField(
-            controller: fecha,
+            controller: date,
             decoration: InputDecoration(
                 hintText: "Fecha"
             ),
@@ -85,7 +85,7 @@ class detail_historialM_page_state extends State<detail_historialM_page> {
         ),
         ListTile(
           title: TextField(
-            controller: descripcion,
+            controller: description,
             decoration: InputDecoration(
                 hintText: "Descripcion"
             ),
@@ -93,12 +93,12 @@ class detail_historialM_page_state extends State<detail_historialM_page> {
         ),
         ListTile(
           title: DropdownButton(
-            value: estado,
+            value: state,
             items: estados,
             hint: Text("Estado"),
             onChanged: (value) {
               setState(() {
-                estado = value;
+                state = value;
               });
             },
           ),
@@ -186,10 +186,10 @@ class detail_historialM_page_state extends State<detail_historialM_page> {
         onPressed: () {
           try{
             var formData = new FormData.from({
-              "enfermedad": enfermedad.text,
-              "fecha": fecha.text,
-              "description": descripcion.text,
-              "estado": int.parse(estado),
+              "enfermedad": illness.text,
+              "fecha": date.text,
+              "description": description.text,
+              "estado": int.parse(state),
             });
             dio
                 .put('historial/${widget.hid.toString()}/',
